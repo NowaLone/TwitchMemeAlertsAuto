@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36301.6
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchMemeAlertsAuto.CLI", "src\TwitchMemeAlertsAuto.CLI\TwitchMemeAlertsAuto.CLI.csproj", "{3F0A6565-4699-A692-B6B4-B19BD3C93659}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3F0A6565-4699-A692-B6B4-B19BD3C93659}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F0A6565-4699-A692-B6B4-B19BD3C93659}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F0A6565-4699-A692-B6B4-B19BD3C93659}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F0A6565-4699-A692-B6B4-B19BD3C93659}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3F0A6565-4699-A692-B6B4-B19BD3C93659} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C321C4AB-EF39-4C2A-A379-67BAE50955D5}
+	EndGlobalSection
+EndGlobal
