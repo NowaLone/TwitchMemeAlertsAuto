@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net10.0-windows</TargetFramework>
+		<AssemblyName>tmaa</AssemblyName>
+		<ApplicationIcon>..\..\favicon-96x96.ico</ApplicationIcon>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
+
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3650.58" />
+		<PackageReference Include="TwitchLib.Api" Version="3.10.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\TwitchMemeAlertsAuto.Core\TwitchMemeAlertsAuto.Core.csproj" />
+	</ItemGroup>
+
+</Project>

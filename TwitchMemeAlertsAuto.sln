@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36301.6
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11205.157 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchMemeAlertsAuto.CLI", "src\TwitchMemeAlertsAuto.CLI\TwitchMemeAlertsAuto.CLI.csproj", "{3F0A6565-4699-A692-B6B4-B19BD3C93659}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchMemeAlertsAuto.WPF", "src\TwitchMemeAlertsAuto.WPF\TwitchMemeAlertsAuto.WPF.csproj", "{2F00663D-03A1-47EA-91A8-EA684F1CB9AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchMemeAlertsAuto.Core", "src\TwitchMemeAlertsAuto.Core\TwitchMemeAlertsAuto.Core.csproj", "{670602EA-67E6-414F-8EC0-81AF3706F72D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,12 +21,22 @@ Global
 		{3F0A6565-4699-A692-B6B4-B19BD3C93659}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F0A6565-4699-A692-B6B4-B19BD3C93659}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F0A6565-4699-A692-B6B4-B19BD3C93659}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F00663D-03A1-47EA-91A8-EA684F1CB9AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F00663D-03A1-47EA-91A8-EA684F1CB9AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F00663D-03A1-47EA-91A8-EA684F1CB9AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F00663D-03A1-47EA-91A8-EA684F1CB9AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{670602EA-67E6-414F-8EC0-81AF3706F72D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{670602EA-67E6-414F-8EC0-81AF3706F72D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{670602EA-67E6-414F-8EC0-81AF3706F72D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{670602EA-67E6-414F-8EC0-81AF3706F72D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3F0A6565-4699-A692-B6B4-B19BD3C93659} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{2F00663D-03A1-47EA-91A8-EA684F1CB9AD} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{670602EA-67E6-414F-8EC0-81AF3706F72D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C321C4AB-EF39-4C2A-A379-67BAE50955D5}
