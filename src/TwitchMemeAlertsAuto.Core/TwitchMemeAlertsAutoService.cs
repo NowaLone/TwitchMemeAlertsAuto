@@ -20,6 +20,8 @@ namespace TwitchMemeAlertsAuto.Core
 		private readonly ITwitchClient twitchClient;
 		private readonly ILogger<TwitchMemeAlertsAutoService> logger;
 
+		private HttpClient memeAlertsClient;
+
 		public TwitchMemeAlertsAutoService(ITwitchClient twitchClient, ILogger<TwitchMemeAlertsAutoService> logger)
 		{
 			this.twitchClient = twitchClient;
@@ -32,14 +34,14 @@ namespace TwitchMemeAlertsAuto.Core
 
 		public event Action<string> OnSupporterNotFound;
 
-		public event Action OnSupporterLoading;
+		public event Action<string> OnSupporterLoading;
 
-		public event Action<int> OnSupporterLoaded;
+		public event Action<string> OnSupporterLoaded;
 
 		public async Task<int> Work(string channel, string token, string rewards, CancellationToken cancellationToken = default)
 		{
 			var rwrds = rewards.Split(',').ToDictionary(d => d.Split(':')[0], d => int.Parse(d.Split(":")[1]));
-			var memeAlertsClient = new HttpClient();
+			memeAlertsClient = new HttpClient();
 			memeAlertsClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 			memeAlertsClient.Timeout = TimeSpan.FromSeconds(10);
 
@@ -68,19 +70,19 @@ namespace TwitchMemeAlertsAuto.Core
 						{
 							if (await AddMemesAsync(memeAlertsClient, dataItem.SupporterId, current.Id, value, cancellationToken).ConfigureAwait(false))
 							{
-								logger.LogInformation($"Мемы для {username} успешно выданы");
-								OnMemesReceived?.Invoke(username);
+								logger.LogInformation("Мемы для {username} успешно выданы в кол-ве {value} шт.", username, value);
+								OnMemesReceived?.Invoke($"Мемы для {username} успешно выданы в кол-ве {value} шт.");
 							}
 							else
 							{
-								logger.LogError($"Мемы для {username} не выданы");
-								OnMemesNotReceived?.Invoke(username);
+								logger.LogError("Мемы для {username} не выданы", username);
+								OnMemesNotReceived?.Invoke($"Мемы для {username} не выданы");
 							}
 						}
 						else
 						{
-							logger.LogWarning($"Саппортёр {username} не найден");
-							OnSupporterNotFound?.Invoke(username);
+							logger.LogWarning("Саппортёр {username} не найден", username);
+							OnSupporterNotFound?.Invoke($"Саппортёр {username} не найден");
 						}
 					}
 					else
@@ -96,7 +98,10 @@ namespace TwitchMemeAlertsAuto.Core
 			{
 				await Task.Delay(-1, cancellationToken).ConfigureAwait(false);
 			}
-			catch (TaskCanceledException) { }
+			catch (TaskCanceledException)
+			{
+				await twitchClient.DisconnectAsync().ConfigureAwait(false);
+			}
 
 			return 0;
 		}
@@ -127,7 +132,29 @@ namespace TwitchMemeAlertsAuto.Core
 			return true;
 		}
 
-		public async Task<Current> GetMemeAlertsId(HttpClient memeAlertsClient, CancellationToken cancellationToken = default)
+		public async Task RewardAllAsync(int value, CancellationToken cancellationToken = default)
+		{
+			var current = await GetMemeAlertsId(memeAlertsClient, cancellationToken).ConfigureAwait(false);
+			var supporters = await GetDataAsync(memeAlertsClient, cancellationToken).ConfigureAwait(false);
+
+			foreach (var supporter in supporters)
+			{
+				if (await AddMemesAsync(memeAlertsClient, supporter.SupporterId, current.Id, value, cancellationToken).ConfigureAwait(false))
+				{
+					logger.LogInformation("Мемы для {username} успешно выданы в кол-ве {value} шт.", supporter.SupporterName, value);
+					OnMemesReceived?.Invoke($"Мемы для {supporter.SupporterName} успешно выданы в кол-ве {value} шт.");
+				}
+				else
+				{
+					logger.LogError("Мемы для {username} не выданы", supporter.SupporterName);
+					OnMemesNotReceived?.Invoke($"Мемы для {supporter.SupporterName} не выданы");
+				}
+
+				await Task.Delay(500, cancellationToken).ConfigureAwait(false);
+			}
+		}
+
+		private async Task<Current> GetMemeAlertsId(HttpClient memeAlertsClient, CancellationToken cancellationToken = default)
 		{
 			using var request = new HttpRequestMessage(HttpMethod.Get, "https://memealerts.com/api/user/current");
 
@@ -139,7 +166,7 @@ namespace TwitchMemeAlertsAuto.Core
 		private async Task<List<Supporter>> GetDataAsync(HttpClient memeAlertsClient, CancellationToken cancellationToken = default)
 		{
 			logger.LogInformation("Обновление саппортёров...");
-			OnSupporterLoading?.Invoke();
+			OnSupporterLoading?.Invoke("Обновление саппортёров...");
 
 			var supporters = new List<Supporter>();
 			for (int limit = 100, total = 100, skip = 0; limit > 0 && limit + skip <= total; skip += limit, limit = total - skip)
@@ -155,7 +182,7 @@ namespace TwitchMemeAlertsAuto.Core
 			}
 
 			logger.LogInformation("Загружено {count} саппортёров", supporters.Count);
-			OnSupporterLoaded?.Invoke(supporters.Count);
+			OnSupporterLoaded?.Invoke($"Загружено {supporters.Count} саппортёров");
 
 			return supporters;
 		}

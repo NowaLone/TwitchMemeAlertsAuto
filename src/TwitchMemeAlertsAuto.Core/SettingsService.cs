@@ -40,7 +40,7 @@ namespace TwitchMemeAlertsAuto.Core
 
 		public async Task<DateTimeOffset> GetTwitchExpiresInAsync(CancellationToken cancellationToken = default)
 		{
-			return await GetSettingAsync("Twitch:ExpiresIn", DateTimeOffset.MinValue, cancellationToken).ConfigureAwait(false);
+			return await GetSettingAsync("Twitch:ExpiresIn", DateTimeOffset.FromUnixTimeSeconds(0).DateTime, cancellationToken).ConfigureAwait(false);
 		}
 
 		public Task SetTwitchExpiresInAsync(DateTimeOffset expiresIn, CancellationToken cancellationToken = default)
@@ -77,16 +77,19 @@ namespace TwitchMemeAlertsAuto.Core
 
 			if (setting == null)
 			{
-				logger.LogDebug("Setting '{Key}' not found, creating with default value: {DefaultValue}", key, defaultValue);
-
-				// Create the setting with default value
-				var newSetting = new Setting
+				if (defaultValue != null)
 				{
-					Key = key,
-					Value = Convert.ToString(defaultValue, CultureInfo.InvariantCulture),
-				};
-				dbContext.Settings.Add(newSetting);
-				await dbContext.SaveChangesAsync(cancellationToken);
+					logger.LogDebug("Setting '{Key}' not found, creating with default value: {DefaultValue}", key, defaultValue);
+
+					// Create the setting with default value
+					var newSetting = new Setting
+					{
+						Key = key,
+						Value = Convert.ToString(defaultValue, CultureInfo.InvariantCulture),
+					};
+					dbContext.Settings.Add(newSetting);
+					await dbContext.SaveChangesAsync(cancellationToken);
+				}
 
 				return defaultValue;
 			}

@@ -21,12 +21,10 @@ namespace TwitchMemeAlertsAuto.CLI
 
 			var channelOption = new Option<string>("--channel", "-c") { Description = "Название канала с которого считывать заказы.", Required = true };
 			var tokenOption = new Option<string>("--token", "-t") { Description = "Токен для работы с memealerts.", Required = true };
-			var streamerIdOption = new Option<string>("--streamerId", "-s") { Description = "streamerId в memealerts.", Required = true };
 			var rewardsOption = new Option<string>("--rewards", "-r") { Description = "id наград и их ценность в формате id1:value1,id2:value2...", Required = true };
 
 			rootCommand.Add(channelOption);
 			rootCommand.Add(tokenOption);
-			rootCommand.Add(streamerIdOption);
 			rootCommand.Add(rewardsOption);
 
 			rootCommand.SetAction((ParseResult parseResult, CancellationToken cancellationToken) => new TwitchMemeAlertsAutoService(
@@ -35,7 +33,7 @@ namespace TwitchMemeAlertsAuto.CLI
 
 			try
 			{
-				return rootCommand.Parse(args).InvokeAsync(cts.Token);
+				return rootCommand.Parse(args).InvokeAsync(null, cts.Token);
 			}
 			catch (Exception ex)
 			{

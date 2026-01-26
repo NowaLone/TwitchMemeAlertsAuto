@@ -1,0 +1,25 @@
+<UserControl
+    x:Class="TwitchMemeAlertsAuto.WPF.Views.MainMenuView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:TwitchMemeAlertsAuto.WPF.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:TwitchMemeAlertsAuto.WPF.Properties"
+    xmlns:vm="clr-namespace:TwitchMemeAlertsAuto.Core.ViewModels;assembly=TwitchMemeAlertsAuto.Core"
+    d:DataContext="{d:DesignInstance Type=vm:MainMenuViewModel}"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <Menu>
+        <MenuItem Header="{x:Static properties:Resources.FileMenu}">
+            <MenuItem Command="{Binding ExitCommand}" Header="{x:Static properties:Resources.ExitMenu}" />
+        </MenuItem>
+        <MenuItem Header="{x:Static properties:Resources.HelpMenu}">
+            <MenuItem
+                Command="{Binding AboutCommand}"
+                Header="{x:Static properties:Resources.AboutMenu}"
+                IsEnabled="False" />
+            <MenuItem Command="{Binding CheckForUpdatesCommand}" Header="{x:Static properties:Resources.CheckForUpdates}" />
+        </MenuItem>
+    </Menu>
+</UserControl>

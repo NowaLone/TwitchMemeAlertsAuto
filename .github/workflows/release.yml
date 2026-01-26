@@ -3,13 +3,14 @@ name: Release
 on:
   push:
     tags:
-      - 'v*' # Triggers on version tags like v1.0.0
+      - 'v*'
 
 jobs:
   build:
     runs-on: windows-latest
     permissions:
-       contents: write
+      contents: write
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -18,10 +19,10 @@ jobs:
           fetch-tags: true
           clean: true
 
-      - name: Setup .NET
+      - name: Setup .NET 10
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '10.0.x'
 
       - name: Restore dependencies
         run: dotnet restore
@@ -29,13 +30,27 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore
 
-      - name: Publish
-        run: dotnet publish src/TwitchMemeAlertsAuto.CLI/TwitchMemeAlertsAuto.CLI.csproj --configuration Release --runtime win-x64 --self-contained true /p:PublishDir=bin\Release\net8.0\publish\win-x64\ /p:PublishSingleFile=false /p:PublishReadyToRun=true
+      - name: Publish WPF
+        run: dotnet publish src/TwitchMemeAlertsAuto.WPF/TwitchMemeAlertsAuto.WPF.csproj --configuration Release --runtime win-x64 --self-contained false /p:PublishDir=.\publish-wpf\ /p:PublishSingleFile=false /p:PublishReadyToRun=true
 
-      - name: Upload EXE to GitHub Release
+      - name: Create WPF ZIP archive
+        run: |
+          $version = "${{ github.ref_name }}"
+          $zipName = "tmaa-wpf-${version}.zip"
+          $publishPath = Join-Path $PWD 'src\TwitchMemeAlertsAuto.WPF\publish-wpf\'
+          Compress-Archive -Path (Join-Path $publishPath '*') -DestinationPath $zipName -Force
+          Write-Host "Created $zipName from $publishPath"
+          echo "WPF_ZIP=$zipName" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Publish CLI
+        run: dotnet publish src/TwitchMemeAlertsAuto.CLI/TwitchMemeAlertsAuto.CLI.csproj --configuration Release --runtime win-x64 --self-contained true /p:PublishDir=.\publish-cli\ /p:PublishSingleFile=true /p:PublishReadyToRun=true /p:IncludeNativeLibrariesForSelfExtract=true
+
+      - name: Upload assets to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: src/TwitchMemeAlertsAuto.CLI/bin/Release/net8.0/publish/win-x64/tmaa.exe
+          files: |
+            ${{ env.WPF_ZIP }}
+            publish-cli/TwitchMemeAlertsAuto.CLI.exe
           body_path: CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

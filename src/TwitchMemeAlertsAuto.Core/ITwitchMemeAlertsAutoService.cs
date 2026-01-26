@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,12 +12,13 @@ namespace TwitchMemeAlertsAuto.Core
 
 		event Action<string> OnSupporterNotFound;
 
-		event Action OnSupporterLoading;
+		event Action<string> OnSupporterLoading;
 
-		event Action<int> OnSupporterLoaded;
+		event Action<string> OnSupporterLoaded;
 
 		Task<bool> CheckToken(string token, CancellationToken cancellationToken = default);
-		Task<Current> GetMemeAlertsId(HttpClient memeAlertsClient, CancellationToken cancellationToken = default);
+
+		Task RewardAllAsync(int value, CancellationToken cancellationToken = default);
 
 		Task<int> Work(string channel, string token, string rewards, CancellationToken cancellationToken = default);
 	}

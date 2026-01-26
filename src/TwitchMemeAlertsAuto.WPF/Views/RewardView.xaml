@@ -1,0 +1,44 @@
+<UserControl
+    x:Class="TwitchMemeAlertsAuto.WPF.Views.RewardView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:TwitchMemeAlertsAuto.WPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:TwitchMemeAlertsAuto.WPF.Properties"
+    xmlns:vm="clr-namespace:TwitchMemeAlertsAuto.Core.ViewModels;assembly=TwitchMemeAlertsAuto.Core"
+    d:DataContext="{d:DesignInstance Type=vm:RewardViewModel}"
+    mc:Ignorable="d">
+    <StackPanel MaxWidth="200">
+        <Border
+            Width="75"
+            Height="75"
+            Margin="4"
+            d:Background="Red"
+            Background="{Binding Reward.BackgroundColor}">
+            <Image
+                Width="50"
+                d:Source="/favicon-96x96.ico"
+                Source="{Binding Reward.Image.Url4x, Mode=OneWay}" />
+        </Border>
+        <TextBlock
+            d:Text="Sample Reward"
+            Text="{Binding Reward.Title}"
+            TextAlignment="Center"
+            TextWrapping="Wrap" />
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="4" Text="{x:Static properties:Resources.CountLabel}" />
+            <TextBox
+                Width="50"
+                Margin="4"
+                d:Text="10"
+                Text="{Binding Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}" />
+            <Button
+                Margin="4"
+                Padding="4,0"
+                Command="{Binding SaveCommand}"
+                CommandParameter="{Binding Count}"
+                Content="{x:Static properties:Resources.SaveButton}" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

@@ -18,12 +18,12 @@ namespace TwitchMemeAlertsAuto.Core
 
 		// Twitch OAuth endpoints
 		private const string TwitchDeviceUrl = "https://id.twitch.tv/oauth2/device";
-
 		private const string TwitchTokenUrl = "https://id.twitch.tv/oauth2/token";
 		private const string TwitchValidateUrl = "https://id.twitch.tv/oauth2/validate";
 
 		// OAuth configuration
 		private const string clientId = "mysd83coqn8u0sf40aev6nvsqqlyjy";
+		private const int TokenExpiryBufferSeconds = 60; // Refresh if token expires within 60 seconds
 
 		public TwitchOAuthService(ISettingsService settingsService, ILogger<TwitchOAuthService> logger)
 		{
@@ -33,108 +33,146 @@ namespace TwitchMemeAlertsAuto.Core
 		}
 
 		/// <summary>
-		/// Starts the OAuth flow using Device Code Grant
+		/// Authenticates and returns a valid access token.
+		/// Loads token from settings, validates it, refreshes if needed, or starts device code flow if necessary.
 		/// </summary>
-		/// <param name="scopes">OAuth scopes to request (default: chat:read chat:edit)</param>
 		/// <param name="cancellationToken">Cancellation token</param>
-		/// <returns>OAuth token response or null if failed</returns>
-		public async Task<string> AuthenticateAsync(string[] scopes = null, CancellationToken cancellationToken = default)
+		/// <returns>Valid access token</returns>
+		/// <exception cref="Exception">Thrown if authentication fails</exception>
+		public async Task<string> AuthenticateAsync(CancellationToken cancellationToken = default)
 		{
-			scopes ??= new[] { "chat:read", "chat:edit", "channel:manage:redemptions" };
-
 			try
 			{
-				// Step 1: Request device code
-				var deviceResponse = await RequestDeviceCodeAsync(scopes, cancellationToken);
-				if (deviceResponse == null)
+				// Step 1: Check if we have a valid token in settings
+				var accessToken = await settingsService.GetTwitchOAuthTokenAsync(cancellationToken);
+				var expiryTime = await settingsService.GetTwitchExpiresInAsync(cancellationToken);
+
+				if (!string.IsNullOrWhiteSpace(accessToken) && expiryTime > DateTimeOffset.UtcNow.AddSeconds(TokenExpiryBufferSeconds))
 				{
-					logger.LogError("Failed to obtain device code");
-					return null;
+					// Token exists and hasn't expired (with buffer), validate it
+					var validation = await ValidateTokenAsync(accessToken, cancellationToken);
+					if (validation != null)
+					{
+						logger.LogInformation("Using existing valid token for user: {Login}", validation.Login);
+						return accessToken;
+					}
+					else
+					{
+						logger.LogWarning("Existing token is invalid, will attempt refresh or re-authentication");
+					}
+				}
+				else if (!string.IsNullOrWhiteSpace(accessToken))
+				{
+					logger.LogInformation("Token expired or about to expire, attempting refresh");
 				}
 
-				// Step 2: Display user code and verification URL
-				try
+				// Step 2: Try to refresh token if refresh token exists
+				var refreshToken = await settingsService.GetTwitchRefreshTokenAsync(cancellationToken);
+				if (!string.IsNullOrWhiteSpace(refreshToken))
 				{
-					Process.Start(new ProcessStartInfo(deviceResponse.VerificationUri) { UseShellExecute = true });
-				}
-				catch (Exception ex)
-				{
-					logger.LogWarning(ex, "Unable to automatically open verification URL.");
+					try
+					{
+						var refreshedToken = await RefreshTokenAsync(refreshToken, cancellationToken);
+						if (!string.IsNullOrWhiteSpace(refreshedToken))
+						{
+							logger.LogInformation("Token refreshed successfully");
+							return refreshedToken;
+						}
+					}
+					catch (Exception ex)
+					{
+						logger.LogWarning(ex, "Token refresh failed, will start new authentication flow");
+					}
 				}
 
-				DisplayUserInstructions(deviceResponse);
+				// Step 3: No valid token or refresh failed, start device code flow
+				var newToken = await StartDeviceCodeFlowAsync(cancellationToken);
+				if (string.IsNullOrWhiteSpace(newToken))
+				{
+					throw new Exception("Authentication failed: Unable to obtain access token through device code flow");
+				}
 
-				// Step 3: Poll for token
-				var tokenResponse = await PollForTokenAsync(deviceResponse, cancellationToken);
-				return await ValidateAndSave(tokenResponse, cancellationToken);
+				return newToken;
 			}
 			catch (Exception ex)
 			{
-				logger.LogError(ex, "Error during OAuth authentication");
+				logger.LogError(ex, "Error during authentication");
 				throw;
 			}
 		}
 
-		public async Task<string> AuthenticateAsync(string refreshToken, CancellationToken cancellationToken = default)
+		private async Task<string> RefreshTokenAsync(string refreshToken, CancellationToken cancellationToken)
 		{
-			try
+			var requestBody = new Dictionary<string, string>
 			{
-				var requestBody = new Dictionary<string, string>
-				{
-					["client_id"] = clientId,
-					["refresh_token"] = refreshToken,
-					["grant_type"] = "refresh_token"
-				};
+				["client_id"] = clientId,
+				["refresh_token"] = refreshToken,
+				["grant_type"] = "refresh_token"
+			};
 
-				var content = new FormUrlEncodedContent(requestBody);
-				var response = await httpClient.PostAsync(TwitchTokenUrl, content, cancellationToken);
-				var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
+			var content = new FormUrlEncodedContent(requestBody);
+			var response = await httpClient.PostAsync(TwitchTokenUrl, content, cancellationToken);
+			var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
 
-				if (response.IsSuccessStatusCode)
-				{
-					var tokenResponse = JsonSerializer.Deserialize<TwitchTokenResponse>(responseContent, new JsonSerializerOptions
-					{
-						PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
-					});
-
-					logger.LogInformation("✅ Token refresh successful!");
-					return await ValidateAndSave(tokenResponse, cancellationToken);
-				}
-
-				// Handle error responses
+			if (!response.IsSuccessStatusCode)
+			{
 				var errorResponse = JsonSerializer.Deserialize<TwitchErrorResponse>(responseContent, new JsonSerializerOptions
 				{
 					PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
 				});
 
-				switch (errorResponse?.Message)
-				{
-					case "access_denied":
-						logger.LogError("❌ Authentication was denied by user.");
-						return null;
+				logger.LogError("Token refresh failed. Status: {Status}, Message: {Message}", response.StatusCode, errorResponse?.Message);
+				throw new Exception($"Token refresh failed: {errorResponse?.Message ?? "Unknown error"}");
+			}
 
-					case "expired_token":
-						logger.LogError("❌ Authentication code expired. Please try again.");
-						return null;
+			var tokenResponse = JsonSerializer.Deserialize<TwitchTokenResponse>(responseContent, new JsonSerializerOptions
+			{
+				PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
+			});
 
-					default:
-						logger.LogError("❌ Authentication error: {Message}", errorResponse?.Message);
-						return null;
-				}
+			if (tokenResponse == null || string.IsNullOrWhiteSpace(tokenResponse.AccessToken))
+			{
+				throw new Exception("Token refresh failed: Invalid response from Twitch");
+			}
+
+			logger.LogInformation("Token refresh successful");
+			return await ValidateAndSave(tokenResponse, cancellationToken);
+		}
+
+		private async Task<string> StartDeviceCodeFlowAsync(CancellationToken cancellationToken)
+		{
+			var scopes = new[] { "chat:read", "chat:edit", "channel:manage:redemptions" };
+
+			// Step 1: Request device code
+			var deviceResponse = await RequestDeviceCodeAsync(scopes, cancellationToken);
+			if (deviceResponse == null)
+			{
+				throw new Exception("Failed to obtain device code from Twitch");
+			}
+
+			// Step 2: Display user code and verification URL
+			try
+			{
+				Process.Start(new ProcessStartInfo(deviceResponse.VerificationUri) { UseShellExecute = true });
 			}
 			catch (Exception ex)
 			{
-				logger.LogError(ex, "Error during token refresh");
-				throw;
+				logger.LogWarning(ex, "Unable to automatically open verification URL");
 			}
+
+			DisplayUserInstructions(deviceResponse);
+
+			// Step 3: Poll for token
+			var tokenResponse = await PollForTokenAsync(deviceResponse, cancellationToken);
+			if (tokenResponse == null)
+			{
+				throw new Exception("Device code flow failed: Unable to obtain access token");
+			}
+
+			return await ValidateAndSave(tokenResponse, cancellationToken);
 		}
 
-		/// <summary>
-		/// Validates an existing access token
-		/// </summary>
-		/// <param name="accessToken">Access token to validate</param>
-		/// <returns>True if token is valid</returns>
-		public async Task<TwitchValidationResponse> ValidateTokenAsync(string accessToken, CancellationToken cancellationToken = default)
+		private async Task<TwitchValidationResponse> ValidateTokenAsync(string accessToken, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -146,7 +184,7 @@ namespace TwitchMemeAlertsAuto.Core
 
 				if (!response.IsSuccessStatusCode)
 				{
-					logger.LogError("Token validation failed. Status: {Status}, Response: {Response}", response.StatusCode, responseContent);
+					logger.LogWarning("Token validation failed. Status: {Status}, Response: {Response}", response.StatusCode, responseContent);
 					return null;
 				}
 
@@ -166,7 +204,7 @@ namespace TwitchMemeAlertsAuto.Core
 			catch (Exception ex)
 			{
 				logger.LogError(ex, "Error validating token");
-				throw;
+				return null;
 			}
 		}
 
@@ -258,7 +296,7 @@ namespace TwitchMemeAlertsAuto.Core
 							PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
 						});
 
-						logger.LogInformation("✅ Authentication successful!");
+						logger.LogInformation("Authentication successful!");
 						return tokenResponse;
 					}
 
@@ -281,20 +319,21 @@ namespace TwitchMemeAlertsAuto.Core
 							break;
 
 						case "access_denied":
-							logger.LogError("❌ Authentication was denied by user.");
-							return null;
+							logger.LogError("Authentication was denied by user");
+							throw new Exception("Authentication was denied by user");
 
 						case "expired_token":
-							logger.LogError("❌ Authentication code expired. Please try again.");
-							return null;
+							logger.LogError("Authentication code expired");
+							throw new Exception("Authentication code expired. Please try again");
 
 						default:
-							logger.LogError("❌ Authentication error: {Message}", errorResponse?.Message);
-							return null;
+							logger.LogError("Authentication error: {Message}", errorResponse?.Message);
+							throw new Exception($"Authentication error: {errorResponse?.Message ?? "Unknown error"}");
 					}
 				}
 				catch (Exception ex)
 				{
+					// Re-throw authentication errors, log and re-throw other errors
 					logger.LogError(ex, "Error during token polling");
 					throw;
 				}
@@ -303,35 +342,38 @@ namespace TwitchMemeAlertsAuto.Core
 				await Task.Delay(interval, cancellationToken);
 			}
 
-			logger.LogError("❌ Authentication timed out. Please try again.");
-			return null;
+			logger.LogError("Authentication timed out");
+			throw new Exception("Authentication timed out. Please try again");
 		}
 
 		private async Task<string> ValidateAndSave(TwitchTokenResponse tokenResponse, CancellationToken cancellationToken)
 		{
-			if (tokenResponse != null)
+			if (tokenResponse == null || string.IsNullOrWhiteSpace(tokenResponse.AccessToken))
 			{
-				logger.LogInformation("Successfully obtained access token");
-
-				// Validate token
-				var twitchValidationResponse = await ValidateTokenAsync(tokenResponse.AccessToken, cancellationToken);
-				if (twitchValidationResponse == null)
-				{
-					logger.LogError("Token validation failed");
-					return null;
-				}
-
-				logger.LogInformation("Token validation successful");
-
-				await settingsService.SetTwitchOAuthTokenAsync(tokenResponse.AccessToken, cancellationToken);
-				await settingsService.SetTwitchRefreshTokenAsync(tokenResponse.RefreshToken, cancellationToken);
-				await settingsService.SetTwitchExpiresInAsync(DateTimeOffset.Now.AddSeconds(twitchValidationResponse.ExpiresIn), cancellationToken);
-				await settingsService.SetTwitchUserIdAsync(twitchValidationResponse.UserId, cancellationToken);
-
-				return tokenResponse.AccessToken;
+				throw new Exception("Invalid token response from Twitch");
 			}
 
-			return null;
+			logger.LogInformation("Successfully obtained access token");
+
+			// Validate token
+			var twitchValidationResponse = await ValidateTokenAsync(tokenResponse.AccessToken, cancellationToken);
+			if (twitchValidationResponse == null)
+			{
+				throw new Exception("Token validation failed after obtaining new token");
+			}
+
+			logger.LogInformation("Token validation successful");
+
+			// Save tokens and metadata
+			await settingsService.SetTwitchOAuthTokenAsync(tokenResponse.AccessToken, cancellationToken);
+			if (!string.IsNullOrWhiteSpace(tokenResponse.RefreshToken))
+			{
+				await settingsService.SetTwitchRefreshTokenAsync(tokenResponse.RefreshToken, cancellationToken);
+			}
+			await settingsService.SetTwitchExpiresInAsync(DateTimeOffset.UtcNow.AddSeconds(twitchValidationResponse.ExpiresIn), cancellationToken);
+			await settingsService.SetTwitchUserIdAsync(twitchValidationResponse.UserId, cancellationToken);
+
+			return tokenResponse.AccessToken;
 		}
 
 		public void Dispose()
