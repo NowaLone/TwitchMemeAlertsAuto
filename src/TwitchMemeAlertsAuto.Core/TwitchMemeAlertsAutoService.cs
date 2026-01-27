@@ -50,7 +50,7 @@ namespace TwitchMemeAlertsAuto.Core
 
 			twitchClient.JoinChannel(channel);
 
-			twitchClient.OnMessageReceived += new EventHandler<MessageReceivedEventArgs>(async (s, e) =>
+			EventHandler<MessageReceivedEventArgs> eventHandler = new(async (s, e) =>
 			{
 				if (e.Message is IrcV3Message ircV3Message && ircV3Message.Command == IrcCommand.PRIVMSG && ircV3Message.Parameters.ElementAt(0) == $"#{channel}" && ircV3Message.Tags.TryGetValue("custom-reward-id", out string customRewardId))
 				{
@@ -92,6 +92,8 @@ namespace TwitchMemeAlertsAuto.Core
 				}
 			});
 
+			twitchClient.OnMessageReceived += eventHandler;
+
 			await twitchClient.ConnectAsync(cancellationToken).ConfigureAwait(false);
 
 			try
@@ -100,6 +102,7 @@ namespace TwitchMemeAlertsAuto.Core
 			}
 			catch (TaskCanceledException)
 			{
+				twitchClient.OnMessageReceived -= eventHandler;
 				await twitchClient.DisconnectAsync().ConfigureAwait(false);
 			}
 
