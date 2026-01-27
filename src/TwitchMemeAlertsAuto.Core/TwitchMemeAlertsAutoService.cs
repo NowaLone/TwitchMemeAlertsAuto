@@ -40,7 +40,7 @@ namespace TwitchMemeAlertsAuto.Core
 
 		public async Task<int> Work(string channel, string token, string rewards, CancellationToken cancellationToken = default)
 		{
-			var rwrds = rewards.Split(',').ToDictionary(d => d.Split(':')[0], d => int.Parse(d.Split(":")[1]));
+			var rwrds = rewards.Contains(":") ? rewards.Split(',').ToDictionary(d => d.Split(':')[0], d => int.Parse(d.Split(":")[1])) : new Dictionary<string, int>();
 			memeAlertsClient = new HttpClient();
 			memeAlertsClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 			memeAlertsClient.Timeout = TimeSpan.FromSeconds(10);
