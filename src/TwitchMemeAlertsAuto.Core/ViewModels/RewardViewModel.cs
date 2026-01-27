@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using TwitchLib.Api.Helix.Models.ChannelPoints;
+using TwitchMemeAlertsAuto.Core.ViewModels.Messages;
 
 namespace TwitchMemeAlertsAuto.Core.ViewModels
 {
@@ -76,9 +78,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		private async Task Save(string parameter, CancellationToken cancellationToken = default)
 		{
 			await settingsService.SetSettingAsync($"Reward:{Reward.Id}", parameter, cancellationToken).ConfigureAwait(false);
-
-			// TODO: remove this requirement
-			dispatcherService.ShowMessage("Требуется перезапуск!");
+			Messenger.Send(new RewardChangedMessage(Reward.Id));
 		}
 
 		private bool CanSave(string parameter)
