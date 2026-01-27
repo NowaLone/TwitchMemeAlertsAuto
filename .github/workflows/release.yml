@@ -50,7 +50,7 @@ jobs:
         with:
           files: |
             ${{ env.WPF_ZIP }}
-            publish-cli/TwitchMemeAlertsAuto.CLI.exe
+            src/TwitchMemeAlertsAuto.CLI/publish-cli/tmaa.exe
           body_path: CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
