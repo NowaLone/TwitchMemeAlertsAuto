@@ -26,13 +26,13 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		[RelayCommand]
 		private void About()
 		{
-			// Optionally show about dialog or message
+			dispatcherService.ShowMessage($"TwitchMemeAlertsAuto v {FileVersionInfo.GetVersionInfo(System.Environment.ProcessPath).FileVersion?.ToString()} by NowaruAlone 😎");
 		}
 
 		[RelayCommand]
 		private void CheckForUpdates()
 		{
-			Process.Start(new ProcessStartInfo("https://github.com/NowaLone/TwitchMemeAlertsAuto/releases") { UseShellExecute = true});
+			Process.Start(new ProcessStartInfo("https://github.com/NowaLone/TwitchMemeAlertsAuto/releases") { UseShellExecute = true });
 		}
 	}
 }

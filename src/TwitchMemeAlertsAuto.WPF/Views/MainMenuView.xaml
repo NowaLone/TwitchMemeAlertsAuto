@@ -15,10 +15,7 @@
             <MenuItem Command="{Binding ExitCommand}" Header="{x:Static properties:Resources.ExitMenu}" />
         </MenuItem>
         <MenuItem Header="{x:Static properties:Resources.HelpMenu}">
-            <MenuItem
-                Command="{Binding AboutCommand}"
-                Header="{x:Static properties:Resources.AboutMenu}"
-                IsEnabled="False" />
+            <MenuItem Command="{Binding AboutCommand}" Header="{x:Static properties:Resources.AboutMenu}" />
             <MenuItem Command="{Binding CheckForUpdatesCommand}" Header="{x:Static properties:Resources.CheckForUpdates}" />
         </MenuItem>
     </Menu>
