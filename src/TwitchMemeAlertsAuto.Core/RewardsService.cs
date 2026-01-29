@@ -46,11 +46,11 @@ namespace TwitchMemeAlertsAuto.Core
 		public Task StopAsync(CancellationToken cancellationToken)
 		{
 			twitchClient.OnMessageReceived -= TwitchClient_OnMessageReceived;
-
+			
 			try
 			{
-			return twitchClient.DisconnectAsync(cancellationToken);
-		}
+				return twitchClient.DisconnectAsync(cancellationToken);
+			}
 			catch (InvalidOperationException)
 			{
 				return Task.CompletedTask;
@@ -77,16 +77,16 @@ namespace TwitchMemeAlertsAuto.Core
 					{
 						if (await twitchMemeAlertsAutoService.AddMemesAsync(dataItem, value, cancellationToken).ConfigureAwait(false))
 						{
-							logger.LogInformation(new EventId(0), "Мемы для {username} успешно выданы в кол-ве {value} шт.", username, value);
+							logger.LogInformation(EventIds.Rewarded, "Мемы для {username} успешно выданы в кол-ве {value} шт.", username, value);
 						}
 						else
 						{
-							logger.LogError(new EventId(1), "Мемы для {username} не выданы", username);
+							logger.LogError(EventIds.NotRewarded, "Мемы для {username} не выданы", username);
 						}
 					}
 					else
 					{
-						logger.LogWarning(new EventId(2), "Саппортёр {username} не найден", username);
+						logger.LogWarning(EventIds.NotFound, "Саппортёр {username} не найден", username);
 					}
 				}
 				else

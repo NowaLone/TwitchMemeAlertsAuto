@@ -4,11 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using TwitchMemeAlertsAuto.Core.ViewModels.Messages;
 
 namespace TwitchMemeAlertsAuto.Core.ViewModels
 {
-	public partial class LogViewModel : ObservableRecipient, IRecipient<MemeAlertsLogMessage>
+	public partial class LogViewModel : ObservableRecipient, IRecipient<LogMessage>
 	{
 		private readonly IDispatcherService dispatcherService;
 		private readonly IDbContextFactory<TmaaDbContext> dbContextFactory;
@@ -42,9 +44,20 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			base.OnActivated();
 		}
 
-		public async void Receive(MemeAlertsLogMessage message)
+
+		public async void Receive(LogMessage message)
 		{
 			await dispatcherService.CallWithDispatcherAsync(async () => Log.Add(message.Value)).ConfigureAwait(false);
+			await SaveHistory(message.Value).ConfigureAwait(false);
+		}
+
+		private async Task SaveHistory(History history, CancellationToken cancellationToken = default)
+		{
+			using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false))
+			{
+				context.Histories.Add(history);
+				await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+			}
 		}
 	}
 }

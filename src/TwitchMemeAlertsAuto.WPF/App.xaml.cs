@@ -14,6 +14,7 @@ using TwitchChat.Parser;
 using TwitchLib.Api;
 using TwitchLib.Api.Interfaces;
 using TwitchMemeAlertsAuto.Core;
+using TwitchMemeAlertsAuto.Core.Logging;
 using TwitchMemeAlertsAuto.Core.ViewModels;
 using TwitchMemeAlertsAuto.WPF.Services;
 
@@ -36,6 +37,9 @@ namespace TwitchMemeAlertsAuto.WPF
 			builder.Logging.AddDebug();
 			//builder.Logging.SetMinimumLevel(LogLevel.Debug);
 #endif
+
+			// Add custom WPF logger provider to capture logs with EventId
+			builder.Logging.AddProvider(new WpfLoggerProvider(LogLevel.Information));
 
 			builder.Services.AddDbContextFactory<TmaaDbContext>((o) => o.UseSqlite($"Data Source={Path.Join(Directory.GetCurrentDirectory(), "tmaa.db")}"))
 				.AddSingleton<IRewardsService, RewardsService>()

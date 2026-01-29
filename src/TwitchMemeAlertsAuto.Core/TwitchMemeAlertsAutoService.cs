@@ -26,16 +26,6 @@ namespace TwitchMemeAlertsAuto.Core
 		public TwitchMemeAlertsAutoService(ISettingsService settingsService, ILogger<TwitchMemeAlertsAutoService> logger) : this(settingsService.GetMemeAlertsTokenAsync().GetAwaiter().GetResult(), logger)
 		{ }
 
-		public event Action<string> OnMemesReceived;
-
-		public event Action<string> OnMemesNotReceived;
-
-		public event Action<string> OnSupporterNotFound;
-
-		public event Action<string> OnSupporterLoading;
-
-		public event Action<string> OnSupporterLoaded;
-
 		public async Task<bool> CheckToken(string token, CancellationToken cancellationToken = default)
 		{
 			try
@@ -73,7 +63,7 @@ namespace TwitchMemeAlertsAuto.Core
 
 		public async Task<List<Supporter>> GetDataAsync(CancellationToken cancellationToken = default)
 		{
-			logger.LogInformation(new EventId(3), "Обновление саппортёров...");
+			logger.LogInformation(EventIds.Loading, "Обновление саппортёров...");
 
 			using var memeAlertsClient = GetHttpClient();
 
@@ -90,7 +80,7 @@ namespace TwitchMemeAlertsAuto.Core
 				total = response.Total;
 			}
 
-			logger.LogInformation(new EventId(4), "Загружено {count} саппортёров", supporters.Count);
+			logger.LogInformation(EventIds.Loaded, "Загружено {count} саппортёров", supporters.Count);
 
 			return supporters;
 		}

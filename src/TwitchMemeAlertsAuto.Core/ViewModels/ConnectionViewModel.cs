@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -24,7 +23,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		private readonly IDispatcherService dispatcherService;
 		private readonly IServiceProvider serviceProvider;
 		private readonly IDbContextFactory<TmaaDbContext> dbContextFactory;
-		private readonly ILogger<ConnectionViewModel> logger;
+		private readonly ILogger logger;
 
 		private CancellationTokenSource cancellationTokenSource;
 
@@ -68,12 +67,6 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 
 		protected override async void OnActivated()
 		{
-			this.twitchMemeAlertsAutoService.OnMemesReceived += OnMemesReceived;
-			this.twitchMemeAlertsAutoService.OnMemesNotReceived += OnMemesNotReceived;
-			this.twitchMemeAlertsAutoService.OnSupporterNotFound += OnSupporterNotFound;
-			this.twitchMemeAlertsAutoService.OnSupporterLoading += OnSupporterLoading;
-			this.twitchMemeAlertsAutoService.OnSupporterLoaded += OnSupporterLoaded;
-
 			var Ttoken = await settingsService.GetTwitchOAuthTokenAsync().ConfigureAwait(false);
 
 			if (!string.IsNullOrWhiteSpace(Ttoken))
@@ -93,55 +86,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 
 		protected override void OnDeactivated()
 		{
-			this.twitchMemeAlertsAutoService.OnMemesReceived -= OnMemesReceived;
-			this.twitchMemeAlertsAutoService.OnMemesNotReceived -= OnMemesNotReceived;
-			this.twitchMemeAlertsAutoService.OnSupporterNotFound -= OnSupporterNotFound;
-			this.twitchMemeAlertsAutoService.OnSupporterLoading -= OnSupporterLoading;
-			this.twitchMemeAlertsAutoService.OnSupporterLoaded -= OnSupporterLoaded;
-
 			base.OnDeactivated();
-		}
-
-		private async void OnMemesReceived(string message)
-		{
-			var history = new History() { Username = message, Timestamp = DateTimeOffset.Now };
-			Messenger.Send(new MemeAlertsLogMessage(history));
-			await SaveHistory(history).ConfigureAwait(false);
-		}
-
-		private async void OnMemesNotReceived(string message)
-		{
-			var history = new History() { Username = message, Timestamp = DateTimeOffset.Now };
-			Messenger.Send(new MemeAlertsLogMessage(history));
-			await SaveHistory(history).ConfigureAwait(false);
-		}
-
-		private async void OnSupporterNotFound(string message)
-		{
-			var history = new History() { Username = message, Timestamp = DateTimeOffset.Now };
-			Messenger.Send(new MemeAlertsLogMessage(history));
-			await SaveHistory(history).ConfigureAwait(false);
-		}
-
-		private async void OnSupporterLoading(string message)
-		{
-			var history = new History() { Username = message, Timestamp = DateTimeOffset.Now };
-			Messenger.Send(new MemeAlertsLogMessage(history));
-		}
-
-		private async void OnSupporterLoaded(string message)
-		{
-			var history = new History() { Username = message, Timestamp = DateTimeOffset.Now };
-			Messenger.Send(new MemeAlertsLogMessage(history));
-		}
-
-		private async Task SaveHistory(History history, CancellationToken cancellationToken = default)
-		{
-			using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false))
-			{
-				context.Histories.Add(history);
-				await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-			}
 		}
 
 		[RelayCommand(CanExecute = nameof(CanConnectTwitch))]
