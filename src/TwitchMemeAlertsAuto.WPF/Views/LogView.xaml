@@ -25,13 +25,13 @@
             IsLiveSortingRequested="True"
             Source="{Binding Log}">
             <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="Date" />
+                <PropertyGroupDescription PropertyName="Timestamp.Date" />
             </CollectionViewSource.GroupDescriptions>
             <d:CollectionViewSource.Source>
                 <x:Array Type="{x:Type core:History}">
-                    <core:History Username="Sample log message 1" Value="0" />
-                    <core:History Username="Sample log message 2" Value="0" />
-                    <core:History Username="Another day message" Value="0" />
+                    <core:History Message="Sample log message 1" />
+                    <core:History Message="Sample log message 2" />
+                    <core:History Message="Another day message" />
                 </x:Array>
             </d:CollectionViewSource.Source>
         </CollectionViewSource>
@@ -68,8 +68,11 @@
                         </GroupStyle>
                     </ItemsControl.GroupStyle>
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Message}" />
+                        <DataTemplate DataType="core:History">
+                            <TextBlock>
+                                <Run Text="{Binding Timestamp, StringFormat=HH:mm}" />
+                                <Run Text="{Binding Message}" />
+                            </TextBlock>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

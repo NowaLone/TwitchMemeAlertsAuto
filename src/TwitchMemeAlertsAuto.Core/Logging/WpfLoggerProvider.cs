@@ -1,7 +1,7 @@
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using CommunityToolkit.Mvvm.Messaging;
 using TwitchMemeAlertsAuto.Core.ViewModels.Messages;
 
 namespace TwitchMemeAlertsAuto.Core.Logging
@@ -69,6 +69,11 @@ namespace TwitchMemeAlertsAuto.Core.Logging
 		{
 			if (!IsEnabled(logLevel))
 				return;
+			
+			if (!EventIds.Events.Contains(eventId))
+			{
+				return;
+			}
 
 			var message = formatter(state, exception);
 			if (string.IsNullOrWhiteSpace(message) && exception == null)
@@ -79,21 +84,19 @@ namespace TwitchMemeAlertsAuto.Core.Logging
 
 			var history = new History
 			{
-				Username = message,
-				Value = 0,
+				Message = message,
 				Timestamp = DateTimeOffset.Now,
+				EventId = eventId.Id,
 			};
 
 			// Send the log message through MVVM Toolkit messaging
-			if (EventIds.Events.Contains(eventId))
-			{
-				WeakReferenceMessenger.Default.Send(new LogMessage(history));
-			}
+			WeakReferenceMessenger.Default.Send(new LogMessage(history));
 		}
 
 		private sealed class NoOpScope : IDisposable
 		{
-			public void Dispose() { }
+			public void Dispose()
+			{ }
 		}
 	}
 }

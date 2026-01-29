@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
@@ -15,6 +16,8 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		private readonly IDispatcherService dispatcherService;
 		private readonly IDbContextFactory<TmaaDbContext> dbContextFactory;
 		private readonly ILogger logger;
+
+		private readonly IEnumerable<int> ignoredEventIds = EventIds.Events.Where(e => e.Id == EventIds.Loading.Id || e.Id == EventIds.Loaded.Id).Select(e => e.Id);
 
 		[ObservableProperty]
 		private ObservableCollection<History> log;
@@ -46,7 +49,6 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			base.OnActivated();
 		}
 
-
 		public async void Receive(LogMessage message)
 		{
 			await dispatcherService.CallWithDispatcherAsync(async () => Log.Add(message.Value)).ConfigureAwait(false);
@@ -56,7 +58,10 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 				OnPropertyChanged(nameof(Log));
 			}
 
-			await SaveHistory(message.Value).ConfigureAwait(false);
+			if (!ignoredEventIds.Contains(message.Value.EventId))
+			{
+				await SaveHistory(message.Value).ConfigureAwait(false);
+			}
 		}
 
 		private async Task SaveHistory(History history, CancellationToken cancellationToken = default)
