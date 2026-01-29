@@ -54,16 +54,19 @@ namespace TwitchMemeAlertsAuto.WPF.Services
 
 			await webView2.EnsureCoreWebView2Async(webView2Environment);
 			webView2.Source = new Uri("https://memealerts.com/");
-			var result = await WaitForCookieAsync(webView2);
+			var result = await WaitForCookieAsync(window, webView2);
 			window.Close();
 			webView2.Dispose();
 			return result;
 		}
 
-		private async Task<string> WaitForCookieAsync(WebView2 webView2)
+		private async Task<string> WaitForCookieAsync(Window window, WebView2 webView2)
 		{
 			string stringResult = null;
-			int value = 0;
+			var value = 0;
+			var isClosed = false;
+			EventHandler closedEvent = (s, e) => isClosed = true;
+			window.Closed += closedEvent;
 
 			do
 			{
@@ -77,7 +80,9 @@ namespace TwitchMemeAlertsAuto.WPF.Services
 						}
 					}).ConfigureAwait(false);
 			}
-			while (value != 1);
+			while (value != 1 && !isClosed);
+			window.Closed -= closedEvent;
+
 
 			return stringResult;
 		}

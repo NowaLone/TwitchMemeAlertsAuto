@@ -30,8 +30,7 @@ namespace TwitchMemeAlertsAuto.Core
 		{
 			try
 			{
-				using var memeAlertsClient = GetHttpClient();
-				memeAlertsClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+				using var memeAlertsClient = GetHttpClient(token);
 				using var request = new HttpRequestMessage(HttpMethod.Get, "https://memealerts.com/api/user/current");
 				using var responseMessage = await memeAlertsClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
 				responseMessage.EnsureSuccessStatusCode();
@@ -101,7 +100,7 @@ namespace TwitchMemeAlertsAuto.Core
 			return (await responseMessage.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false)).Equals(bool.TrueString, StringComparison.OrdinalIgnoreCase);
 		}
 
-		private HttpClient GetHttpClient()
+		private HttpClient GetHttpClient(string token)
 		{
 			ArgumentException.ThrowIfNullOrWhiteSpace(token);
 
@@ -109,6 +108,11 @@ namespace TwitchMemeAlertsAuto.Core
 			memeAlertsClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 			memeAlertsClient.Timeout = TimeSpan.FromSeconds(10);
 			return memeAlertsClient;
+		}
+
+		private HttpClient GetHttpClient()
+		{			
+			return GetHttpClient(token);
 		}
 	}
 }

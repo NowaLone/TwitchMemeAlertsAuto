@@ -143,7 +143,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 				{
 					maToken = await dispatcherService.CallMemeAlertsAsync().ConfigureAwait(false);
 
-					if (await twitchMemeAlertsAutoService.CheckToken(maToken, cancellationToken).ConfigureAwait(false))
+					if (!string.IsNullOrWhiteSpace(maToken) && await twitchMemeAlertsAutoService.CheckToken(maToken, cancellationToken).ConfigureAwait(false))
 					{
 						await settingsService.SetMemeAlertsTokenAsync(maToken, cancellationToken).ConfigureAwait(false);
 
@@ -186,7 +186,6 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			}
 
 			var userId = await settingsService.GetTwitchUserIdAsync(cancellationToken).ConfigureAwait(false);
-			var maToken = await settingsService.GetMemeAlertsTokenAsync(cancellationToken).ConfigureAwait(false);
 			string broadcasterLogin = null;
 			IDictionary<string, int> rewards = null;
 
