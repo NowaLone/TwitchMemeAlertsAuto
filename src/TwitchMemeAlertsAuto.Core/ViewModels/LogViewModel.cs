@@ -41,6 +41,8 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 				}
 			}
 
+			OnPropertyChanged(nameof(Log));
+
 			base.OnActivated();
 		}
 
@@ -48,6 +50,12 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		public async void Receive(LogMessage message)
 		{
 			await dispatcherService.CallWithDispatcherAsync(async () => Log.Add(message.Value)).ConfigureAwait(false);
+
+			if (Log.Count == 1)
+			{
+				OnPropertyChanged(nameof(Log));
+			}
+
 			await SaveHistory(message.Value).ConfigureAwait(false);
 		}
 

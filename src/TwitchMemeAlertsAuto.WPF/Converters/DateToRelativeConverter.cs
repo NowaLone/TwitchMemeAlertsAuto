@@ -2,8 +2,9 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace TwitchMemeAlertsAuto.WPF.Views
+namespace TwitchMemeAlertsAuto.WPF.Converters
 {
+
 	public class DateToRelativeConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

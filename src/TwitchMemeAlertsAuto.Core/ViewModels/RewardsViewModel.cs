@@ -60,6 +60,8 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 						Rewards.Add(reward);
 					}
 				}
+
+				OnPropertyChanged(nameof(Rewards));
 			}
 			catch (Exception ex)
 			{
