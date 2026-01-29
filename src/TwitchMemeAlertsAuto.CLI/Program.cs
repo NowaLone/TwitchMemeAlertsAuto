@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.CommandLine;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using TwitchChat.Client;
@@ -27,9 +28,8 @@ namespace TwitchMemeAlertsAuto.CLI
 			rootCommand.Add(tokenOption);
 			rootCommand.Add(rewardsOption);
 
-			rootCommand.SetAction((ParseResult parseResult, CancellationToken cancellationToken) => new TwitchMemeAlertsAutoService(
-				new TwitchClient(new IrcClientWebSocket(new IrcClientWebSocket.Options() { Uri = new Uri(TwitchClient.Options.wssUrlSSL) }, GetLogger<IrcClientWebSocket>()), new TwitchParser(), new OptionsMonitor<TwitchClient.Options>(new OptionsFactory<TwitchClient.Options>([], []), [], new OptionsCache<TwitchClient.Options>()), GetLogger<TwitchClient>()),
-				GetLogger<TwitchMemeAlertsAutoService>()).Work(parseResult.GetValue(channelOption), parseResult.GetValue(tokenOption), parseResult.GetValue(rewardsOption), cancellationToken));
+			rootCommand.SetAction((ParseResult parseResult, CancellationToken cancellationToken) => new RewardsService(new TwitchMemeAlertsAutoService(parseResult.GetValue(tokenOption),GetLogger<TwitchMemeAlertsAutoService>()),
+				new TwitchClient(new IrcClientWebSocket(new IrcClientWebSocket.Options() { Uri = new Uri(TwitchClient.Options.wssUrlSSL) }, GetLogger<IrcClientWebSocket>()), new TwitchParser(), new OptionsMonitor<TwitchClient.Options>(new OptionsFactory<TwitchClient.Options>([], []), [], new OptionsCache<TwitchClient.Options>()), GetLogger<TwitchClient>()), GetLogger<RewardsService>()).StartAsync(parseResult.GetValue(rewardsOption).Split(',').ToDictionary(d => d.Split(':')[0], d => int.Parse(d.Split(":")[1])), parseResult.GetValue(channelOption), cancellationToken));
 
 			try
 			{

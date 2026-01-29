@@ -67,7 +67,24 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		[RelayCommand(CanExecute = nameof(CanReward))]
 		private async Task Reward(string parameter, CancellationToken cancellationToken = default)
 		{
-			await twitchMemeAlertsAutoService.RewardAllAsync(int.Parse(parameter), cancellationToken);
+			var current = await twitchMemeAlertsAutoService.GetMemeAlertsId(cancellationToken).ConfigureAwait(false);
+			var supporters = await twitchMemeAlertsAutoService.GetDataAsync(cancellationToken).ConfigureAwait(false);
+			var value = int.Parse(parameter);
+
+			foreach (var supporter in supporters)
+			{
+				if (await twitchMemeAlertsAutoService.AddMemesAsync(supporter, value, cancellationToken).ConfigureAwait(false))
+				{
+					logger.LogInformation(new EventId(0), "Мемы для {username} успешно выданы в кол-ве {value} шт.", supporter.SupporterName, value);
+				}
+				else
+				{
+					logger.LogError(new EventId(1), "Мемы для {username} не выданы", supporter.SupporterName);
+				}
+
+				await Task.Delay(500, cancellationToken).ConfigureAwait(false);
+			}
+
 			Count = "0";
 		}
 

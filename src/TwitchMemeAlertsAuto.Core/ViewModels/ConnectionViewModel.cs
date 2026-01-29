@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,6 +18,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 	public partial class ConnectionViewModel : ObservableRecipient, IRecipient<RewardChangedMessage>
 	{
 		private readonly ISettingsService settingsService;
+		private readonly IRewardsService rewardsService;
 		private readonly ITwitchOAuthService twitchOAuthService;
 		private readonly ITwitchMemeAlertsAutoService twitchMemeAlertsAutoService;
 		private readonly IDispatcherService dispatcherService;
@@ -29,9 +32,10 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		{
 		}
 
-		public ConnectionViewModel(ISettingsService settingsService, ITwitchOAuthService twitchOAuthService, ITwitchMemeAlertsAutoService twitchMemeAlertsAutoService, IDispatcherService dispatcherService, IServiceProvider serviceProvider, IDbContextFactory<TmaaDbContext> dbContextFactory, ILogger<ConnectionViewModel> logger) : this()
+		public ConnectionViewModel(ISettingsService settingsService, IRewardsService rewardsService, ITwitchOAuthService twitchOAuthService, ITwitchMemeAlertsAutoService twitchMemeAlertsAutoService, IDispatcherService dispatcherService, IServiceProvider serviceProvider, IDbContextFactory<TmaaDbContext> dbContextFactory, ILogger<ConnectionViewModel> logger) : this()
 		{
 			this.settingsService = settingsService;
+			this.rewardsService = rewardsService;
 			this.twitchOAuthService = twitchOAuthService;
 			this.twitchMemeAlertsAutoService = twitchMemeAlertsAutoService;
 			this.dispatcherService = dispatcherService;
@@ -230,11 +234,16 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 				return;
 			}
 
-			cancellationTokenSource?.Cancel();
+			if (cancellationTokenSource != null)
+			{
+				await rewardsService.StopAsync(cancellationToken).ConfigureAwait(false);
+				cancellationTokenSource.Cancel();
+			}
 
 			var userId = await settingsService.GetTwitchUserIdAsync(cancellationToken).ConfigureAwait(false);
 			var maToken = await settingsService.GetMemeAlertsTokenAsync(cancellationToken).ConfigureAwait(false);
-			string broadcasterLogin, rewards = null;
+			string broadcasterLogin = null;
+			IDictionary<string, int> rewards = null;
 
 			using (var scope = serviceProvider.CreateAsyncScope())
 			{
@@ -245,12 +254,12 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 
 			using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false))
 			{
-				rewards = string.Join(",", context.Settings.Where(s => s.Key.StartsWith("Reward:")).Select(r => r.Key.Replace("Reward:", string.Empty) + ":" + r.Value));
+				rewards = context.Settings.Where(s => s.Key.StartsWith("Reward:")).Select(r => r.Key.Replace("Reward:", string.Empty) + ":" + r.Value).ToDictionary(d => d.Split(':')[0], d => int.Parse(d.Split(":")[1]));
 			}
 
 			cancellationTokenSource = new CancellationTokenSource();
 
-			twitchMemeAlertsAutoService.Work(broadcasterLogin, maToken, rewards, cancellationTokenSource.Token);
+			await rewardsService.StartAsync(rewards, broadcasterLogin, cancellationTokenSource.Token).ConfigureAwait(false);
 		}
 	}
 }

@@ -38,10 +38,11 @@ namespace TwitchMemeAlertsAuto.WPF
 #endif
 
 			builder.Services.AddDbContextFactory<TmaaDbContext>((o) => o.UseSqlite($"Data Source={Path.Join(Directory.GetCurrentDirectory(), "tmaa.db")}"))
+				.AddSingleton<IRewardsService, RewardsService>()
+				.AddSingleton<IDispatcherService, DispatcherService>()
 				.AddTransient<ISettingsService, SettingsService>()
 				.AddTransient<ITwitchOAuthService, TwitchOAuthService>()
-				.AddSingleton<ITwitchMemeAlertsAutoService, TwitchMemeAlertsAutoService>()
-				.AddSingleton<IDispatcherService, DispatcherService>()
+				.AddTransient<ITwitchMemeAlertsAutoService, TwitchMemeAlertsAutoService>()
 				.AddTransient<MainWindowViewModel>()
 				.AddTransient<RewardViewModel>()
 				.AddTransient<ConnectionViewModel>()
