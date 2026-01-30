@@ -18,4 +18,15 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>favicon-96x96.png</PackageIcon>
 	</PropertyGroup>
+	
+	<ItemGroup Condition="$(OutputType) == Exe">
+		<PackageReference Include="GitVersion.MsBuild" Version="6.5.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.102">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 </Project>
