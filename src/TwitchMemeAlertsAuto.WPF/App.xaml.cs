@@ -6,8 +6,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Reflection;
 using System.Windows;
 using TwitchChat.Client;
 using TwitchChat.Parser;
@@ -37,11 +39,16 @@ namespace TwitchMemeAlertsAuto.WPF
 			builder.Logging.AddDebug();
 			//builder.Logging.SetMinimumLevel(LogLevel.Debug);
 #endif
+			var assembly = Assembly.GetExecutingAssembly();
+			var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+
+			var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), fileVersionInfo.CompanyName, fileVersionInfo.ProductName);
+			Directory.CreateDirectory(dbPath);
 
 			// Add custom WPF logger provider to capture logs with EventId
 			builder.Logging.AddProvider(new WpfLoggerProvider(LogLevel.Information));
 
-			builder.Services.AddDbContextFactory<TmaaDbContext>((o) => o.UseSqlite($"Data Source={Path.Join(Directory.GetCurrentDirectory(), "tmaa.db")}"))
+			builder.Services.AddDbContextFactory<TmaaDbContext>((o) => o.UseSqlite($"Data Source={Path.Join(dbPath, "tmaa.db")}"))
 				.AddSingleton<IRewardsService, RewardsService>()
 				.AddSingleton<IDispatcherService, DispatcherService>()
 				.AddTransient<ISettingsService, SettingsService>()

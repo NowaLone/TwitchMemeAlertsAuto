@@ -2,7 +2,8 @@
 	<PropertyGroup>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<RootNamespace>$(MSBuildProjectName.Replace(".Abstractions", ""))</RootNamespace>
-		<Authors>NowaLone</Authors>		
+		<Authors>NowaLone</Authors>	
+		<Company>NowaLone</Company>	
 		<Description></Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/NowaLone/TwitchMemeAlertsAuto</PackageProjectUrl>
@@ -17,15 +18,4 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>favicon-96x96.png</PackageIcon>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<None Include="..\..\favicon-96x96.png">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-		<None Include="..\..\README.md">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-	</ItemGroup>
 </Project>
