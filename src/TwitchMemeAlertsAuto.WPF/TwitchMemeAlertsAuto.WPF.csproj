@@ -9,17 +9,17 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="GitVersion.MsBuild" Version="6.5.1">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.2">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.2">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.2" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.2" />
 		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3650.58" />
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.102">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -34,6 +34,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\TwitchMemeAlertsAuto.Core.Migrations.Sqlite\TwitchMemeAlertsAuto.Core.Migrations.Sqlite.csproj" />
 		<ProjectReference Include="..\TwitchMemeAlertsAuto.Core\TwitchMemeAlertsAuto.Core.csproj" />
 	</ItemGroup>
 

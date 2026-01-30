@@ -6,11 +6,13 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.2" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.2" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.2" />
 		<PackageReference Include="NowaLone.IrcNet.Client" Version="1.0.4" />
 		<PackageReference Include="NowaLone.TwitchChat.Client" Version="1.0.0" />
 		<PackageReference Include="TwitchLib.Api" Version="3.10.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\TwitchMemeAlertsAuto.Core.Models\TwitchMemeAlertsAuto.Core.Models.csproj" />
 	</ItemGroup>
 </Project>

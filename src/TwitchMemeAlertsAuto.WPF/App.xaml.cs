@@ -48,7 +48,7 @@ namespace TwitchMemeAlertsAuto.WPF
 			// Add custom WPF logger provider to capture logs with EventId
 			builder.Logging.AddProvider(new WpfLoggerProvider(LogLevel.Information));
 
-			builder.Services.AddDbContextFactory<TmaaDbContext>((o) => o.UseSqlite($"Data Source={Path.Join(dbPath, "tmaa.db")}"))
+			builder.Services.AddDbContextFactory<TmaaDbContext>((o) => o.UseSqlite($"Data Source={Path.Join(dbPath, "tmaa.db")}", b => b.MigrationsAssembly(typeof(Core.Migrations.Sqlite.Migrations.InitialCreate).Assembly.GetName().Name)))
 				.AddSingleton<IRewardsService, RewardsService>()
 				.AddSingleton<IDispatcherService, DispatcherService>()
 				.AddTransient<ISettingsService, SettingsService>()
@@ -82,7 +82,7 @@ namespace TwitchMemeAlertsAuto.WPF
 			{
 				using (var context = scope.ServiceProvider.GetRequiredService<TmaaDbContext>())
 				{
-					context.Database.EnsureCreated();
+					context.Database.Migrate();
 				}
 			}
 
