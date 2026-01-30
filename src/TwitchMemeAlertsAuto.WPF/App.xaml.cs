@@ -27,7 +27,7 @@ namespace TwitchMemeAlertsAuto.WPF
 	/// </summary>
 	public partial class App : Application
 	{
-		public static IHost Host;
+		private IHost host;
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
@@ -76,9 +76,9 @@ namespace TwitchMemeAlertsAuto.WPF
 				})
 				.AddTransient<ITwitchClient, TwitchClient>((sp) => new TwitchClient(new IrcClientWebSocket(new IrcClientWebSocket.Options() { Uri = new Uri(TwitchClient.Options.wssUrlSSL) }, sp.GetRequiredService<ILogger<IrcClientWebSocket>>()), new TwitchParser(), new OptionsMonitor<TwitchClient.Options>(new OptionsFactory<TwitchClient.Options>(new List<IConfigureOptions<TwitchClient.Options>>(), new List<IPostConfigureOptions<TwitchClient.Options>>()), new List<IOptionsChangeTokenSource<TwitchClient.Options>>(), new OptionsCache<TwitchClient.Options>()), sp.GetRequiredService<ILogger<TwitchClient>>()));
 
-			Host = builder.Build();
+			host = builder.Build();
 
-			using (var scope = Host.Services.CreateAsyncScope())
+			using (var scope = host.Services.CreateAsyncScope())
 			{
 				using (var context = scope.ServiceProvider.GetRequiredService<TmaaDbContext>())
 				{
@@ -91,7 +91,7 @@ namespace TwitchMemeAlertsAuto.WPF
 
 		private async void Application_Startup(object sender, StartupEventArgs e)
 		{
-			var mainWindowViewModel = Host.Services.GetRequiredService<MainWindowViewModel>();
+			var mainWindowViewModel = host.Services.GetRequiredService<MainWindowViewModel>();
 
 			var mainWindow = new MainWindow
 			{
@@ -102,14 +102,14 @@ namespace TwitchMemeAlertsAuto.WPF
 			mainWindow.Show();
 			mainWindowViewModel.IsActive = true;
 
-			await Host.StartAsync();
+			await host.StartAsync();
 		}
 
 		private async void Application_Exit(object sender, ExitEventArgs e)
 		{
-			using (Host)
+			using (host)
 			{
-				await Host.StopAsync(TimeSpan.FromSeconds(3));
+				await host.StopAsync(TimeSpan.FromSeconds(3));
 			}
 		}
 
