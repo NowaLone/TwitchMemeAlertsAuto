@@ -18,6 +18,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
@@ -27,7 +28,7 @@
         </Grid.RowDefinitions>
         <views:MainMenuView
             Grid.Row="0"
-            Grid.ColumnSpan="3"
+            Grid.ColumnSpan="4"
             DataContext="{Binding MainMenuViewModel}" />
         <StackPanel Grid.Row="2" Grid.Column="0">
             <views:ConnectionView Margin="4,0,4,0" DataContext="{Binding ConnectionViewModel}" />
@@ -35,13 +36,17 @@
         </StackPanel>
         <views:RewardsView
             Grid.Row="1"
-            Grid.RowSpan="2"
             Grid.Column="1"
             DataContext="{Binding RewardsViewModel}" />
+        <GridSplitter
+            Grid.Row="1"
+            Grid.Column="2"
+            Width="3"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Stretch" />
         <views:LogView
             Grid.Row="1"
-            Grid.RowSpan="2"
-            Grid.Column="2"
+            Grid.Column="3"
             DataContext="{Binding LogViewModel}" />
     </Grid>
 </Window>
