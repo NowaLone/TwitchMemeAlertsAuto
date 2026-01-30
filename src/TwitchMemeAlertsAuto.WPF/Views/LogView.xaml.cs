@@ -29,7 +29,7 @@ namespace TwitchMemeAlertsAuto.WPF.Views
 			e.Handled = true;
 		}
 
-		private void LogView_Loaded(object? sender, RoutedEventArgs e)
+		private void LogView_Loaded(object sender, RoutedEventArgs e)
 		{
 			if (!Resources.Contains("LogGrouped"))
 				return;
