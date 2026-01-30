@@ -12,10 +12,11 @@ namespace TwitchMemeAlertsAuto.Core
 {
 	public class TwitchMemeAlertsAutoService : ITwitchMemeAlertsAutoService
 	{
-		private readonly string token;
+		private readonly ISettingsService settingsService;
 		private readonly ILogger logger;
 
-		private string streamerId = null;
+		private string token;
+		private string streamerId;
 
 		public TwitchMemeAlertsAutoService(string token, ILogger<TwitchMemeAlertsAutoService> logger)
 		{
@@ -24,7 +25,9 @@ namespace TwitchMemeAlertsAuto.Core
 		}
 
 		public TwitchMemeAlertsAutoService(ISettingsService settingsService, ILogger<TwitchMemeAlertsAutoService> logger) : this(settingsService.GetMemeAlertsTokenAsync().GetAwaiter().GetResult(), logger)
-		{ }
+		{
+			this.settingsService = settingsService;
+		}
 
 		public async Task<bool> CheckToken(string token, CancellationToken cancellationToken = default)
 		{
@@ -102,6 +105,12 @@ namespace TwitchMemeAlertsAuto.Core
 
 		private HttpClient GetHttpClient(string token)
 		{
+			if (string.IsNullOrWhiteSpace(token) && settingsService != null)
+			{
+				this.token = settingsService.GetMemeAlertsTokenAsync().GetAwaiter().GetResult();
+				token = this.token;
+			}
+
 			ArgumentException.ThrowIfNullOrWhiteSpace(token);
 
 			var memeAlertsClient = new HttpClient();
