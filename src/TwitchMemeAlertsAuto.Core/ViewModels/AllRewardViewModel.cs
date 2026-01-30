@@ -75,11 +75,11 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			{
 				if (await twitchMemeAlertsAutoService.AddMemesAsync(supporter, value, cancellationToken).ConfigureAwait(false))
 				{
-					logger.LogInformation(new EventId(0), "Мемы для {username} успешно выданы в кол-ве {value} шт.", supporter.SupporterName, value);
+					logger.LogInformation(EventIds.Rewarded, "Мемы для {username} успешно выданы в кол-ве {value} шт.", supporter.SupporterName, value);
 				}
 				else
 				{
-					logger.LogError(new EventId(1), "Мемы для {username} не выданы", supporter.SupporterName);
+					logger.LogError(EventIds.NotRewarded, "Мемы для {username} не выданы", supporter.SupporterName);
 				}
 
 				await Task.Delay(500, cancellationToken).ConfigureAwait(false);
