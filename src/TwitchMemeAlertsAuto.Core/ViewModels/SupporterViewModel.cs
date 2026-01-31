@@ -30,7 +30,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		{
 			var value = int.Parse(parameter);
 
-			if (await twitchMemeAlertsAutoService.AddMemesAsync(Supporter, value, cancellationToken).ConfigureAwait(false))
+			if (await twitchMemeAlertsAutoService.GiveBonusAsync(Supporter, value, cancellationToken).ConfigureAwait(false))
 			{
 				logger.LogInformation(EventIds.Rewarded, "Мемы для {username} успешно выданы в кол-ве {value} шт.", Supporter.SupporterName, value);
 			}

@@ -46,7 +46,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			IsLoading = true;
 			try
 			{
-				var data = await twitchMemeAlertsAutoService.GetDataAsync().ConfigureAwait(false);
+				var data = await twitchMemeAlertsAutoService.GetSupportersAsync().ConfigureAwait(false);
 
 				using (var scope = serviceProvider.CreateAsyncScope())
 				{

@@ -54,7 +54,7 @@ namespace TwitchMemeAlertsAuto.Core
 			return true;
 		}
 
-		public async Task<Current> GetMemeAlertsId(CancellationToken cancellationToken = default)
+		public async Task<Current> GetCurrent(CancellationToken cancellationToken = default)
 		{
 			using var memeAlertsClient = GetHttpClient();
 			using var request = new HttpRequestMessage(HttpMethod.Get, "https://memealerts.com/api/user/current");
@@ -63,7 +63,7 @@ namespace TwitchMemeAlertsAuto.Core
 			return await JsonSerializer.DeserializeAsync(responseMessage.Content.ReadAsStream(cancellationToken), SerializationModeOptionsContext.Default.Current, cancellationToken).ConfigureAwait(false);
 		}
 
-		public async Task<List<Supporter>> GetDataAsync(CancellationToken cancellationToken = default)
+		public async Task<List<Supporter>> GetSupportersAsync(CancellationToken cancellationToken = default)
 		{
 			logger.LogInformation(EventIds.Loading, "Обновление саппортёров...");
 
@@ -87,11 +87,11 @@ namespace TwitchMemeAlertsAuto.Core
 			return supporters;
 		}
 
-		public async Task<bool> AddMemesAsync(Supporter supporter, int value, CancellationToken cancellationToken = default)
+		public async Task<bool> GiveBonusAsync(Supporter supporter, int value, CancellationToken cancellationToken = default)
 		{
 			if (string.IsNullOrWhiteSpace(streamerId))
 			{
-				streamerId = (await GetMemeAlertsId(cancellationToken).ConfigureAwait(false)).Id;
+				streamerId = (await GetCurrent(cancellationToken).ConfigureAwait(false)).Id;
 			}
 
 			using var memeAlertsClient = GetHttpClient();

@@ -6,12 +6,12 @@ namespace TwitchMemeAlertsAuto.Core
 {
 	public interface IMemeAlertsService
 	{
-		Task<bool> AddMemesAsync(Supporter supporter, int value, CancellationToken cancellationToken = default);
-
 		Task<bool> CheckToken(string token, CancellationToken cancellationToken = default);
 
-		Task<List<Supporter>> GetDataAsync(CancellationToken cancellationToken = default);
+		Task<List<Supporter>> GetSupportersAsync(CancellationToken cancellationToken = default);
 
-		Task<Current> GetMemeAlertsId(CancellationToken cancellationToken = default);
+		Task<Current> GetCurrent(CancellationToken cancellationToken = default);
+
+		Task<bool> GiveBonusAsync(Supporter supporter, int value, CancellationToken cancellationToken = default);
 	}
 }

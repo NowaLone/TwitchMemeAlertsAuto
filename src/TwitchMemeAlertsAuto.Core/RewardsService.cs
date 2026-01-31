@@ -35,7 +35,7 @@ namespace TwitchMemeAlertsAuto.Core
 			this.rewards = rewards;
 			this.channel = channel;
 
-			data = await twitchMemeAlertsAutoService.GetDataAsync(cancellationToken).ConfigureAwait(false);
+			data = await twitchMemeAlertsAutoService.GetSupportersAsync(cancellationToken).ConfigureAwait(false);
 
 			twitchClient.JoinChannel(channel);
 			twitchClient.OnMessageReceived += TwitchClient_OnMessageReceived;
@@ -69,13 +69,13 @@ namespace TwitchMemeAlertsAuto.Core
 
 					if (dataItem == default)
 					{
-						data = await twitchMemeAlertsAutoService.GetDataAsync(cancellationToken).ConfigureAwait(false);
+						data = await twitchMemeAlertsAutoService.GetSupportersAsync(cancellationToken).ConfigureAwait(false);
 						dataItem = data.FirstOrDefault(d => d.SupporterName.Equals(username, StringComparison.OrdinalIgnoreCase));
 					}
 
 					if (dataItem != default)
 					{
-						if (await twitchMemeAlertsAutoService.AddMemesAsync(dataItem, value, cancellationToken).ConfigureAwait(false))
+						if (await twitchMemeAlertsAutoService.GiveBonusAsync(dataItem, value, cancellationToken).ConfigureAwait(false))
 						{
 							logger.LogInformation(EventIds.Rewarded, "Мемы для {username} успешно выданы в кол-ве {value} шт.", username, value);
 						}
