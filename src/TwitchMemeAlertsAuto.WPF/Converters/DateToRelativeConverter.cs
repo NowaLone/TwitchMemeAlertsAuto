@@ -4,13 +4,12 @@ using System.Windows.Data;
 
 namespace TwitchMemeAlertsAuto.WPF.Converters
 {
-
 	public class DateToRelativeConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			if (value == null)
-				return string.Empty;
+				return Properties.Resources.Unknown;
 
 			DateTime date;
 			if (value is DateTime dt)
@@ -20,6 +19,10 @@ namespace TwitchMemeAlertsAuto.WPF.Converters
 			else if (value is DateTimeOffset dto)
 			{
 				date = dto.Date;
+			}
+			else if (value is long unixEpoch)
+			{
+				date = DateTimeOffset.FromUnixTimeMilliseconds(unixEpoch).Date;
 			}
 			else
 			{
@@ -45,7 +48,7 @@ namespace TwitchMemeAlertsAuto.WPF.Converters
 			}
 			else
 			{
-				return date.ToLongDateString();
+				return parameter is string format ? date.ToString(format) : date.ToLongDateString();
 			}
 		}
 

@@ -132,7 +132,7 @@
   <data name="LogHeader" xml:space="preserve">
     <value>Лог</value>
   </data>
-  <data name="CountLabel" xml:space="preserve">
+  <data name="Quantity" xml:space="preserve">
     <value>Кол-во:</value>
   </data>
   <data name="SaveButton" xml:space="preserve">
@@ -179,5 +179,17 @@
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
     <value>Проверить обновления</value>
+  </data>
+  <data name="LastSupport" xml:space="preserve">
+    <value>Награждался последний раз:</value>
+  </data>
+  <data name="Supporters" xml:space="preserve">
+    <value>Саппортеры</value>
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value>Баланс</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Неизвестно</value>
   </data>
 </root>

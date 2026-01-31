@@ -22,17 +22,21 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		[ObservableProperty]
 		private AllRewardViewModel allRewardViewModel;
 
+		[ObservableProperty]
+		private SupportersViewModel supportersViewModel;
+
 		public MainWindowViewModel()
 		{
 		}
 
-		public MainWindowViewModel(LogViewModel logViewModel, ConnectionViewModel connectionViewModel, RewardsViewModel rewardsViewModel, MainMenuViewModel mainMenuViewModel, AllRewardViewModel allRewardViewModel, ILogger<MainWindowViewModel> logger) : this()
+		public MainWindowViewModel(LogViewModel logViewModel, ConnectionViewModel connectionViewModel, RewardsViewModel rewardsViewModel, MainMenuViewModel mainMenuViewModel, AllRewardViewModel allRewardViewModel, SupportersViewModel supportersViewModel, ILogger<MainWindowViewModel> logger) : this()
 		{
 			this.logViewModel = logViewModel;
 			this.connectionViewModel = connectionViewModel;
 			this.rewardsViewModel = rewardsViewModel;
 			this.mainMenuViewModel = mainMenuViewModel;
 			this.allRewardViewModel = allRewardViewModel;
+			this.supportersViewModel = supportersViewModel;
 			this.logger = logger;
 		}
 
@@ -43,6 +47,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			RewardsViewModel.IsActive = true;
 			MainMenuViewModel.IsActive = true;
 			AllRewardViewModel.IsActive = true;
+			SupportersViewModel.IsActive = true;
 
 			base.OnActivated();
 		}
@@ -54,6 +59,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			RewardsViewModel.IsActive = false;
 			MainMenuViewModel.IsActive = false;
 			AllRewardViewModel.IsActive = false;
+			SupportersViewModel.IsActive = false;
 
 			base.OnDeactivated();
 		}

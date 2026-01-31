@@ -61,6 +61,8 @@ namespace TwitchMemeAlertsAuto.WPF
 				.AddTransient<LogViewModel>()
 				.AddTransient<MainMenuViewModel>()
 				.AddTransient<AllRewardViewModel>()
+				.AddTransient<SupporterViewModel>()
+				.AddTransient<SupportersViewModel>()
 				.AddTransient<ITwitchAPI, TwitchAPI>(sp =>
 				{
 					var api = new TwitchAPI(sp.GetRequiredService<ILoggerFactory>());

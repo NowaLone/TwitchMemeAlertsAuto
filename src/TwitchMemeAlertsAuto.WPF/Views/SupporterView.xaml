@@ -1,0 +1,69 @@
+﻿<UserControl
+    x:Class="TwitchMemeAlertsAuto.WPF.Views.SupporterView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:TwitchMemeAlertsAuto.WPF.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:TwitchMemeAlertsAuto.WPF.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:TwitchMemeAlertsAuto.WPF.Properties"
+    xmlns:vm="clr-namespace:TwitchMemeAlertsAuto.Core.ViewModels;assembly=TwitchMemeAlertsAuto.Core"
+    d:DataContext="{d:DesignInstance Type=vm:SupporterViewModel}"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:DateToRelativeConverter x:Key="DateToRelativeConverter" />
+        <converters:MemeAlertsSupporterAvatarToUriConverter x:Key="MemeAlertsSupporterAvatarToUriConverter" />
+    </UserControl.Resources>
+    <StackPanel>
+        <Border
+            Width="75"
+            Height="75"
+            Margin="4">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientStop Color="#FF7200CC" />
+                    <GradientStop Offset="1" Color="#FF3C0088" />
+                </LinearGradientBrush>
+            </Border.Background>
+            <Image
+                Width="50"
+                d:Source="/favicon-96x96.ico"
+                Source="{Binding Supporter.SupporterAvatar, Converter={StaticResource MemeAlertsSupporterAvatarToUriConverter}, Mode=OneWay}" />
+        </Border>
+        <TextBlock
+            d:Text="IAMTHESUPPORTER"
+            Text="{Binding Supporter.SupporterName}"
+            TextAlignment="Center"
+            TextWrapping="Wrap" />
+        <TextBlock
+            FontSize="10"
+            Foreground="Gray"
+            TextAlignment="Center"
+            TextWrapping="Wrap">
+            <Run Text="{x:Static properties:Resources.LastSupport}" />
+            <Run d:Text="31.01.2026" Text="{Binding Supporter.LastSupport, Converter={StaticResource DateToRelativeConverter}, ConverterParameter=dd.MM.yyyy, Mode=OneWay}" />
+        </TextBlock>
+        <TextBlock
+            FontSize="10"
+            Foreground="Gray"
+            TextAlignment="Center"
+            TextWrapping="Wrap">
+            <Run Text="{x:Static properties:Resources.Balance}" />
+            <Run d:Text="1337" Text="{Binding Supporter.Balance}" />
+        </TextBlock>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <TextBlock Margin="4" Text="{x:Static properties:Resources.Quantity}" />
+            <TextBox
+                Width="50"
+                Margin="4"
+                d:Text="10"
+                Text="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}" />
+            <Button
+                Margin="4"
+                Padding="8,0"
+                Command="{Binding RewardCommand}"
+                CommandParameter="{Binding Quantity}"
+                Content="{x:Static properties:Resources.RewardButton}" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

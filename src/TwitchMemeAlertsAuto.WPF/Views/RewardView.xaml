@@ -27,7 +27,7 @@
             TextAlignment="Center"
             TextWrapping="Wrap" />
         <StackPanel Orientation="Horizontal">
-            <TextBlock Margin="4" Text="{x:Static properties:Resources.CountLabel}" />
+            <TextBlock Margin="4" Text="{x:Static properties:Resources.Quantity}" />
             <TextBox
                 Width="50"
                 Margin="4"

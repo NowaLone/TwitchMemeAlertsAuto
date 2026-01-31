@@ -5,7 +5,9 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
+using TwitchLib.Api.Helix.Models.ChannelPoints;
 using TwitchLib.Api.Interfaces;
 using TwitchMemeAlertsAuto.Core.ViewModels.Messages;
 
@@ -33,7 +35,12 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			this.logger = logger;
 		}
 
-		public async Task LoadRewardsAsync(string token, string userId)
+		public async void Receive(TwitchConnectedMessage message)
+		{
+			await LoadRewardsAsync(message.Value.Token, message.Value.UserId).ConfigureAwait(false);
+		}
+
+		private async Task LoadRewardsAsync(string token, string userId)
 		{
 			IsLoading = true;
 			try
@@ -43,21 +50,16 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 					var twitchAPI = scope.ServiceProvider.GetRequiredService<ITwitchAPI>();
 					twitchAPI.Settings.AccessToken = token;
 					var response = await twitchAPI.Helix.ChannelPoints.GetCustomRewardAsync(userId);
-					var list = new List<RewardViewModel>();
-					if (response?.Data != null)
+					if (response?.Data != null && response.Data.Any())
 					{
+						Rewards.Clear();
 						foreach (var r in response.Data)
 						{
 							var item = serviceProvider.GetRequiredService<RewardViewModel>();
 							item.Reward = r;
 							item.IsActive = true;
-							list.Add(item);
+							Rewards.Add(item);
 						}
-					}
-					Rewards.Clear();
-					foreach (var reward in list)
-					{
-						Rewards.Add(reward);
 					}
 				}
 
@@ -71,11 +73,6 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			{
 				IsLoading = false;
 			}
-		}
-
-		public async void Receive(TwitchConnectedMessage message)
-		{
-			await LoadRewardsAsync(message.Value.Token, message.Value.UserId).ConfigureAwait(false);
 		}
 	}
 }

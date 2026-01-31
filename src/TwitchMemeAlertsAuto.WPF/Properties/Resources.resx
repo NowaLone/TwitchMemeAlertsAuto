@@ -141,8 +141,8 @@
   <data name="DayBeforeYesterday" xml:space="preserve">
     <value>Day before yesterday</value>
   </data>
-  <data name="CountLabel" xml:space="preserve">
-    <value>Count:</value>
+  <data name="Quantity" xml:space="preserve">
+    <value>Qty:</value>
   </data>
   <data name="SaveButton" xml:space="preserve">
     <value>Save</value>
@@ -179,5 +179,17 @@
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
     <value>Check For Updates</value>
+  </data>
+  <data name="LastSupport" xml:space="preserve">
+    <value>Rewarded last time:</value>
+  </data>
+  <data name="Supporters" xml:space="preserve">
+    <value>Supporters</value>
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value>Balance</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
   </data>
 </root>

@@ -21,6 +21,8 @@
             <ColumnDefinition />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -28,7 +30,7 @@
         </Grid.RowDefinitions>
         <views:MainMenuView
             Grid.Row="0"
-            Grid.ColumnSpan="4"
+            Grid.ColumnSpan="6"
             DataContext="{Binding MainMenuViewModel}" />
         <StackPanel Grid.Row="2" Grid.Column="0">
             <views:ConnectionView Margin="4,0,4,0" DataContext="{Binding ConnectionViewModel}" />
@@ -44,9 +46,19 @@
             Width="3"
             HorizontalAlignment="Center"
             VerticalAlignment="Stretch" />
-        <views:LogView
+        <views:SupportersView
             Grid.Row="1"
             Grid.Column="3"
+            DataContext="{Binding SupportersViewModel}" />
+        <GridSplitter
+            Grid.Row="1"
+            Grid.Column="4"
+            Width="3"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Stretch" />
+        <views:LogView
+            Grid.Row="1"
+            Grid.Column="5"
             DataContext="{Binding LogViewModel}" />
     </Grid>
 </Window>

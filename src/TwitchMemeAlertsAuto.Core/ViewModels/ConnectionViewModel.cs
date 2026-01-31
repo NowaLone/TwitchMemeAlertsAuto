@@ -137,6 +137,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 				if (!string.IsNullOrWhiteSpace(maToken) && await twitchMemeAlertsAutoService.CheckToken(maToken, cancellationToken))
 				{
 					dispatcherService.CallWithDispatcher(() => IsMemeAlertsConnected = true);
+					Messenger.Send(new MemealertsConnectedMessage(maToken));
 					await StartWork(cancellationToken).ConfigureAwait(false);
 				}
 				else
@@ -148,6 +149,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 						await settingsService.SetMemeAlertsTokenAsync(maToken, cancellationToken).ConfigureAwait(false);
 
 						dispatcherService.CallWithDispatcher(() => IsMemeAlertsConnected = true);
+						Messenger.Send(new MemealertsConnectedMessage(maToken));
 						await StartWork(cancellationToken).ConfigureAwait(false);
 					}
 					else
