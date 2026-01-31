@@ -8,7 +8,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 {
 	public partial class SupporterViewModel : ObservableRecipientWithQuantity
 	{
-		private readonly ITwitchMemeAlertsAutoService twitchMemeAlertsAutoService;
+		private readonly IMemeAlertsService twitchMemeAlertsAutoService;
 		private readonly ILogger logger;
 
 		[ObservableProperty]
@@ -19,7 +19,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		{
 		}
 
-		public SupporterViewModel(ITwitchMemeAlertsAutoService twitchMemeAlertsAutoService, ILogger<SupporterViewModel> logger) : this()
+		public SupporterViewModel(IMemeAlertsService twitchMemeAlertsAutoService, ILogger<SupporterViewModel> logger) : this()
 		{
 			this.twitchMemeAlertsAutoService = twitchMemeAlertsAutoService;
 			this.logger = logger;

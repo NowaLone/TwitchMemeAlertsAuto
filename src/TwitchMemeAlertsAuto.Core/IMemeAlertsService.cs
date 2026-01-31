@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace TwitchMemeAlertsAuto.Core
 {
-	public interface ITwitchMemeAlertsAutoService
+	public interface IMemeAlertsService
 	{
 		Task<bool> AddMemesAsync(Supporter supporter, int value, CancellationToken cancellationToken = default);
 

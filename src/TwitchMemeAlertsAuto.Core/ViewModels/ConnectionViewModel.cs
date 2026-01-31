@@ -19,7 +19,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		private readonly ISettingsService settingsService;
 		private readonly IRewardsService rewardsService;
 		private readonly ITwitchOAuthService twitchOAuthService;
-		private readonly ITwitchMemeAlertsAutoService twitchMemeAlertsAutoService;
+		private readonly IMemeAlertsService twitchMemeAlertsAutoService;
 		private readonly IDispatcherService dispatcherService;
 		private readonly IServiceProvider serviceProvider;
 		private readonly IDbContextFactory<TmaaDbContext> dbContextFactory;
@@ -31,7 +31,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		{
 		}
 
-		public ConnectionViewModel(ISettingsService settingsService, IRewardsService rewardsService, ITwitchOAuthService twitchOAuthService, ITwitchMemeAlertsAutoService twitchMemeAlertsAutoService, IDispatcherService dispatcherService, IServiceProvider serviceProvider, IDbContextFactory<TmaaDbContext> dbContextFactory, ILogger<ConnectionViewModel> logger) : this()
+		public ConnectionViewModel(ISettingsService settingsService, IRewardsService rewardsService, ITwitchOAuthService twitchOAuthService, IMemeAlertsService twitchMemeAlertsAutoService, IDispatcherService dispatcherService, IServiceProvider serviceProvider, IDbContextFactory<TmaaDbContext> dbContextFactory, ILogger<ConnectionViewModel> logger) : this()
 		{
 			this.settingsService = settingsService;
 			this.rewardsService = rewardsService;

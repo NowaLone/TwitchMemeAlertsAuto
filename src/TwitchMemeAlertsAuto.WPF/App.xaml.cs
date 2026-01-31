@@ -53,7 +53,7 @@ namespace TwitchMemeAlertsAuto.WPF
 				.AddSingleton<IDispatcherService, DispatcherService>()
 				.AddTransient<ISettingsService, SettingsService>()
 				.AddTransient<ITwitchOAuthService, TwitchOAuthService>()
-				.AddTransient<ITwitchMemeAlertsAutoService, TwitchMemeAlertsAutoService>()
+				.AddTransient<IMemeAlertsService, MemeAlertsService>()
 				.AddTransient<MainWindowViewModel>()
 				.AddTransient<RewardViewModel>()
 				.AddTransient<ConnectionViewModel>()

@@ -13,7 +13,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 {
 	public partial class AllRewardViewModel : ObservableRecipient, INotifyDataErrorInfo
 	{
-		private readonly ITwitchMemeAlertsAutoService twitchMemeAlertsAutoService;
+		private readonly IMemeAlertsService twitchMemeAlertsAutoService;
 		private readonly ILogger logger;
 		private readonly Dictionary<string, List<string>> errors;
 
@@ -26,7 +26,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			Count = "0";
 		}
 
-		public AllRewardViewModel(ITwitchMemeAlertsAutoService twitchMemeAlertsAutoService, ILogger<AllRewardViewModel> logger) : this()
+		public AllRewardViewModel(IMemeAlertsService twitchMemeAlertsAutoService, ILogger<AllRewardViewModel> logger) : this()
 		{
 			this.twitchMemeAlertsAutoService = twitchMemeAlertsAutoService;
 			this.logger = logger;

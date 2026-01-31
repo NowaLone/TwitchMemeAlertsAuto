@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace TwitchMemeAlertsAuto.Core
 {
-	public class TwitchMemeAlertsAutoService : ITwitchMemeAlertsAutoService
+	public class MemeAlertsService : IMemeAlertsService
 	{
 		private readonly ISettingsService settingsService;
 		private readonly ILogger logger;
@@ -18,13 +18,13 @@ namespace TwitchMemeAlertsAuto.Core
 		private string token;
 		private string streamerId;
 
-		public TwitchMemeAlertsAutoService(string token, ILogger<TwitchMemeAlertsAutoService> logger)
+		public MemeAlertsService(string token, ILogger<MemeAlertsService> logger)
 		{
 			this.token = token;
 			this.logger = logger;
 		}
 
-		public TwitchMemeAlertsAutoService(ISettingsService settingsService, ILogger<TwitchMemeAlertsAutoService> logger) : this(settingsService.GetMemeAlertsTokenAsync().GetAwaiter().GetResult(), logger)
+		public MemeAlertsService(ISettingsService settingsService, ILogger<MemeAlertsService> logger) : this(settingsService.GetMemeAlertsTokenAsync().GetAwaiter().GetResult(), logger)
 		{
 			this.settingsService = settingsService;
 		}

@@ -13,7 +13,7 @@ namespace TwitchMemeAlertsAuto.Core
 {
 	public class RewardsService : IRewardsService
 	{
-		private readonly ITwitchMemeAlertsAutoService twitchMemeAlertsAutoService;
+		private readonly IMemeAlertsService twitchMemeAlertsAutoService;
 		private readonly ITwitchClient twitchClient;
 		private readonly ILogger logger;
 
@@ -22,7 +22,7 @@ namespace TwitchMemeAlertsAuto.Core
 		private string channel;
 		private List<Supporter> data;
 
-		public RewardsService(ITwitchMemeAlertsAutoService twitchMemeAlertsAutoService, ITwitchClient twitchClient, ILogger<RewardsService> logger)
+		public RewardsService(IMemeAlertsService twitchMemeAlertsAutoService, ITwitchClient twitchClient, ILogger<RewardsService> logger)
 		{
 			this.twitchMemeAlertsAutoService = twitchMemeAlertsAutoService;
 			this.twitchClient = twitchClient;

@@ -14,7 +14,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 	{
 		private readonly IServiceProvider serviceProvider;
 		private readonly IDispatcherService dispatcherService;
-		private readonly ITwitchMemeAlertsAutoService twitchMemeAlertsAutoService;
+		private readonly IMemeAlertsService twitchMemeAlertsAutoService;
 		private readonly ILogger logger;
 
 		[ObservableProperty]
@@ -28,7 +28,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			supporters = new ObservableCollection<SupporterViewModel>();
 		}
 
-		public SupportersViewModel(IServiceProvider serviceProvider, IDispatcherService dispatcherService, ITwitchMemeAlertsAutoService twitchMemeAlertsAutoService, ILogger<SupportersViewModel> logger) : this()
+		public SupportersViewModel(IServiceProvider serviceProvider, IDispatcherService dispatcherService, IMemeAlertsService twitchMemeAlertsAutoService, ILogger<SupportersViewModel> logger) : this()
 		{
 			this.serviceProvider = serviceProvider;
 			this.dispatcherService = dispatcherService;

@@ -28,7 +28,7 @@ namespace TwitchMemeAlertsAuto.CLI
 			rootCommand.Add(tokenOption);
 			rootCommand.Add(rewardsOption);
 
-			rootCommand.SetAction((ParseResult parseResult, CancellationToken cancellationToken) => new RewardsService(new TwitchMemeAlertsAutoService(parseResult.GetValue(tokenOption),GetLogger<TwitchMemeAlertsAutoService>()),
+			rootCommand.SetAction((ParseResult parseResult, CancellationToken cancellationToken) => new RewardsService(new MemeAlertsService(parseResult.GetValue(tokenOption),GetLogger<MemeAlertsService>()),
 				new TwitchClient(new IrcClientWebSocket(new IrcClientWebSocket.Options() { Uri = new Uri(TwitchClient.Options.wssUrlSSL) }, GetLogger<IrcClientWebSocket>()), new TwitchParser(), new OptionsMonitor<TwitchClient.Options>(new OptionsFactory<TwitchClient.Options>([], []), [], new OptionsCache<TwitchClient.Options>()), GetLogger<TwitchClient>()), GetLogger<RewardsService>()).StartAsync(parseResult.GetValue(rewardsOption).Split(',').ToDictionary(d => d.Split(':')[0], d => int.Parse(d.Split(":")[1])), parseResult.GetValue(channelOption), cancellationToken));
 
 			try
