@@ -103,6 +103,27 @@ namespace TwitchMemeAlertsAuto.Core
 			return (await responseMessage.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false)).Equals(bool.TrueString, StringComparison.OrdinalIgnoreCase);
 		}
 
+		public async Task<List<Event>> GetEventsAsync(CancellationToken cancellationToken = default)
+		{
+			using var memeAlertsClient = GetHttpClient();
+
+			var supporters = new List<Event>();
+			for (int limit = 100, total = 100, skip = 0; limit > 0 && limit + skip <= total; skip += limit, limit = total - skip)
+			{
+				using var request = new HttpRequestMessage(HttpMethod.Post, "https://memealerts.com/api/event/period");
+				request.Content = new StringContent($"{{\"period\":30,\"skip\":{skip},\"limit\":{limit},\"filters\":[2,3,4],\"date\":null}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json));
+
+				using var responseMessage = await memeAlertsClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+				responseMessage.EnsureSuccessStatusCode();
+				var response = await JsonSerializer.DeserializeAsync(responseMessage.Content.ReadAsStream(cancellationToken), SerializationModeOptionsContext.Default.Events, cancellationToken).ConfigureAwait(false);
+				supporters.AddRange(response.Data);
+				total = response.Total;
+			}
+
+
+			return supporters;
+		}
+
 		private HttpClient GetHttpClient(string token)
 		{
 			if (string.IsNullOrWhiteSpace(token) && settingsService != null)

@@ -13,5 +13,6 @@ namespace TwitchMemeAlertsAuto.Core
 		Task<Current> GetCurrent(CancellationToken cancellationToken = default);
 
 		Task<bool> GiveBonusAsync(Supporter supporter, int value, CancellationToken cancellationToken = default);
+		Task<List<Event>> GetEventsAsync(CancellationToken cancellationToken = default);
 	}
 }
