@@ -70,6 +70,15 @@ namespace TwitchMemeAlertsAuto.WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start on login.
+        /// </summary>
+        public static string AddWinStartup {
+            get {
+                return ResourceManager.GetString("AddWinStartup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Balance:.
         /// </summary>
         public static string Balance {

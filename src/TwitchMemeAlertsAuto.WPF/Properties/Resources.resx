@@ -219,4 +219,7 @@
   <data name="RefreshTooltip" xml:space="preserve">
     <value>Refresh</value>
   </data>
+  <data name="AddWinStartup" xml:space="preserve">
+    <value>Start on login</value>
+  </data>
 </root>

@@ -219,4 +219,7 @@
   <data name="SearchForLogsTooltip" xml:space="preserve">
     <value>Полнотекстовый поиск по логам</value>
   </data>
+  <data name="AddWinStartup" xml:space="preserve">
+    <value>Запускать при входе в систему</value>
+  </data>
 </root>
