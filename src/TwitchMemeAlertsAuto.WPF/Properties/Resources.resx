@@ -159,8 +159,8 @@
   <data name="AboutMenu" xml:space="preserve">
     <value>About</value>
   </data>
-  <data name="AllRewardLabel" xml:space="preserve">
-    <value>Reward all supporters</value>
+  <data name="RewardAll" xml:space="preserve">
+    <value>Reward all</value>
   </data>
   <data name="RewardButton" xml:space="preserve">
     <value>Reward</value>
@@ -191,5 +191,20 @@
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>Unknown</value>
+  </data>
+  <data name="MassReward" xml:space="preserve">
+    <value>Mass Reward</value>
+  </data>
+  <data name="RewardLast" xml:space="preserve">
+    <value>Reward last</value>
+  </data>
+  <data name="WhoSent" xml:space="preserve">
+    <value>who sent memes</value>
+  </data>
+  <data name="WhoReceived" xml:space="preserve">
+    <value>who received reward</value>
+  </data>
+  <data name="Memes" xml:space="preserve">
+    <value>memes</value>
   </data>
 </root>

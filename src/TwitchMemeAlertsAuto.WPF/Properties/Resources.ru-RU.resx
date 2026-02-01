@@ -150,8 +150,8 @@
   <data name="AboutMenu" xml:space="preserve">
     <value>О программе</value>
   </data>
-  <data name="AllRewardLabel" xml:space="preserve">
-    <value>Наградить всех саппортёров</value>
+  <data name="RewardAll" xml:space="preserve">
+    <value>Наградить всех</value>
   </data>
   <data name="RewardButton" xml:space="preserve">
     <value>Наградить</value>
@@ -191,5 +191,20 @@
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>Неизвестно</value>
+  </data>
+  <data name="MassReward" xml:space="preserve">
+    <value>Массовое награждение</value>
+  </data>
+  <data name="RewardLast" xml:space="preserve">
+    <value>Наградить последних</value>
+  </data>
+  <data name="WhoSent" xml:space="preserve">
+    <value>кто отправлял мемы</value>
+  </data>
+  <data name="WhoReceived" xml:space="preserve">
+    <value>кто получал награду</value>
+  </data>
+  <data name="Memes" xml:space="preserve">
+    <value>мемов</value>
   </data>
 </root>

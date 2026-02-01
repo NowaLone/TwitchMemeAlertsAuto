@@ -70,15 +70,6 @@ namespace TwitchMemeAlertsAuto.WPF.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reward all supporters.
-        /// </summary>
-        public static string AllRewardLabel {
-            get {
-                return ResourceManager.GetString("AllRewardLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Balance.
         /// </summary>
         public static string Balance {
@@ -205,6 +196,24 @@ namespace TwitchMemeAlertsAuto.WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mass Reward.
+        /// </summary>
+        public static string MassReward {
+            get {
+                return ResourceManager.GetString("MassReward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to memes.
+        /// </summary>
+        public static string Memes {
+            get {
+                return ResourceManager.GetString("Memes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Qty:.
         /// </summary>
         public static string Quantity {
@@ -214,11 +223,29 @@ namespace TwitchMemeAlertsAuto.WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reward all.
+        /// </summary>
+        public static string RewardAll {
+            get {
+                return ResourceManager.GetString("RewardAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reward.
         /// </summary>
         public static string RewardButton {
             get {
                 return ResourceManager.GetString("RewardButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reward last.
+        /// </summary>
+        public static string RewardLast {
+            get {
+                return ResourceManager.GetString("RewardLast", resourceCulture);
             }
         }
         
@@ -273,6 +300,24 @@ namespace TwitchMemeAlertsAuto.WPF.Properties {
         public static string Unknown {
             get {
                 return ResourceManager.GetString("Unknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to who received reward.
+        /// </summary>
+        public static string WhoReceived {
+            get {
+                return ResourceManager.GetString("WhoReceived", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to who sent memes.
+        /// </summary>
+        public static string WhoSent {
+            get {
+                return ResourceManager.GetString("WhoSent", resourceCulture);
             }
         }
         

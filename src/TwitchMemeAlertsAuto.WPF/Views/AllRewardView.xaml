@@ -9,20 +9,74 @@
     xmlns:vm="clr-namespace:TwitchMemeAlertsAuto.Core.ViewModels;assembly=TwitchMemeAlertsAuto.Core"
     d:DataContext="{d:DesignInstance Type=vm:AllRewardViewModel}"
     mc:Ignorable="d">
-    <GroupBox Header="{x:Static properties:Resources.AllRewardLabel}">
-        <StackPanel Orientation="Horizontal">
-            <TextBox
-                x:Name="CountTextBox"
-                Width="50"
-                Margin="4"
-                d:Text="10"
-                Text="{Binding Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}" />
+    <GroupBox Header="{x:Static properties:Resources.MassReward}">
+        <Grid IsEnabled="{Binding IsConnected}">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <StackPanel
+                Grid.Row="0"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <TextBlock Margin="4" TextAlignment="Center">
+                    <Run BaselineAlignment="Top" Text="{x:Static properties:Resources.Quantity}" />
+                    <TextBox
+                        x:Name="CountTextBox"
+                        Width="35"
+                        d:Text="1000"
+                        Text="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}" />
+                    <Run BaselineAlignment="Top" Text="{x:Static properties:Resources.Memes}" />
+                </TextBlock>
+            </StackPanel>
             <Button
-                Margin="4"
-                Padding="8,0"
-                Command="{Binding RewardCommand}"
-                CommandParameter="{Binding Count}"
-                Content="{x:Static properties:Resources.RewardButton}" />
-        </StackPanel>
+                Grid.Row="1"
+                Width="120"
+                Margin="4,4,4,0"
+                Padding="8"
+                Command="{Binding RewardAllCommand}"
+                Content="{x:Static properties:Resources.RewardAll}" />
+            <StackPanel Grid.Row="2" Margin="4,8,4,0">
+                <TextBlock TextAlignment="Center" TextWrapping="Wrap">
+                    <Run BaselineAlignment="Top" Text="{x:Static properties:Resources.RewardLast}" />
+                    <TextBox
+                        x:Name="WhoSentTextBox"
+                        Width="30"
+                        d:Text="10"
+                        Text="{Binding WhoSentCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        TextAlignment="Center" />
+                    <LineBreak />
+                    <Run Text="{x:Static properties:Resources.WhoSent}" />
+                </TextBlock>
+                <Button
+                    Width="120"
+                    Margin="0,4,0,0"
+                    Padding="8"
+                    Command="{Binding RewardWhoSentCommand}"
+                    CommandParameter="{Binding ElementName=WhoSentTextBox, Path=Text}"
+                    Content="{x:Static properties:Resources.RewardButton}" />
+            </StackPanel>
+            <StackPanel Grid.Row="3" Margin="4,8,4,0">
+                <TextBlock TextAlignment="Center" TextWrapping="Wrap">
+                    <Run BaselineAlignment="Top" Text="{x:Static properties:Resources.RewardLast}" />
+                    <TextBox
+                        x:Name="WhoReceivedTextBox"
+                        Width="30"
+                        d:Text="10"
+                        Text="{Binding WhoReceivedCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <LineBreak />
+                    <Run Text="{x:Static properties:Resources.WhoReceived}" />
+                </TextBlock>
+                <Button
+                    Width="120"
+                    Margin="0,4,0,0"
+                    Padding="8"
+                    Command="{Binding RewardWhoReceivedCommand}"
+                    CommandParameter="{Binding ElementName=WhoReceivedTextBox, Path=Text}"
+                    Content="{x:Static properties:Resources.RewardButton}" />
+            </StackPanel>
+        </Grid>
     </GroupBox>
 </UserControl>
