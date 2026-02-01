@@ -1,10 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using TwitchMemeAlertsAuto.Core.ViewModels.Messages;
 
@@ -39,6 +41,17 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		public async void Receive(MemealertsConnectedMessage message)
 		{
 			await LoadSupportersAsync().ConfigureAwait(false);
+		}
+
+		[RelayCommand(CanExecute = nameof(CanRefresh))]
+		private Task RefreshAsync(object parameter, CancellationToken cancellationToken = default)
+		{
+			return LoadSupportersAsync();
+		}
+
+		private bool CanRefresh(object parameter)
+		{
+			return !IsLoading;
 		}
 
 		private async Task LoadSupportersAsync()

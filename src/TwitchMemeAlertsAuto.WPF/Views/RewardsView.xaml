@@ -47,7 +47,18 @@
             Visibility="{Binding Rewards, Converter={StaticResource CollectionToVisibilityConverter}}">
             <TextBox x:Name="FilterTextBox" TextChanged="FilterTextBox_TextChanged" />
         </GroupBox>
-        <GroupBox Grid.Row="1" Header="{x:Static properties:Resources.RewardsHeader}">
+        <GroupBox Grid.Row="1">
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{x:Static properties:Resources.RewardsHeader}" />
+                    <Button
+                        Margin="4,0,0,0"
+                        Padding="0"
+                        BorderThickness="0"
+                        Command="{Binding RefreshCommand}"
+                        Content="🔃" />
+                </StackPanel>
+            </GroupBox.Header>
             <Grid>
                 <ScrollViewer>
                     <ItemsControl
