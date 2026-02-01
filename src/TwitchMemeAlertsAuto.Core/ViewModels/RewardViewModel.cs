@@ -78,7 +78,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		private async Task Save(string parameter, CancellationToken cancellationToken = default)
 		{
 			await settingsService.SetSettingAsync($"Reward:{Reward.Id}", parameter, cancellationToken).ConfigureAwait(false);
-			Messenger.Send(new RewardChangedMessage(Reward.Id));
+			Messenger.Send(new SettingsChangedMessage(Reward.Id));
 		}
 
 		private bool CanSave(string parameter)

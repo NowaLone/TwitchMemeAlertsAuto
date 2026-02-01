@@ -96,7 +96,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		private async Task SetTryRewardWithWrongNickname(CancellationToken cancellationToken = default)
 		{
 			await settingsService.SetTryRewardWithWrongNicknameOptionAsync(TryRewardWithWrongNickname, cancellationToken).ConfigureAwait(false);
-			Messenger.Send(new RewardChangedMessage(default));
+			Messenger.Send(new SettingsChangedMessage(nameof(settingsService.GetTryRewardWithWrongNicknameOptionAsync)));
 		}
 	}
 }

@@ -14,7 +14,7 @@ using TwitchMemeAlertsAuto.Core.ViewModels.Messages;
 
 namespace TwitchMemeAlertsAuto.Core.ViewModels
 {
-	public partial class ConnectionViewModel : ObservableRecipient, IRecipient<RewardChangedMessage>
+	public partial class ConnectionViewModel : ObservableRecipient, IRecipient<SettingsChangedMessage>
 	{
 		private readonly ISettingsService settingsService;
 		private readonly IRewardsService rewardsService;
@@ -57,7 +57,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		[ObservableProperty]
 		private bool isCheckingMemeAlerts;
 
-		public async void Receive(RewardChangedMessage message)
+		public async void Receive(SettingsChangedMessage message)
 		{
 			if (IsTwitchConnected && IsMemeAlertsConnected)
 			{
