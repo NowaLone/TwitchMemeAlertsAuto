@@ -21,6 +21,7 @@ using TwitchMemeAlertsAuto.Core;
 using TwitchMemeAlertsAuto.Core.Logging;
 using TwitchMemeAlertsAuto.Core.ViewModels;
 using TwitchMemeAlertsAuto.WPF.Services;
+using NotifyIcon = System.Windows.Forms.NotifyIcon;
 
 namespace TwitchMemeAlertsAuto.WPF
 {
@@ -88,7 +89,6 @@ namespace TwitchMemeAlertsAuto.WPF
 					{
 						var settingsService = sp.GetRequiredService<ISettingsService>();
 						client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await settingsService.GetMemeAlertsTokenAsync().ConfigureAwait(false));
-
 					}
 				});
 
@@ -107,7 +107,13 @@ namespace TwitchMemeAlertsAuto.WPF
 			};
 
 			MainWindow = mainWindow;
-			mainWindow.Show();
+
+			if (!e.Args.Contains("--silent"))
+			{
+				mainWindow.Show();
+			}
+
+			ShowTray();
 
 			using (var scope = host.Services.CreateAsyncScope())
 			{
@@ -120,6 +126,31 @@ namespace TwitchMemeAlertsAuto.WPF
 			mainWindowViewModel.IsActive = true;
 
 			await host.StartAsync();
+		}
+
+		private void ShowTray()
+		{
+			var contextMenuStrip = new System.Windows.Forms.ContextMenuStrip();
+			contextMenuStrip.Items.Add(TwitchMemeAlertsAuto.WPF.Properties.Resources.ExitMenu, null, (s, e) => Application.Current.Shutdown());
+			var icon = new NotifyIcon
+			{
+				Icon = new System.Drawing.Icon(Application.GetResourceStream(new Uri("pack://application:,,,/favicon-96x96.ico")).Stream),
+				Visible = true,
+				Text = MainWindow.Title,
+				ContextMenuStrip = contextMenuStrip
+			};
+
+			icon.DoubleClick += (s, e) =>
+			{
+				if (Current.MainWindow.IsVisible)
+				{
+					Current.MainWindow.Hide();
+				}
+				else
+				{
+					Current.MainWindow.Show();
+				}
+			};
 		}
 
 		private async void Application_Exit(object sender, ExitEventArgs e)

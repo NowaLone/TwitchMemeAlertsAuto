@@ -6,6 +6,7 @@
 		<AssemblyName>tmaa</AssemblyName>
 		<ApplicationIcon>..\..\favicon-96x96.ico</ApplicationIcon>
 		<UseWPF>true</UseWPF>
+		<UseWindowsForms>true</UseWindowsForms>
 	</PropertyGroup>
 
 	<ItemGroup>
