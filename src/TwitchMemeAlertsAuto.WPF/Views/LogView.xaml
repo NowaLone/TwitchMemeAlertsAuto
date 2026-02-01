@@ -69,8 +69,8 @@
                     </ItemsControl.GroupStyle>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="core:History">
-                            <TextBlock>
-                                <Run Text="{Binding Timestamp, StringFormat=HH:mm}" />
+                            <TextBlock TextWrapping="Wrap">
+                                <Run FontWeight="Medium" Text="{Binding Timestamp, StringFormat=HH:mm}" />
                                 <Run Text="{Binding Message}" />
                             </TextBlock>
                         </DataTemplate>
