@@ -32,7 +32,8 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		[RelayCommand]
 		private void CheckForUpdates()
 		{
-			Process.Start(new ProcessStartInfo("https://github.com/NowaLone/TwitchMemeAlertsAuto/releases") { UseShellExecute = true });
+			dispatcherService.CheckForUpdates();
+			//Process.Start(new ProcessStartInfo("https://github.com/NowaLone/TwitchMemeAlertsAuto/releases") { UseShellExecute = true });
 		}
 	}
 }

@@ -9,6 +9,7 @@ namespace TwitchMemeAlertsAuto.Core
 		void CallWithDispatcher(Action action);
 		TResult CallWithDispatcher<TResult>(Func<TResult> action);
 		System.Threading.Tasks.Task<TResult> CallWithDispatcherAsync<TResult>(Func<TResult> action);
+		void CheckForUpdates();
 		void ShowMessage(string message);
 		void Shutdown();
 	}

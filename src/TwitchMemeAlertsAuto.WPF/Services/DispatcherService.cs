@@ -1,3 +1,4 @@
+using AutoUpdaterDotNET;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 using System;
@@ -83,7 +84,6 @@ namespace TwitchMemeAlertsAuto.WPF.Services
 			while (value != 1 && !isClosed);
 			window.Closed -= closedEvent;
 
-
 			return stringResult;
 		}
 
@@ -95,6 +95,15 @@ namespace TwitchMemeAlertsAuto.WPF.Services
 		public void ShowMessage(string message)
 		{
 			MessageBox.Show(message);
+		}
+
+		public void CheckForUpdates()
+		{
+#if DEBUG
+			AutoUpdater.InstalledVersion = new Version("1.2");
+#endif
+			AutoUpdater.SetOwner(Application.Current.MainWindow);
+			AutoUpdater.Start("https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/latest/download/AutoUpdater.xml");
 		}
 	}
 }
