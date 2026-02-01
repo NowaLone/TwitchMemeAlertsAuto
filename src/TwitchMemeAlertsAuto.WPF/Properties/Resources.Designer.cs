@@ -70,7 +70,7 @@ namespace TwitchMemeAlertsAuto.WPF.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Balance.
+        ///   Looks up a localized string similar to Balance:.
         /// </summary>
         public static string Balance {
             get {
@@ -117,18 +117,18 @@ namespace TwitchMemeAlertsAuto.WPF.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Connect to MemeAlerts.
         /// </summary>
-        public static string ConnectMemeAlerts {
+        public static string ConnectMemeAlertsTooltip {
             get {
-                return ResourceManager.GetString("ConnectMemeAlerts", resourceCulture);
+                return ResourceManager.GetString("ConnectMemeAlertsTooltip", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Connect to Twitch.
         /// </summary>
-        public static string ConnectTwitch {
+        public static string ConnectTwitchTooltip {
             get {
-                return ResourceManager.GetString("ConnectTwitch", resourceCulture);
+                return ResourceManager.GetString("ConnectTwitchTooltip", resourceCulture);
             }
         }
         
@@ -223,6 +223,15 @@ namespace TwitchMemeAlertsAuto.WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Refresh.
+        /// </summary>
+        public static string RefreshTooltip {
+            get {
+                return ResourceManager.GetString("RefreshTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reward all.
         /// </summary>
         public static string RewardAll {
@@ -273,6 +282,33 @@ namespace TwitchMemeAlertsAuto.WPF.Properties {
         public static string Search {
             get {
                 return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Full-text search for logs.
+        /// </summary>
+        public static string SearchForLogsTooltip {
+            get {
+                return ResourceManager.GetString("SearchForLogsTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Full-text search for rewards.
+        /// </summary>
+        public static string SearchForRewardsTooltip {
+            get {
+                return ResourceManager.GetString("SearchForRewardsTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Full-text search for supporters.
+        /// </summary>
+        public static string SearchForSupportersTooltip {
+            get {
+                return ResourceManager.GetString("SearchForSupportersTooltip", resourceCulture);
             }
         }
         

@@ -14,11 +14,11 @@
             Width="75"
             Height="75"
             Margin="4"
-            d:Background="Red"
+            d:Background="Lavender"
             Background="{Binding Reward.BackgroundColor}">
             <Image
                 Width="50"
-                d:Source="/favicon-96x96.ico"
+                d:Source="/glitch_flat_purple.ico"
                 Source="{Binding Reward.Image.Url4x, Mode=OneWay}" />
         </Border>
         <TextBlock

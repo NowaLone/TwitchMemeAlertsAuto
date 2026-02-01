@@ -45,7 +45,10 @@
             Grid.Row="0"
             Header="{x:Static properties:Resources.Search}"
             Visibility="{Binding Rewards, Converter={StaticResource CollectionToVisibilityConverter}}">
-            <TextBox x:Name="FilterTextBox" TextChanged="FilterTextBox_TextChanged" />
+            <TextBox
+                x:Name="FilterTextBox"
+                TextChanged="FilterTextBox_TextChanged"
+                ToolTip="{x:Static properties:Resources.SearchForRewardsTooltip}" />
         </GroupBox>
         <GroupBox Grid.Row="1">
             <GroupBox.Header>
@@ -56,7 +59,8 @@
                         Padding="0"
                         BorderThickness="0"
                         Command="{Binding RefreshCommand}"
-                        Content="🔃" />
+                        Content="🔃"
+                        ToolTip="{x:Static properties:Resources.RefreshTooltip}" />
                 </StackPanel>
             </GroupBox.Header>
             <Grid>

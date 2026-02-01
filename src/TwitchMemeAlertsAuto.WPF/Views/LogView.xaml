@@ -45,7 +45,10 @@
             Grid.Row="0"
             Header="{x:Static properties:Resources.Search}"
             Visibility="{Binding Log, Converter={StaticResource CollectionToVisibilityConverter}}">
-            <TextBox x:Name="FilterTextBox" TextChanged="FilterTextBox_TextChanged" />
+            <TextBox
+                x:Name="FilterTextBox"
+                TextChanged="FilterTextBox_TextChanged"
+                ToolTip="{x:Static properties:Resources.SearchForLogsTooltip}" />
         </GroupBox>
         <GroupBox Grid.Row="1" Header="{x:Static properties:Resources.LogHeader}">
             <ScrollViewer x:Name="LogScrollViewer">

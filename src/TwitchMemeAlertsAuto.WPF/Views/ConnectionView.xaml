@@ -17,7 +17,8 @@
                 Width="120"
                 Margin="4,4,4,0"
                 Padding="8"
-                Command="{Binding ConnectTwitchCommand}">
+                Command="{Binding ConnectTwitchCommand}"
+                ToolTip="{x:Static properties:Resources.ConnectTwitchTooltip}">
                 <StackPanel Orientation="Horizontal">
                     <Image
                         Width="16"
@@ -46,7 +47,8 @@
                 Width="120"
                 Margin="4,8,4,0"
                 Padding="8"
-                Command="{Binding ConnectMemeAlertsCommand}">
+                Command="{Binding ConnectMemeAlertsCommand}"
+                ToolTip="{x:Static properties:Resources.ConnectMemeAlertsTooltip}">
                 <StackPanel Orientation="Horizontal">
                     <Image
                         Width="16"

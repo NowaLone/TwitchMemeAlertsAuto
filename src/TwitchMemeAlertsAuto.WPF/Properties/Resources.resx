@@ -120,10 +120,10 @@
   <data name="MainWindowTitle" xml:space="preserve">
     <value>tmaa</value>
   </data>
-  <data name="ConnectTwitch" xml:space="preserve">
+  <data name="ConnectTwitchTooltip" xml:space="preserve">
     <value>Connect to Twitch</value>
   </data>
-  <data name="ConnectMemeAlerts" xml:space="preserve">
+  <data name="ConnectMemeAlertsTooltip" xml:space="preserve">
     <value>Connect to MemeAlerts</value>
   </data>
   <data name="RewardsHeader" xml:space="preserve">
@@ -187,7 +187,7 @@
     <value>Supporters</value>
   </data>
   <data name="Balance" xml:space="preserve">
-    <value>Balance</value>
+    <value>Balance:</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>Unknown</value>
@@ -206,5 +206,17 @@
   </data>
   <data name="Memes" xml:space="preserve">
     <value>memes</value>
+  </data>
+  <data name="SearchForRewardsTooltip" xml:space="preserve">
+    <value>Full-text search for rewards</value>
+  </data>
+  <data name="SearchForSupportersTooltip" xml:space="preserve">
+    <value>Full-text search for supporters</value>
+  </data>
+  <data name="SearchForLogsTooltip" xml:space="preserve">
+    <value>Full-text search for logs</value>
+  </data>
+  <data name="RefreshTooltip" xml:space="preserve">
+    <value>Refresh</value>
   </data>
 </root>
