@@ -29,5 +29,7 @@ namespace TwitchMemeAlertsAuto.Core
 		Task SetTwitchUserIdAsync(string userId, CancellationToken cancellationToken = default);
 
 		Task SetMemeAlertsTokenAsync(string token, CancellationToken cancellationToken = default);
+		Task<bool> GetTryRewardWithWrongNicknameOptionAsync(CancellationToken cancellationToken = default);
+		Task SetTryRewardWithWrongNicknameOptionAsync(bool option, CancellationToken cancellationToken = default);
 	}
 }

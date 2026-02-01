@@ -20,6 +20,7 @@ namespace TwitchMemeAlertsAuto.Core
 		private CancellationToken cancellationToken;
 		private IDictionary<string, int> rewards;
 		private string channel;
+		private bool tryRewardWithWrongNickname;
 		private List<Supporter> data;
 
 		public RewardsService(IMemeAlertsService twitchMemeAlertsAutoService, ITwitchClient twitchClient, ILogger<RewardsService> logger)
@@ -29,11 +30,12 @@ namespace TwitchMemeAlertsAuto.Core
 			this.logger = logger;
 		}
 
-		public async Task StartAsync(IDictionary<string, int> rewards, string channel, CancellationToken cancellationToken = default)
+		public async Task StartAsync(IDictionary<string, int> rewards, string channel, bool tryRewardWithWrongNickname = false, CancellationToken cancellationToken = default)
 		{
 			this.cancellationToken = cancellationToken;
 			this.rewards = rewards;
 			this.channel = channel;
+			this.tryRewardWithWrongNickname = tryRewardWithWrongNickname;
 
 			data = await twitchMemeAlertsAutoService.GetSupportersAsync(cancellationToken).ConfigureAwait(false);
 
@@ -71,6 +73,13 @@ namespace TwitchMemeAlertsAuto.Core
 					{
 						data = await twitchMemeAlertsAutoService.GetSupportersAsync(cancellationToken).ConfigureAwait(false);
 						dataItem = data.FirstOrDefault(d => d.SupporterName.Equals(username, StringComparison.OrdinalIgnoreCase));
+
+						if(dataItem == default && tryRewardWithWrongNickname)
+						{
+							logger.LogWarning(EventIds.NotFound, "Саппортёр {username} не найден, попытка наградить по нику с твича", username);
+							username = ircV3Message.Prefix.Nick;
+							dataItem = data.FirstOrDefault(d => d.SupporterName.Equals(username, StringComparison.OrdinalIgnoreCase));
+						}
 					}
 
 					if (dataItem != default)

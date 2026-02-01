@@ -222,4 +222,7 @@
   <data name="AddWinStartup" xml:space="preserve">
     <value>Запускать при входе в систему</value>
   </data>
+  <data name="TryRewardWithWrongNickname" xml:space="preserve">
+    <value>Пытаться награждать по нику на Twitch</value>
+  </data>
 </root>

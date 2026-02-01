@@ -17,6 +17,12 @@
                 Header="{x:Static properties:Resources.AddWinStartup}"
                 IsCheckable="True"
                 IsChecked="{Binding IsStartup}" />
+            <MenuItem
+                Command="{Binding SetTryRewardWithWrongNicknameCommand}"
+                Header="{x:Static properties:Resources.TryRewardWithWrongNickname}"
+                IsCheckable="True"
+                IsChecked="{Binding TryRewardWithWrongNickname}" />
+            <Separator />
             <MenuItem Command="{Binding ExitCommand}" Header="{x:Static properties:Resources.ExitMenu}" />
         </MenuItem>
         <MenuItem Header="{x:Static properties:Resources.HelpMenu}">

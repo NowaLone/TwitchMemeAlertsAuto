@@ -340,6 +340,15 @@ namespace TwitchMemeAlertsAuto.WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Trying to reward by nickname on Twitch.
+        /// </summary>
+        public static string TryRewardWithWrongNickname {
+            get {
+                return ResourceManager.GetString("TryRewardWithWrongNickname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unknown.
         /// </summary>
         public static string Unknown {

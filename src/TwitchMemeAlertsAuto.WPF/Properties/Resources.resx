@@ -222,4 +222,7 @@
   <data name="AddWinStartup" xml:space="preserve">
     <value>Start on login</value>
   </data>
+  <data name="TryRewardWithWrongNickname" xml:space="preserve">
+    <value>Trying to reward by nickname on Twitch</value>
+  </data>
 </root>

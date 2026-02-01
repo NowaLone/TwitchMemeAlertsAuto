@@ -26,6 +26,7 @@ namespace TwitchMemeAlertsAuto.CLI
 			var channelOption = new Option<string>("--channel", "-c") { Description = "Название канала с которого считывать заказы.", Required = true };
 			var tokenOption = new Option<string>("--token", "-t") { Description = "Токен для работы с memealerts.", Required = true };
 			var rewardsOption = new Option<string>("--rewards", "-r") { Description = "id наград и их ценность в формате id1:value1,id2:value2...", Required = true };
+			var tryRewardWithWrongNicknameOption = new Option<bool>("--try-reward-with-wrong-nickname", "-w") { Description = "Делать попытку наградить по нику твича если не получилось найти по введённым данным", Required = false };
 
 			rootCommand.Add(channelOption);
 			rootCommand.Add(tokenOption);
@@ -36,7 +37,7 @@ namespace TwitchMemeAlertsAuto.CLI
 				MemeAlertsService twitchMemeAlertsAutoService = new(new HttpClientFactory(parseResult.GetValue(tokenOption)), GetLogger<MemeAlertsService>());
 				TwitchClient twitchClient = new(new IrcClientWebSocket(new IrcClientWebSocket.Options() { Uri = new Uri(TwitchClient.Options.wssUrlSSL) }, GetLogger<IrcClientWebSocket>()), new TwitchParser(), new OptionsMonitor<TwitchClient.Options>(new OptionsFactory<TwitchClient.Options>([], []), [], new OptionsCache<TwitchClient.Options>()), GetLogger<TwitchClient>());
 				RewardsService rewardsService = new(twitchMemeAlertsAutoService, twitchClient, GetLogger<RewardsService>());
-				await rewardsService.StartAsync(parseResult.GetValue(rewardsOption).Split(',').ToDictionary(d => d.Split(':')[0], d => int.Parse(d.Split(":")[1])), parseResult.GetValue(channelOption), cancellationToken).ConfigureAwait(false);
+				await rewardsService.StartAsync(parseResult.GetValue(rewardsOption).Split(',').ToDictionary(d => d.Split(':')[0], d => int.Parse(d.Split(":")[1])), parseResult.GetValue(channelOption), parseResult.GetValue(tryRewardWithWrongNicknameOption), cancellationToken: cancellationToken).ConfigureAwait(false);
 				await Task.Delay(-1, cancellationToken).ConfigureAwait(false);
 			});
 

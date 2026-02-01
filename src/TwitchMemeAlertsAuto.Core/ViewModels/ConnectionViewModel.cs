@@ -188,6 +188,8 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			}
 
 			var userId = await settingsService.GetTwitchUserIdAsync(cancellationToken).ConfigureAwait(false);
+			var tryRewardWithWrongNickname = await settingsService.GetTryRewardWithWrongNicknameOptionAsync(cancellationToken).ConfigureAwait(false);
+
 			string broadcasterLogin = null;
 			IDictionary<string, int> rewards = null;
 
@@ -205,7 +207,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 
 			cancellationTokenSource = new CancellationTokenSource();
 
-			await rewardsService.StartAsync(rewards, broadcasterLogin, cancellationTokenSource.Token).ConfigureAwait(false);
+			await rewardsService.StartAsync(rewards, broadcasterLogin, tryRewardWithWrongNickname, cancellationToken: cancellationTokenSource.Token).ConfigureAwait(false);
 		}
 	}
 }
