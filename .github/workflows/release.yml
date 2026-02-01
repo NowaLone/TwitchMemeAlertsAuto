@@ -46,7 +46,14 @@ jobs:
         run: dotnet publish src/TwitchMemeAlertsAuto.CLI/TwitchMemeAlertsAuto.CLI.csproj --configuration Release --runtime win-x64 --self-contained true /p:PublishDir=.\publish-cli\ /p:PublishSingleFile=true /p:PublishReadyToRun=true /p:IncludeNativeLibrariesForSelfExtract=true
 
       - name: Publish AutoUpdater.xml
-        run: echo "<?xml version="1.0" encoding="UTF-8"?><item><version>${{ github.ref_name }}.0</version><url>https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/latest/download/tmaa-wpf.zip</url><changelog>https://github.com/NowaLone/TwitchMemeAlertsAuto/releases</changelog><mandatory>false</mandatory></item>" | Out-File -FilePath src\TwitchMemeAlertsAuto.WPF\publish-wpf\AutoUpdater.xml
+        run: |
+          echo "<?xml version=""1.0"" encoding=""UTF-8""?>
+          <item>
+          <version>$env:GitVersion_AssemblySemVer</version>
+          <url>https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/latest/download/tmaa-wpf.zip</url>
+          <changelog>https://github.com/NowaLone/TwitchMemeAlertsAuto/releases</changelog>
+          <mandatory>false</mandatory>
+          </item>" | Out-File -FilePath src\TwitchMemeAlertsAuto.WPF\publish-wpf\AutoUpdater.xml
 
 
       - name: Upload assets to GitHub Release
