@@ -102,6 +102,7 @@ namespace TwitchMemeAlertsAuto.WPF.Services
 #if DEBUG
 			AutoUpdater.InstalledVersion = new Version("1.2");
 #endif
+			AutoUpdater.Icon = new System.Drawing.Bitmap(Application.GetResourceStream(new Uri("pack://application:,,,/favicon-96x96.ico")).Stream);
 			AutoUpdater.SetOwner(Application.Current.MainWindow);
 			AutoUpdater.Start("https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/latest/download/AutoUpdater.xml");
 		}
