@@ -80,14 +80,6 @@ namespace TwitchMemeAlertsAuto.WPF
 
 			host = builder.Build();
 
-			using (var scope = host.Services.CreateAsyncScope())
-			{
-				using (var context = scope.ServiceProvider.GetRequiredService<TmaaDbContext>())
-				{
-					context.Database.Migrate();
-				}
-			}
-
 			base.OnStartup(e);
 		}
 
@@ -102,6 +94,15 @@ namespace TwitchMemeAlertsAuto.WPF
 
 			MainWindow = mainWindow;
 			mainWindow.Show();
+
+			using (var scope = host.Services.CreateAsyncScope())
+			{
+				using (var context = scope.ServiceProvider.GetRequiredService<TmaaDbContext>())
+				{
+					await context.Database.MigrateAsync().ConfigureAwait(false);
+				}
+			}
+
 			mainWindowViewModel.IsActive = true;
 
 			await host.StartAsync();
