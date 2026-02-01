@@ -4,11 +4,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Net.Http.Headers;
 using System.Reflection;
 using System.Windows;
 using TwitchChat.Client;
@@ -76,7 +78,19 @@ namespace TwitchMemeAlertsAuto.WPF
 
 					return api;
 				})
-				.AddTransient<ITwitchClient, TwitchClient>((sp) => new TwitchClient(new IrcClientWebSocket(new IrcClientWebSocket.Options() { Uri = new Uri(TwitchClient.Options.wssUrlSSL) }, sp.GetRequiredService<ILogger<IrcClientWebSocket>>()), new TwitchParser(), new OptionsMonitor<TwitchClient.Options>(new OptionsFactory<TwitchClient.Options>(new List<IConfigureOptions<TwitchClient.Options>>(), new List<IPostConfigureOptions<TwitchClient.Options>>()), new List<IOptionsChangeTokenSource<TwitchClient.Options>>(), new OptionsCache<TwitchClient.Options>()), sp.GetRequiredService<ILogger<TwitchClient>>()));
+				.AddTransient<ITwitchClient, TwitchClient>((sp) => new TwitchClient(new IrcClientWebSocket(new IrcClientWebSocket.Options() { Uri = new Uri(TwitchClient.Options.wssUrlSSL) }, sp.GetRequiredService<ILogger<IrcClientWebSocket>>()), new TwitchParser(), new OptionsMonitor<TwitchClient.Options>(new OptionsFactory<TwitchClient.Options>(new List<IConfigureOptions<TwitchClient.Options>>(), new List<IPostConfigureOptions<TwitchClient.Options>>()), new List<IOptionsChangeTokenSource<TwitchClient.Options>>(), new OptionsCache<TwitchClient.Options>()), sp.GetRequiredService<ILogger<TwitchClient>>()))
+				.AddHttpClient(nameof(MemeAlertsService), async (sp, client) =>
+				{
+					client.Timeout = TimeSpan.FromSeconds(10);
+					client.BaseAddress = new Uri("https://memealerts.com");
+
+					using (var scope = sp.CreateAsyncScope())
+					{
+						var settingsService = sp.GetRequiredService<ISettingsService>();
+						client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await settingsService.GetMemeAlertsTokenAsync().ConfigureAwait(false));
+
+					}
+				});
 
 			host = builder.Build();
 
