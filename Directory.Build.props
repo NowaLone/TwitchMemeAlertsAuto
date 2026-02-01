@@ -19,7 +19,7 @@
 		<PackageIcon>favicon-96x96.png</PackageIcon>
 	</PropertyGroup>
 	
-	<ItemGroup Condition="$(OutputType) == Exe">
+	<ItemGroup Condition="'$(OutputType)' == 'Exe' Or '$(OutputType)' == 'WinExe'">
 		<PackageReference Include="GitVersion.MsBuild" Version="6.5.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
