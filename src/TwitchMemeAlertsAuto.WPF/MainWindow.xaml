@@ -32,10 +32,11 @@
             Grid.Row="0"
             Grid.ColumnSpan="6"
             DataContext="{Binding MainMenuViewModel}" />
-        <StackPanel Grid.Row="2" Grid.Column="0">
-            <views:ConnectionView Margin="4,0,4,0" DataContext="{Binding ConnectionViewModel}" />
-            <views:AllRewardView Margin="4,8,4,0" DataContext="{Binding AllRewardViewModel}" />
-        </StackPanel>
+        <views:AllRewardView
+            Grid.Row="1"
+            Grid.Column="0"
+            VerticalAlignment="Top"
+            DataContext="{Binding AllRewardViewModel}" />
         <views:RewardsView
             Grid.Row="1"
             Grid.Column="1"

@@ -21,6 +21,9 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		private readonly string startupFullPath;
 
 		[ObservableProperty]
+		private ConnectionViewModel connectionViewModel;
+
+		[ObservableProperty]
 		private bool isStartup;
 
 		[ObservableProperty]
@@ -30,19 +33,29 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		{
 		}
 
-		public MainMenuViewModel(IDispatcherService dispatcherService, ISettingsService settingsService, ILogger<MainMenuViewModel> logger) : this()
+		public MainMenuViewModel(IDispatcherService dispatcherService, ISettingsService settingsService, ConnectionViewModel connectionViewModel, ILogger<MainMenuViewModel> logger) : this()
 		{
 			this.dispatcherService = dispatcherService;
 			this.settingsService = settingsService;
+			this.connectionViewModel = connectionViewModel;
 			this.logger = logger;
 			this.startupFullPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), Path.ChangeExtension(Path.GetFileName(Environment.ProcessPath), ".lnk"));
 		}
 
 		protected override async void OnActivated()
 		{
+			ConnectionViewModel.IsActive = true;
+
 			IsStartup = File.Exists(startupFullPath);
 			TryRewardWithWrongNickname = await settingsService.GetTryRewardWithWrongNicknameOptionAsync().ConfigureAwait(false);
 			base.OnActivated();
+		}
+
+		protected override void OnDeactivated()
+		{
+			ConnectionViewModel.IsActive = false;
+			
+			base.OnDeactivated();
 		}
 
 		[RelayCommand]

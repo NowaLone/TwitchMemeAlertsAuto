@@ -10,24 +10,34 @@
     d:DataContext="{d:DesignInstance Type=vm:MainMenuViewModel}"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <Menu>
-        <MenuItem Header="{x:Static properties:Resources.FileMenu}">
-            <MenuItem
-                Command="{Binding AddRemoveWinStartupCommand}"
-                Header="{x:Static properties:Resources.AddWinStartup}"
-                IsCheckable="True"
-                IsChecked="{Binding IsStartup}" />
-            <MenuItem
-                Command="{Binding SetTryRewardWithWrongNicknameCommand}"
-                Header="{x:Static properties:Resources.TryRewardWithWrongNickname}"
-                IsCheckable="True"
-                IsChecked="{Binding TryRewardWithWrongNickname}" />
-            <Separator />
-            <MenuItem Command="{Binding ExitCommand}" Header="{x:Static properties:Resources.ExitMenu}" />
-        </MenuItem>
-        <MenuItem Header="{x:Static properties:Resources.HelpMenu}">
-            <MenuItem Command="{Binding AboutCommand}" Header="{x:Static properties:Resources.AboutMenu}" />
-            <MenuItem Command="{Binding CheckForUpdatesCommand}" Header="{x:Static properties:Resources.CheckForUpdates}" />
-        </MenuItem>
-    </Menu>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Menu Grid.Column="0">
+            <MenuItem Header="{x:Static properties:Resources.FileMenu}">
+                <MenuItem
+                    Command="{Binding AddRemoveWinStartupCommand}"
+                    Header="{x:Static properties:Resources.AddWinStartup}"
+                    IsCheckable="True"
+                    IsChecked="{Binding IsStartup}" />
+                <MenuItem
+                    Command="{Binding SetTryRewardWithWrongNicknameCommand}"
+                    Header="{x:Static properties:Resources.TryRewardWithWrongNickname}"
+                    IsCheckable="True"
+                    IsChecked="{Binding TryRewardWithWrongNickname}" />
+                <Separator />
+                <MenuItem Command="{Binding ExitCommand}" Header="{x:Static properties:Resources.ExitMenu}" />
+            </MenuItem>
+            <MenuItem Header="{x:Static properties:Resources.HelpMenu}">
+                <MenuItem Command="{Binding AboutCommand}" Header="{x:Static properties:Resources.AboutMenu}" />
+                <MenuItem Command="{Binding CheckForUpdatesCommand}" Header="{x:Static properties:Resources.CheckForUpdates}" />
+            </MenuItem>
+        </Menu>
+        <local:ConnectionView
+            Grid.Column="1"
+            Padding="8,0"
+            DataContext="{Binding ConnectionViewModel}" />
+    </Grid>
 </UserControl>

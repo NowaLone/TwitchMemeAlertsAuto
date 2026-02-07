@@ -7,23 +7,28 @@
     xmlns:properties="clr-namespace:TwitchMemeAlertsAuto.WPF.Properties"
     xmlns:vm="clr-namespace:TwitchMemeAlertsAuto.Core.ViewModels;assembly=TwitchMemeAlertsAuto.Core"
     d:DataContext="{d:DesignInstance Type=vm:ConnectionViewModel}"
+    d:DesignHeight="18"
+    Background="{x:Static SystemColors.ControlBrush}"
     mc:Ignorable="d">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
-    <GroupBox Header="{x:Static properties:Resources.ConnectionsLabel}">
-        <StackPanel>
-            <Button
-                Width="120"
-                Margin="4,4,4,0"
-                Padding="8"
-                Command="{Binding ConnectTwitchCommand}"
-                ToolTip="{x:Static properties:Resources.ConnectTwitchTooltip}">
-                <StackPanel Orientation="Horizontal">
-                    <Image
-                        Width="16"
-                        Height="16"
-                        Source="/glitch_flat_purple.ico" />
+    <StackPanel Orientation="Horizontal">
+        <Button
+            Padding="0"
+            Background="Transparent"
+            Command="{Binding ConnectTwitchCommand}"
+            ToolTip="{x:Static properties:Resources.ConnectTwitchTooltip}">
+            <Grid Width="120">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <StackPanel
+                    Grid.Row="0"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Image MaxHeight="14" Source="/glitch_flat_purple.ico" />
                     <TextBlock Margin="8,0,0,0">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
@@ -37,23 +42,28 @@
                         </TextBlock.Style>
                     </TextBlock>
                 </StackPanel>
-            </Button>
-            <ProgressBar
-                Width="120"
-                Margin="4,0,4,0"
-                IsIndeterminate="True"
-                Visibility="{Binding IsCheckingTwitch, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            <Button
-                Width="120"
-                Margin="4,8,4,0"
-                Padding="8"
-                Command="{Binding ConnectMemeAlertsCommand}"
-                ToolTip="{x:Static properties:Resources.ConnectMemeAlertsTooltip}">
-                <StackPanel Orientation="Horizontal">
-                    <Image
-                        Width="16"
-                        Height="16"
-                        Source="/favicon-96x96.ico" />
+                <ProgressBar
+                    Grid.Row="1"
+                    IsIndeterminate="True"
+                    Visibility="{Binding IsCheckingTwitch, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            </Grid>
+        </Button>
+        <Button
+            Margin="16,0,0,0"
+            Padding="0"
+            Background="Transparent"
+            Command="{Binding ConnectMemeAlertsCommand}"
+            ToolTip="{x:Static properties:Resources.ConnectMemeAlertsTooltip}">
+            <Grid Width="120">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <StackPanel
+                    Grid.Row="0"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Image MaxHeight="14" Source="/favicon-96x96.ico" />
                     <TextBlock Margin="8,0,0,0">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
@@ -67,12 +77,11 @@
                         </TextBlock.Style>
                     </TextBlock>
                 </StackPanel>
-            </Button>
-            <ProgressBar
-                Width="120"
-                Margin="4,0,4,4"
-                IsIndeterminate="True"
-                Visibility="{Binding IsCheckingMemeAlerts, Converter={StaticResource BooleanToVisibilityConverter}}" />
-        </StackPanel>
-    </GroupBox>
+                <ProgressBar
+                    Grid.Row="1"
+                    IsIndeterminate="True"
+                    Visibility="{Binding IsCheckingMemeAlerts, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            </Grid>
+        </Button>
+    </StackPanel>
 </UserControl>
