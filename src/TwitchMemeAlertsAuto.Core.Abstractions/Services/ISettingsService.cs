@@ -16,6 +16,8 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 		Task<string> GetTwitchUserIdAsync(CancellationToken cancellationToken = default);
 
+		Task<string> GetTwitchUsernameAsync(CancellationToken cancellationToken = default);
+
 		Task<string> GetMemeAlertsTokenAsync(CancellationToken cancellationToken = default);
 
 		Task SetSettingAsync<T>(string key, T value, CancellationToken cancellationToken = default);
@@ -28,8 +30,16 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 		Task SetTwitchUserIdAsync(string userId, CancellationToken cancellationToken = default);
 
+		Task SetTwitchUsernameAsync(string username, CancellationToken cancellationToken = default);
+
 		Task SetMemeAlertsTokenAsync(string token, CancellationToken cancellationToken = default);
+
 		Task<bool> GetTryRewardWithWrongNicknameOptionAsync(CancellationToken cancellationToken = default);
+
 		Task SetTryRewardWithWrongNicknameOptionAsync(bool option, CancellationToken cancellationToken = default);
+
+		Task<string> GetTMemeAlertsUsernameAsync(CancellationToken cancellationToken = default);
+
+		Task SetMemeAlertsUsernameAsync(string username, CancellationToken cancellationToken = default);
 	}
 }

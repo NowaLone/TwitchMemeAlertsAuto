@@ -78,6 +78,26 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			return SetSettingAsync("TryRewardWithWrongNicknameOption", option, cancellationToken);
 		}
 
+		public Task<string> GetTwitchUsernameAsync(CancellationToken cancellationToken = default)
+		{
+			return GetSettingAsync("Twitch:Username", string.Empty, cancellationToken);
+		}
+
+		public Task SetTwitchUsernameAsync(string username, CancellationToken cancellationToken = default)
+		{
+			return SetSettingAsync("Twitch:Username", username ?? string.Empty, cancellationToken);
+		}
+
+		public Task<string> GetTMemeAlertsUsernameAsync(CancellationToken cancellationToken = default)
+		{
+			return GetSettingAsync("Twitch:Username", string.Empty, cancellationToken);
+		}
+
+		public Task SetMemeAlertsUsernameAsync(string username, CancellationToken cancellationToken = default)
+		{
+			return SetSettingAsync("MemeAlerts:Username", username ?? string.Empty, cancellationToken);
+		}
+
 		public async Task<T> GetSettingAsync<T>(string key, T defaultValue, CancellationToken cancellationToken = default)
 		{
 			using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);

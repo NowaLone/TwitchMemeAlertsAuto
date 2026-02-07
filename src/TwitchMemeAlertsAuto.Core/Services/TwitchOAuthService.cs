@@ -372,6 +372,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			}
 			await settingsService.SetTwitchExpiresInAsync(DateTimeOffset.UtcNow.AddSeconds(twitchValidationResponse.ExpiresIn), cancellationToken);
 			await settingsService.SetTwitchUserIdAsync(twitchValidationResponse.UserId, cancellationToken);
+			await settingsService.SetTwitchUsernameAsync(twitchValidationResponse.Login, cancellationToken);
 
 			return tokenResponse.AccessToken;
 		}

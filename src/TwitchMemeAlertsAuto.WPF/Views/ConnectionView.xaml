@@ -8,7 +8,6 @@
     xmlns:vm="clr-namespace:TwitchMemeAlertsAuto.Core.ViewModels;assembly=TwitchMemeAlertsAuto.Core"
     d:DataContext="{d:DesignInstance Type=vm:ConnectionViewModel}"
     d:DesignHeight="18"
-    Background="{x:Static SystemColors.ControlBrush}"
     mc:Ignorable="d">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -35,7 +34,7 @@
                                 <Setter Property="Text" Value="{x:Static properties:Resources.ConnectLabel}" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsTwitchConnected}" Value="True">
-                                        <Setter Property="Text" Value="{x:Static properties:Resources.Connected}" />
+                                        <Setter Property="Text" Value="{Binding TwitchUsername}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -70,7 +69,7 @@
                                 <Setter Property="Text" Value="{x:Static properties:Resources.ConnectLabel}" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsMemeAlertsConnected}" Value="True">
-                                        <Setter Property="Text" Value="{x:Static properties:Resources.Connected}" />
+                                        <Setter Property="Text" Value="{Binding MemeAlertsUsername}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>

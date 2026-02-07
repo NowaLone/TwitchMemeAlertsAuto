@@ -9,6 +9,7 @@
     xmlns:vm="clr-namespace:TwitchMemeAlertsAuto.Core.ViewModels;assembly=TwitchMemeAlertsAuto.Core"
     d:DataContext="{d:DesignInstance Type=vm:MainMenuViewModel}"
     d:DesignWidth="800"
+    Background="{x:Static SystemColors.ControlBrush}"
     mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>

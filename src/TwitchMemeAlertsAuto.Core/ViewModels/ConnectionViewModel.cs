@@ -28,6 +28,26 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 
 		private CancellationTokenSource cancellationTokenSource;
 
+		[ObservableProperty]
+		private bool isTwitchConnected;
+
+		[ObservableProperty]
+		private bool isMemeAlertsConnected;
+
+		[NotifyCanExecuteChangedFor(nameof(ConnectTwitchCommand))]
+		[ObservableProperty]
+		private bool isCheckingTwitch;
+
+		[NotifyCanExecuteChangedFor(nameof(ConnectMemeAlertsCommand))]
+		[ObservableProperty]
+		private bool isCheckingMemeAlerts;
+
+		[ObservableProperty]
+		private string twitchUsername;
+
+		[ObservableProperty]
+		private string memeAlertsUsername;
+
 		public ConnectionViewModel()
 		{
 		}
@@ -43,20 +63,6 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			this.dbContextFactory = dbContextFactory;
 			this.logger = logger;
 		}
-
-		[ObservableProperty]
-		private bool isTwitchConnected;
-
-		[ObservableProperty]
-		private bool isMemeAlertsConnected;
-
-		[NotifyCanExecuteChangedFor(nameof(ConnectTwitchCommand))]
-		[ObservableProperty]
-		private bool isCheckingTwitch;
-
-		[NotifyCanExecuteChangedFor(nameof(ConnectMemeAlertsCommand))]
-		[ObservableProperty]
-		private bool isCheckingMemeAlerts;
 
 		public async void Receive(SettingsChangedMessage message)
 		{
@@ -91,7 +97,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		}
 
 		[RelayCommand(CanExecute = nameof(CanConnectTwitch))]
-		private async Task ConnectTwitch(CancellationToken cancellationToken)
+		private async Task ConnectTwitch(CancellationToken cancellationToken = default)
 		{
 			IsCheckingTwitch = true;
 
@@ -101,7 +107,10 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 				if (!string.IsNullOrWhiteSpace(oauthToken))
 				{
 					var userId = await settingsService.GetTwitchUserIdAsync(cancellationToken);
+
+					TwitchUsername = await settingsService.GetTwitchUsernameAsync(cancellationToken).ConfigureAwait(false);
 					dispatcherService.CallWithDispatcher(() => IsTwitchConnected = true);
+
 					Messenger.Send(new TwitchConnectedMessage(oauthToken, userId));
 					await StartWork(cancellationToken).ConfigureAwait(false);
 				}
@@ -127,17 +136,22 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		}
 
 		[RelayCommand(CanExecute = nameof(CanConnectMemeAlerts))]
-		private async Task ConnectMemeAlerts(CancellationToken cancellationToken)
+		private async Task ConnectMemeAlerts(CancellationToken cancellationToken = default)
 		{
 			IsCheckingMemeAlerts = true;
 
 			try
 			{
 				var maToken = await settingsService.GetMemeAlertsTokenAsync(cancellationToken);
+				var memeAlertsUsername = await settingsService.GetTMemeAlertsUsernameAsync(cancellationToken).ConfigureAwait(false);
 
 				if (!string.IsNullOrWhiteSpace(maToken) && await twitchMemeAlertsAutoService.CheckToken(maToken, cancellationToken))
 				{
+					MemeAlertsUsername = string.IsNullOrWhiteSpace(memeAlertsUsername)
+						? await GetMemeAlertsUsername(cancellationToken).ConfigureAwait(false)
+						: memeAlertsUsername;
 					dispatcherService.CallWithDispatcher(() => IsMemeAlertsConnected = true);
+
 					Messenger.Send(new MemealertsConnectedMessage(maToken));
 					await StartWork(cancellationToken).ConfigureAwait(false);
 				}
@@ -149,7 +163,9 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 					{
 						await settingsService.SetMemeAlertsTokenAsync(maToken, cancellationToken).ConfigureAwait(false);
 
+						MemeAlertsUsername = await GetMemeAlertsUsername(cancellationToken).ConfigureAwait(false);
 						dispatcherService.CallWithDispatcher(() => IsMemeAlertsConnected = true);
+
 						Messenger.Send(new MemealertsConnectedMessage(maToken));
 						await StartWork(cancellationToken).ConfigureAwait(false);
 					}
@@ -191,14 +207,13 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			var userId = await settingsService.GetTwitchUserIdAsync(cancellationToken).ConfigureAwait(false);
 			var tryRewardWithWrongNickname = await settingsService.GetTryRewardWithWrongNicknameOptionAsync(cancellationToken).ConfigureAwait(false);
 
-			string broadcasterLogin = null;
 			IDictionary<string, int> rewards = null;
 
 			using (var scope = serviceProvider.CreateAsyncScope())
 			{
 				var twitchAPI = scope.ServiceProvider.GetRequiredService<ITwitchAPI>();
 				var channelInformationResponse = await twitchAPI.Helix.Channels.GetChannelInformationAsync(userId);
-				broadcasterLogin = channelInformationResponse.Data.First().BroadcasterLogin;
+				TwitchUsername = channelInformationResponse.Data.First().BroadcasterLogin;
 			}
 
 			using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false))
@@ -208,7 +223,15 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 
 			cancellationTokenSource = new CancellationTokenSource();
 
-			await rewardsService.StartAsync(rewards, broadcasterLogin, tryRewardWithWrongNickname, cancellationToken: cancellationTokenSource.Token).ConfigureAwait(false);
+			await rewardsService.StartAsync(rewards, TwitchUsername, tryRewardWithWrongNickname, cancellationToken: cancellationTokenSource.Token).ConfigureAwait(false);
+		}
+
+		private async Task<string> GetMemeAlertsUsername(CancellationToken cancellationToken = default)
+		{
+			var current = await twitchMemeAlertsAutoService.GetCurrent(cancellationToken).ConfigureAwait(false);
+			await settingsService.SetMemeAlertsUsernameAsync(current.Name, cancellationToken).ConfigureAwait(false);
+
+			return current.Name;
 		}
 	}
 }
