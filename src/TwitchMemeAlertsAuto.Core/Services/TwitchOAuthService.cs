@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TwitchMemeAlertsAuto.Core
+namespace TwitchMemeAlertsAuto.Core.Services
 {
 	public class TwitchOAuthService : ITwitchOAuthService
 	{

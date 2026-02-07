@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace TwitchMemeAlertsAuto.Core
+namespace TwitchMemeAlertsAuto.Core.Services
 {
 	public interface IDispatcherService
 	{

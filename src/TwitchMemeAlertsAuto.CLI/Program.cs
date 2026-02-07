@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TwitchChat.Client;
 using TwitchChat.Parser;
-using TwitchMemeAlertsAuto.Core;
+using TwitchMemeAlertsAuto.Core.Services;
 
 namespace TwitchMemeAlertsAuto.CLI
 {

@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
+using TwitchMemeAlertsAuto.Core.Services;
 
 namespace TwitchMemeAlertsAuto.Core.ViewModels
 {

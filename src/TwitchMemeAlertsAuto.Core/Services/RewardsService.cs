@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using TwitchChat.Client;
 using TwitchChat.EventsArgs;
 
-namespace TwitchMemeAlertsAuto.Core
+namespace TwitchMemeAlertsAuto.Core.Services
 {
 	public class RewardsService : IRewardsService
 	{

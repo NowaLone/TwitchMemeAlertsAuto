@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TwitchMemeAlertsAuto.Core
+namespace TwitchMemeAlertsAuto.Core.Services
 {
 	public interface ISettingsService
 	{

@@ -5,7 +5,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
-using TwitchMemeAlertsAuto.Core;
+using TwitchMemeAlertsAuto.Core.Services;
 
 namespace TwitchMemeAlertsAuto.WPF.Services
 {

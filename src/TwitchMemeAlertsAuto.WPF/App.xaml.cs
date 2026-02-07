@@ -19,6 +19,7 @@ using TwitchLib.Api;
 using TwitchLib.Api.Interfaces;
 using TwitchMemeAlertsAuto.Core;
 using TwitchMemeAlertsAuto.Core.Logging;
+using TwitchMemeAlertsAuto.Core.Services;
 using TwitchMemeAlertsAuto.Core.ViewModels;
 using TwitchMemeAlertsAuto.WPF.Services;
 using NotifyIcon = System.Windows.Forms.NotifyIcon;

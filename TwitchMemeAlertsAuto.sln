@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchMemeAlertsAuto.Core.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchMemeAlertsAuto.Core.Migrations.Sqlite", "src\TwitchMemeAlertsAuto.Core.Migrations.Sqlite\TwitchMemeAlertsAuto.Core.Migrations.Sqlite.csproj", "{05D403E4-5967-45F7-9DFB-8DF87872937C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchMemeAlertsAuto.Core.Abstractions", "src\TwitchMemeAlertsAuto.Core.Abstractions\TwitchMemeAlertsAuto.Core.Abstractions.csproj", "{BF05B123-92BA-46D9-B2FE-8214EFCA88F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{05D403E4-5967-45F7-9DFB-8DF87872937C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05D403E4-5967-45F7-9DFB-8DF87872937C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05D403E4-5967-45F7-9DFB-8DF87872937C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF05B123-92BA-46D9-B2FE-8214EFCA88F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF05B123-92BA-46D9-B2FE-8214EFCA88F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF05B123-92BA-46D9-B2FE-8214EFCA88F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF05B123-92BA-46D9-B2FE-8214EFCA88F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{C73DCE08-BF67-51FA-B171-BDEDC0403CE7} = {401BBCBB-C46B-45A6-A072-D650331A5B06}
 		{92D8F04C-96CC-4D92-8989-48AB33E9E84F} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{05D403E4-5967-45F7-9DFB-8DF87872937C} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{BF05B123-92BA-46D9-B2FE-8214EFCA88F1} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C321C4AB-EF39-4C2A-A379-67BAE50955D5}

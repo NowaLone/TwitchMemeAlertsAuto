@@ -15,6 +15,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\TwitchMemeAlertsAuto.Core.Abstractions\TwitchMemeAlertsAuto.Core.Abstractions.csproj" />
 		<ProjectReference Include="..\TwitchMemeAlertsAuto.Core.Models\TwitchMemeAlertsAuto.Core.Models.csproj" />
 	</ItemGroup>
 </Project>
