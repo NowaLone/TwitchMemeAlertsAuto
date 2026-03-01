@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -43,8 +42,7 @@ namespace TwitchMemeAlertsAuto.WPF
 			builder.Logging.AddDebug();
 			//builder.Logging.SetMinimumLevel(LogLevel.Debug);
 #endif
-			var assembly = Assembly.GetExecutingAssembly();
-			var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+			var fileVersionInfo = FileVersionInfo.GetVersionInfo(Environment.ProcessPath);
 
 			var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), fileVersionInfo.CompanyName, fileVersionInfo.ProductName);
 			Directory.CreateDirectory(dbPath);
@@ -156,15 +154,26 @@ namespace TwitchMemeAlertsAuto.WPF
 
 		private async void Application_Exit(object sender, ExitEventArgs e)
 		{
-			using (host)
+			if (host != null)
 			{
-				await host.StopAsync(TimeSpan.FromSeconds(3));
+				using (host)
+				{
+					await host.StopAsync(TimeSpan.FromSeconds(3));
+				}
 			}
 		}
 
 		private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
 		{
-			MessageBox.Show(this.MainWindow, e.Exception.Message, e.Exception.GetType().Name, MessageBoxButton.OK, MessageBoxImage.Error);
+			if (this.MainWindow != null)
+			{
+				MessageBox.Show(this.MainWindow, e.Exception.Message, e.Exception.GetType().Name, MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+			else
+			{
+				MessageBox.Show(e.Exception.Message, e.Exception.GetType().Name, MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+
 			e.Handled = true;
 		}
 	}
