@@ -1,6 +1,6 @@
 <Project>
 	<PropertyGroup>
-		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<GenerateDocumentationFile>False</GenerateDocumentationFile>
 		<RootNamespace>$(MSBuildProjectName.Replace(".Abstractions", ""))</RootNamespace>
 		<Authors>NowaLone</Authors>	
 		<Company>NowaLone</Company>	

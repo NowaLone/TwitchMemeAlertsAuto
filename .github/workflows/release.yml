@@ -31,7 +31,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Publish WPF
-        run: dotnet publish src/TwitchMemeAlertsAuto.WPF/TwitchMemeAlertsAuto.WPF.csproj --configuration Release --runtime win-x64 --self-contained false /p:PublishDir=.\publish-wpf\ /p:PublishSingleFile=false /p:PublishReadyToRun=true
+        run: dotnet publish src/TwitchMemeAlertsAuto.WPF/TwitchMemeAlertsAuto.WPF.csproj --configuration Release --runtime win-x64 /p:PublishDir=.\publish-wpf\ /p:PublishReadyToRun=true --no-self-contained /p:DebugSymbols=false /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true /p:PublishDocumentationFiles=false
 
       - name: Create WPF ZIP archive
         run: |
@@ -43,7 +43,7 @@ jobs:
           echo "WPF_ZIP=$zipName" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Publish CLI
-        run: dotnet publish src/TwitchMemeAlertsAuto.CLI/TwitchMemeAlertsAuto.CLI.csproj --configuration Release --runtime win-x64 --self-contained true /p:PublishDir=.\publish-cli\ /p:PublishSingleFile=true /p:PublishReadyToRun=true /p:IncludeNativeLibrariesForSelfExtract=true
+        run: dotnet publish src/TwitchMemeAlertsAuto.CLI/TwitchMemeAlertsAuto.CLI.csproj --configuration Release --runtime win-x64 --self-contained true /p:PublishDir=.\publish-cli\ /p:PublishSingleFile=true /p:PublishReadyToRun=true /p:DebugSymbols=false
 
       - name: Publish AutoUpdater.xml
         run: |
