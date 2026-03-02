@@ -11,10 +11,6 @@ namespace TwitchMemeAlertsAuto.Core
 		{
 		}
 
-		protected TmaaDbContext() : base()
-		{
-		}
-
 		public DbSet<Setting> Settings { get; set; }
 		public DbSet<History> Histories { get; set; }
 
