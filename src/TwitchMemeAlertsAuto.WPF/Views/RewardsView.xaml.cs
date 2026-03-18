@@ -16,7 +16,7 @@ namespace TwitchMemeAlertsAuto.WPF.Views
 
 		private void CollectionViewSource_Filter(object sender, System.Windows.Data.FilterEventArgs e)
 		{
-			if (e.Item is RewardViewModel rewardViewModel && (rewardViewModel.Count.Contains(FilterTextBox.Text, System.StringComparison.OrdinalIgnoreCase) || rewardViewModel.Reward.Title.Contains(FilterTextBox.Text, System.StringComparison.OrdinalIgnoreCase)))
+			if (e.Item is RewardViewModel rewardViewModel && (rewardViewModel.Quantity.Contains(FilterTextBox.Text, System.StringComparison.OrdinalIgnoreCase) || rewardViewModel.Reward.Title.Contains(FilterTextBox.Text, System.StringComparison.OrdinalIgnoreCase)))
 			{
 				e.Accepted = true;
 			}

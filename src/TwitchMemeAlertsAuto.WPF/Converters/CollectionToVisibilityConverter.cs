@@ -10,7 +10,13 @@ namespace TwitchMemeAlertsAuto.WPF.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			return value is IEnumerable collection && collection.GetEnumerator().MoveNext() ? Visibility.Visible : Visibility.Collapsed;
+			return value is ICollection collection
+				? collection.Count > 0
+					? Visibility.Visible
+					: Visibility.Collapsed
+				: value is IEnumerable enumerable && enumerable.GetEnumerator().MoveNext()
+					? Visibility.Visible
+					: Visibility.Collapsed;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
