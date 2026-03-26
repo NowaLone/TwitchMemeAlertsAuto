@@ -156,7 +156,7 @@ public class MemeAlertsServiceTests
 
 		var currentJson = JsonSerializer.Serialize(current, SerializationModeOptionsContext.Default.Current);
 
-		var callCount = 0;
+		var callQuantity = 0;
 
 		var service = CreateService(
 			out _,
@@ -173,7 +173,7 @@ public class MemeAlertsServiceTests
 
 				if (req.RequestUri!.PathAndQuery.EndsWith("api/user/give-bonus", StringComparison.Ordinal))
 				{
-					callCount++;
+					callQuantity++;
 					return new HttpResponseMessage(HttpStatusCode.OK)
 					{
 						Content = new StringContent("true")
@@ -192,7 +192,7 @@ public class MemeAlertsServiceTests
 		// Assert
 		Assert.IsTrue(result);
 		Assert.IsTrue(result2);
-		Assert.AreEqual(2, callCount);
+		Assert.AreEqual(2, callQuantity);
 	}
 
 	#endregion

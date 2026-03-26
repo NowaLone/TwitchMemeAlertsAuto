@@ -36,7 +36,6 @@ public class RewardViewModelTests
 
 		// Act
 		var viewModel = new RewardViewModel(
-			dispatcherServiceMock.Object,
 			settingsServiceMock.Object);
 
 		// Assert
@@ -46,111 +45,106 @@ public class RewardViewModelTests
 
 	#endregion
 
-	#region Count Validation
+	#region Quantity Validation
 
 	[TestMethod]
 	[TestCategory(nameof(RewardViewModel))]
 	[TestCategory("Validation")]
-	public void Count_SetValidValue_NoErrors()
+	public void Quantity_SetValidValue_NoErrors()
 	{
 		// Arrange
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
 		var settingsServiceMock = new Mock<ISettingsService>();
 
 		var viewModel = new RewardViewModel(
-			dispatcherServiceMock.Object,
 			settingsServiceMock.Object);
 
 		// Act
-		viewModel.Count = "100";
+		viewModel.Quantity = "100";
 
 		// Assert
 		Assert.IsFalse(viewModel.HasErrors);
-		Assert.AreEqual("100", viewModel.Count);
+		Assert.AreEqual("100", viewModel.Quantity);
 	}
 
 	[TestMethod]
 	[TestCategory(nameof(RewardViewModel))]
 	[TestCategory("Validation")]
-	public void Count_SetZero_AddsError()
+	public void Quantity_SetZero_AddsError()
 	{
 		// Arrange
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
 		var settingsServiceMock = new Mock<ISettingsService>();
 
 		var viewModel = new RewardViewModel(
-			dispatcherServiceMock.Object,
 			settingsServiceMock.Object);
 
 		// Act
-		viewModel.Count = "0";
+		viewModel.Quantity = "0";
 
 		// Assert
 		Assert.IsTrue(viewModel.HasErrors);
-		Assert.IsTrue(viewModel.GetErrors(nameof(RewardViewModel.Count)).Cast<string>().Any());
+		Assert.IsTrue(viewModel.GetErrors(nameof(RewardViewModel.Quantity)).Cast<string>().Any());
 	}
 
 	[TestMethod]
 	[TestCategory(nameof(RewardViewModel))]
 	[TestCategory("Validation")]
-	public void Count_SetNegativeValue_AddsError()
+	public void Quantity_SetNegativeValue_AddsError()
 	{
 		// Arrange
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
 		var settingsServiceMock = new Mock<ISettingsService>();
 
 		var viewModel = new RewardViewModel(
-			dispatcherServiceMock.Object,
 			settingsServiceMock.Object);
 
 		// Act
-		viewModel.Count = "-5";
+		viewModel.Quantity = "-5";
 
 		// Assert
 		Assert.IsTrue(viewModel.HasErrors);
-		Assert.IsTrue(viewModel.GetErrors(nameof(RewardViewModel.Count)).Cast<string>().Any());
+		Assert.IsTrue(viewModel.GetErrors(nameof(RewardViewModel.Quantity)).Cast<string>().Any());
 	}
 
 	[TestMethod]
 	[TestCategory(nameof(RewardViewModel))]
 	[TestCategory("Validation")]
-	public void Count_SetValueOver1000_AddsError()
+	public void Quantity_SetValueOver1000_AddsError()
 	{
 		// Arrange
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
 		var settingsServiceMock = new Mock<ISettingsService>();
 
 		var viewModel = new RewardViewModel(
-			dispatcherServiceMock.Object,
 			settingsServiceMock.Object);
 
 		// Act
-		viewModel.Count = "1001";
+		viewModel.Quantity = "1001";
 
 		// Assert
 		Assert.IsTrue(viewModel.HasErrors);
-		Assert.IsTrue(viewModel.GetErrors(nameof(RewardViewModel.Count)).Cast<string>().Any());
+		Assert.IsTrue(viewModel.GetErrors(nameof(RewardViewModel.Quantity)).Cast<string>().Any());
 	}
 
 	[TestMethod]
 	[TestCategory(nameof(RewardViewModel))]
 	[TestCategory("Validation")]
-	public void Count_SetInvalidString_AddsError()
+	public void Quantity_SetInvalidString_AddsError()
 	{
 		// Arrange
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
 		var settingsServiceMock = new Mock<ISettingsService>();
 
 		var viewModel = new RewardViewModel(
-			dispatcherServiceMock.Object,
 			settingsServiceMock.Object);
 
 		// Act
-		viewModel.Count = "invalid";
+		viewModel.Quantity = "invalid";
 
 		// Assert
 		Assert.IsTrue(viewModel.HasErrors);
-		Assert.IsTrue(viewModel.GetErrors(nameof(RewardViewModel.Count)).Cast<string>().Any());
+		Assert.IsTrue(viewModel.GetErrors(nameof(RewardViewModel.Quantity)).Cast<string>().Any());
 	}
 
 	#endregion
@@ -167,10 +161,9 @@ public class RewardViewModelTests
 		var settingsServiceMock = new Mock<ISettingsService>();
 
 		var viewModel = new RewardViewModel(
-			dispatcherServiceMock.Object,
 			settingsServiceMock.Object);
 
-		viewModel.Count = "100";
+		viewModel.Quantity = "100";
 
 		// Act
 		var canExecute = viewModel.SaveCommand.CanExecute("100");
@@ -189,10 +182,9 @@ public class RewardViewModelTests
 		var settingsServiceMock = new Mock<ISettingsService>();
 
 		var viewModel = new RewardViewModel(
-			dispatcherServiceMock.Object,
 			settingsServiceMock.Object);
 
-		viewModel.Count = "0"; // Invalid value
+		viewModel.Quantity = "0"; // Invalid value
 
 		// Act
 		var canExecute = viewModel.SaveCommand.CanExecute("0");
