@@ -249,87 +249,6 @@ public class ConnectionViewModelExtendedTests
 }
 
 [TestClass]
-public class MainWindowViewModelExtendedTests
-{
-	private readonly IFixture fixture;
-
-	public MainWindowViewModelExtendedTests()
-	{
-		fixture = new Fixture().Customize(new AutoMoqCustomization { ConfigureMembers = true });
-	}
-
-	#region TabIndex
-
-	[TestMethod]
-	[TestCategory(nameof(MainWindowViewModel))]
-	[TestCategory(nameof(MainWindowViewModel.TabIndex))]
-	public void OnTabIndexChanged_CallsSetTabIndexAsync()
-	{
-		// Arrange
-		var settingsServiceMock = new Mock<ISettingsService>();
-		var dispatcherServiceMock = new Mock<IDispatcherService>();
-		var loggerMock = new Mock<ILogger<MainWindowViewModel>>();
-
-		settingsServiceMock
-			.Setup(s => s.GetTabIndexAsync())
-			.ReturnsAsync(0);
-
-		var logViewModel = new LogViewModel(
-			dispatcherServiceMock.Object,
-			Mock.Of<IDbContextFactory<TmaaDbContext>>(),
-			Mock.Of<ILogger<LogViewModel>>());
-
-		var rewardsViewModel = new RewardsViewModel(
-			Mock.Of<IServiceProvider>(),
-			Mock.Of<ILogger<RewardsViewModel>>());
-
-		var connectionViewModel = new ConnectionViewModel(
-			settingsServiceMock.Object,
-			Mock.Of<IRewardsService>(),
-			Mock.Of<ITwitchOAuthService>(),
-			Mock.Of<IMemeAlertsService>(),
-			dispatcherServiceMock.Object,
-			Mock.Of<IServiceProvider>(),
-			Mock.Of<IDbContextFactory<TmaaDbContext>>(),
-			Mock.Of<ILogger<ConnectionViewModel>>());
-
-		var mainMenuViewModel = new MainMenuViewModel(
-			dispatcherServiceMock.Object,
-			settingsServiceMock.Object,
-			connectionViewModel,
-			Mock.Of<ILogger<MainMenuViewModel>>());
-
-		var allRewardViewModel = new AllRewardViewModel(
-			Mock.Of<IMemeAlertsService>(),
-			dispatcherServiceMock.Object,
-			Mock.Of<ILogger<AllRewardViewModel>>());
-
-		var supportersViewModel = new SupportersViewModel(
-			Mock.Of<IServiceProvider>(),
-			dispatcherServiceMock.Object,
-			Mock.Of<IMemeAlertsService>(),
-			Mock.Of<ILogger<SupportersViewModel>>());
-
-		var viewModel = new MainWindowViewModel(
-			settingsServiceMock.Object,
-			logViewModel,
-			rewardsViewModel,
-			mainMenuViewModel,
-			allRewardViewModel,
-			supportersViewModel,
-			loggerMock.Object);
-
-		// Act
-		viewModel.TabIndex = 3;
-
-		// Assert
-		settingsServiceMock.Verify(s => s.SetTabIndexAsync(3), Times.Once);
-	}
-
-	#endregion
-}
-
-[TestClass]
 public class ObservableRecipientWithQuantityTests
 {
 	private readonly IFixture fixture;
@@ -512,7 +431,7 @@ public class TestMainWindowViewModel : MainWindowViewModel
 		AllRewardViewModel allRewardViewModel,
 		SupportersViewModel supportersViewModel,
 		ILogger<MainWindowViewModel> logger)
-		: base(settingsService, logViewModel, rewardsViewModel, mainMenuViewModel, allRewardViewModel, supportersViewModel, logger)
+		: base(logViewModel, rewardsViewModel, mainMenuViewModel, allRewardViewModel, supportersViewModel, logger)
 	{
 	}
 
