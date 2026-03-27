@@ -18,6 +18,7 @@
     <UserControl.Resources>
         <converters:DateToRelativeConverter x:Key="DateToRelativeConverter" />
         <converters:CollectionToVisibilityConverter x:Key="CollectionToVisibilityConverter" />
+        <converters:HistoryToColorConverter x:Key="HistoryToColorConverter" />
         <CollectionViewSource
             x:Key="LogGrouped"
             Filter="CollectionViewSource_Filter"
@@ -74,7 +75,7 @@
                         <DataTemplate DataType="core:History">
                             <TextBlock TextWrapping="Wrap">
                                 <Run FontWeight="Medium" Text="{Binding Timestamp, StringFormat=HH:mm}" />
-                                <Run Text="{Binding Message}" />
+                                <Run Foreground="{Binding ., Converter={StaticResource HistoryToColorConverter}}" Text="{Binding Message}" />
                             </TextBlock>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
