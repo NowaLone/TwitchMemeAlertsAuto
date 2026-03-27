@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Net.Mime;
 using System.Text.Json;
 using System.Threading;
@@ -52,10 +53,14 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 		public async Task<Current> GetCurrent(CancellationToken cancellationToken = default)
 		{
-			using var memeAlertsClient = httpClientFactory.CreateClient(nameof(MemeAlertsService));
 			using var request = new HttpRequestMessage(HttpMethod.Get, "api/user/current");
-			using var responseMessage = await memeAlertsClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
-			responseMessage.EnsureSuccessStatusCode();
+			using var responseMessage = await DoRequest(request, cancellationToken).ConfigureAwait(false);
+
+			if (responseMessage == null)
+			{
+				return new Current();
+			}
+
 			return await JsonSerializer.DeserializeAsync(responseMessage.Content.ReadAsStream(cancellationToken), SerializationModeOptionsContext.Default.Current, cancellationToken).ConfigureAwait(false);
 		}
 
@@ -63,17 +68,18 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		{
 			logger.LogInformation(EventIds.Loading, "Обновление саппортёров...");
 
-			using var memeAlertsClient = httpClientFactory.CreateClient(nameof(MemeAlertsService));
-
 			var supporters = new List<Supporter>();
 			for (int limit = 100, total = 100, skip = 0; limit > 0 && limit + skip <= total; skip += limit, limit = total - skip)
 			{
-				using var request = new HttpRequestMessage(HttpMethod.Post, "api/supporters");
-				request.Content = new StringContent($"{{\"limit\":{limit},\"skip\":{skip},\"query\":\"\",\"filters\":[0]}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json));
+				using var request = new HttpRequestMessage(HttpMethod.Post, "api/supporters") { Content = new StringContent($"{{\"limit\":{limit},\"skip\":{skip},\"query\":\"\",\"filters\":[0]}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json)) };
+				using var responseMessage = await DoRequest(request, cancellationToken).ConfigureAwait(false);
 
-				using var responseMessage = await memeAlertsClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
-				responseMessage.EnsureSuccessStatusCode();
-				var response = await JsonSerializer.DeserializeAsync(responseMessage.Content.ReadAsStream(cancellationToken), SerializationModeOptionsContext.Default.Supporters, cancellationToken).ConfigureAwait(false);
+				if (responseMessage == null)
+				{
+					break;
+				}
+
+				var response = await responseMessage.Content.ReadFromJsonAsync(jsonTypeInfo: SerializationModeOptionsContext.Default.Supporters, cancellationToken).ConfigureAwait(false);
 				supporters.AddRange(response.Data);
 				total = response.Total;
 			}
@@ -90,33 +96,52 @@ namespace TwitchMemeAlertsAuto.Core.Services
 				streamerId = (await GetCurrent(cancellationToken).ConfigureAwait(false)).Id;
 			}
 
-			using var memeAlertsClient = httpClientFactory.CreateClient(nameof(MemeAlertsService));
-			using var request = new HttpRequestMessage(HttpMethod.Post, "api/user/give-bonus");
-			request.Content = new StringContent($"{{\"userId\":\"{supporter.SupporterId}\",\"streamerId\":\"{streamerId}\",\"value\":{value}}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json));
+			using var request = new HttpRequestMessage(HttpMethod.Post, "api/user/give-bonus") { Content = new StringContent($"{{\"userId\":\"{supporter.SupporterId}\",\"streamerId\":\"{streamerId}\",\"value\":{value}}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json)) };
+			using var responseMessage = await DoRequest(request, cancellationToken).ConfigureAwait(false);
 
-			using var responseMessage = await memeAlertsClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
-			responseMessage.EnsureSuccessStatusCode();
+			if (responseMessage == null)
+			{
+				return false;
+			}
+
 			return (await responseMessage.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false)).Equals(bool.TrueString, StringComparison.OrdinalIgnoreCase);
 		}
 
 		public async Task<List<Event>> GetEventsAsync(CancellationToken cancellationToken = default)
 		{
-			using var memeAlertsClient = httpClientFactory.CreateClient(nameof(MemeAlertsService));
-
-			var supporters = new List<Event>();
+			var events = new List<Event>();
 			for (int limit = 100, total = 100, skip = 0; limit > 0 && limit + skip <= total; skip += limit, limit = total - skip)
 			{
-				using var request = new HttpRequestMessage(HttpMethod.Post, "api/event/period");
-				request.Content = new StringContent($"{{\"period\":30,\"skip\":{skip},\"limit\":{limit},\"filters\":[2,3,4],\"date\":null}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json));
+				using var request = new HttpRequestMessage(HttpMethod.Post, "api/event/period") { Content = new StringContent($"{{\"period\":30,\"skip\":{skip},\"limit\":{limit},\"filters\":[2,3,4],\"date\":null}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json)) };
+				using var responseMessage = await DoRequest(request, cancellationToken).ConfigureAwait(false);
 
-				using var responseMessage = await memeAlertsClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
-				responseMessage.EnsureSuccessStatusCode();
-				var response = await JsonSerializer.DeserializeAsync(responseMessage.Content.ReadAsStream(cancellationToken), SerializationModeOptionsContext.Default.Events, cancellationToken).ConfigureAwait(false);
-				supporters.AddRange(response.Data);
+				if (responseMessage == null)
+				{
+					break;
+				}
+
+				var response = await responseMessage.Content.ReadFromJsonAsync(jsonTypeInfo: SerializationModeOptionsContext.Default.Events, cancellationToken).ConfigureAwait(false);
+				events.AddRange(response.Data);
 				total = response.Total;
 			}
 
-			return supporters;
+			return events;
+		}
+
+		private async Task<HttpResponseMessage> DoRequest(HttpRequestMessage request, CancellationToken cancellationToken = default)
+		{
+			try
+			{
+				using var memeAlertsClient = httpClientFactory.CreateClient(nameof(MemeAlertsService));
+				var httpResponseMessage = await memeAlertsClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+				httpResponseMessage.EnsureSuccessStatusCode();
+				return httpResponseMessage;
+			}
+			catch (HttpRequestException ex)
+			{
+				logger.LogError(EventIds.Error, ex, "HttpRequestError: {error} with {result} StatusCode while sending {path} request", ex.HttpRequestError, ex.StatusCode, request.RequestUri);
+				return null;
+			}
 		}
 	}
 }

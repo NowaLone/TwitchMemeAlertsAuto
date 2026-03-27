@@ -10,6 +10,7 @@ namespace TwitchMemeAlertsAuto.Core
 		public static EventId NotFound => new EventId(19980903, nameof(NotFound));
 		public static EventId Loading => new EventId(19980904, nameof(Loading));
 		public static EventId Loaded => new EventId(19980905, nameof(Loaded));
+		public static EventId Error => new EventId(19980906, nameof(Error));
 
 		public static List<EventId> Events => new List<EventId>
 		{
@@ -18,6 +19,7 @@ namespace TwitchMemeAlertsAuto.Core
 			NotFound,
 			Loading,
 			Loaded,
+			Error,
 		};
 	}
 }
