@@ -4,13 +4,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Polly;
+using Polly.Extensions.Http;
+using Polly.Timeout;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Net.Http.Headers;
-using System.Reflection;
 using System.Windows;
 using TwitchChat.Client;
 using TwitchChat.Parser;
@@ -89,7 +91,11 @@ namespace TwitchMemeAlertsAuto.WPF
 						var settingsService = sp.GetRequiredService<ISettingsService>();
 						client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await settingsService.GetMemeAlertsTokenAsync().ConfigureAwait(false));
 					}
-				});
+				})
+				.SetHandlerLifetime(TimeSpan.FromMinutes(5))
+				.AddPolicyHandler(HttpPolicyExtensions.HandleTransientHttpError()
+					.Or<TimeoutRejectedException>()
+					.WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
 
 			host = builder.Build();
 
