@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Windows;
 using TwitchChat.Client;
@@ -42,7 +43,6 @@ namespace TwitchMemeAlertsAuto.WPF
 			CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("ru-RU");
 			CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("ru-RU");
 			builder.Logging.AddDebug();
-			//builder.Logging.SetMinimumLevel(LogLevel.Debug);
 #endif
 			var fileVersionInfo = FileVersionInfo.GetVersionInfo(Environment.ProcessPath);
 
@@ -51,6 +51,15 @@ namespace TwitchMemeAlertsAuto.WPF
 
 			// Add custom WPF logger provider to capture logs with EventId
 			builder.Logging.AddProvider(new WpfLoggerProvider(LogLevel.Information));
+
+			if (builder.Configuration.GetSection("Logging:LogLevel").GetChildren().Any(c => Enum.TryParse<LogLevel>(c.Value, true, out var result) && result < LogLevel.Information))
+			{
+				builder.Logging.AddFile(o =>
+				{
+					o.RootPath = builder.Environment.ContentRootPath;
+					o.Files = [new Karambolo.Extensions.Logging.File.LogFileOptions { DateFormat = "yyyyMMdd", Path = "<date>-<counter>.log" }];
+				});
+			}
 
 			builder.Services.AddDbContextFactory<TmaaDbContext>((o) => o.UseSqlite($"Data Source={Path.Join(dbPath, "tmaa.db")}", b => b.MigrationsAssembly(typeof(Core.Migrations.Sqlite.Migrations.InitialCreate).Assembly.GetName().Name)))
 				.AddSingleton<IRewardsService, RewardsService>()
