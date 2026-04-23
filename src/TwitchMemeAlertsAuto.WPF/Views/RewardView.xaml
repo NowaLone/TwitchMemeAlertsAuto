@@ -9,6 +9,9 @@
     xmlns:vm="clr-namespace:TwitchMemeAlertsAuto.Core.ViewModels;assembly=TwitchMemeAlertsAuto.Core"
     d:DataContext="{d:DesignInstance Type=vm:RewardViewModel}"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <BitmapImage x:Key="DefaultImage" UriSource="/default-4.png" />
+    </UserControl.Resources>
     <StackPanel MaxWidth="200">
         <Border
             Width="75"
@@ -16,10 +19,7 @@
             Margin="4"
             d:Background="Lavender"
             Background="{Binding Reward.BackgroundColor}">
-            <Image
-                Width="50"
-                d:Source="/glitch_flat_purple.ico"
-                Source="{Binding Reward.Image.Url4x, Mode=OneWay}" />
+            <Image Width="50" Source="{Binding Reward.Image.Url4x, Mode=OneWay, FallbackValue={StaticResource DefaultImage}, TargetNullValue={StaticResource DefaultImage}}" />
         </Border>
         <TextBlock
             d:Text="Sample Reward"

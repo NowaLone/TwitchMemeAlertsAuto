@@ -34,6 +34,10 @@
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</Resource>
+		<Resource Include="..\..\default-4.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</Resource>
 	</ItemGroup>
 
 	<ItemGroup>
