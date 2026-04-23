@@ -81,7 +81,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			}
 			catch (Exception ex)
 			{
-				logger.LogError(ex, "Error fetching rewards");
+				logger.LogError(ex, "Error fetching supporters");
 			}
 			finally
 			{
