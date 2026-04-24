@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -71,15 +72,23 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			var supporters = new List<Supporter>();
 			for (int limit = 100, total = 100, skip = 0; limit > 0 && limit + skip <= total; skip += limit, limit = total - skip > 100 ? 100 : total - skip)
 			{
+
+				logger.LogDebug("Do supporters request. limit: {limit} total: {total} skip: {skip}", limit, total, skip);
 				using var request = new HttpRequestMessage(HttpMethod.Post, "api/supporters") { Content = new StringContent($"{{\"limit\":{limit},\"skip\":{skip},\"query\":\"\",\"filters\":[0]}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json)) };
 				using var responseMessage = await DoRequest(request, cancellationToken).ConfigureAwait(false);
 
+				logger.LogDebug("Supporters request done. limit: {limit} total: {total} skip: {skip}", limit, total, skip);
+
 				if (responseMessage == null)
 				{
+					logger.LogDebug("Supporters request is null. limit: {limit} total: {total} skip: {skip}", limit, total, skip);
 					break;
 				}
 
+				logger.LogDebug("Supporters read content.");
 				var response = await responseMessage.Content.ReadFromJsonAsync(jsonTypeInfo: SerializationModeOptionsContext.Default.Supporters, cancellationToken).ConfigureAwait(false);
+				logger.LogDebug("Supporters content read done. Read {count} supporters", response.Data.Count());
+
 				supporters.AddRange(response.Data);
 				total = response.Total;
 			}
