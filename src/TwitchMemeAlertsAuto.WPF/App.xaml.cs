@@ -92,7 +92,7 @@ namespace TwitchMemeAlertsAuto.WPF
 				.AddTransient<ITwitchClient, TwitchClient>((sp) => new TwitchClient(new IrcClientWebSocket(new IrcClientWebSocket.Options() { Uri = new Uri(TwitchClient.Options.wssUrlSSL) }, sp.GetRequiredService<ILogger<IrcClientWebSocket>>()), new TwitchParser(), new OptionsMonitor<TwitchClient.Options>(new OptionsFactory<TwitchClient.Options>(new List<IConfigureOptions<TwitchClient.Options>>(), new List<IPostConfigureOptions<TwitchClient.Options>>()), new List<IOptionsChangeTokenSource<TwitchClient.Options>>(), new OptionsCache<TwitchClient.Options>()), sp.GetRequiredService<ILogger<TwitchClient>>()))
 				.AddHttpClient(nameof(MemeAlertsService), async (sp, client) =>
 				{
-					client.Timeout = TimeSpan.FromSeconds(10);
+					client.Timeout = TimeSpan.FromSeconds(30);
 					client.BaseAddress = new Uri("https://memealerts.com");
 
 					using (var scope = sp.CreateAsyncScope())
