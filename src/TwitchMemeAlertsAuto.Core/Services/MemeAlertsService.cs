@@ -69,7 +69,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			logger.LogInformation(EventIds.Loading, "Обновление саппортёров...");
 
 			var supporters = new List<Supporter>();
-			for (int limit = 100, total = 100, skip = 0; limit > 0 && limit + skip <= total; skip += limit, limit = total - skip)
+			for (int limit = 100, total = 100, skip = 0; limit > 0 && limit + skip <= total; skip += limit, limit = total - skip > 100 ? 100 : total - skip)
 			{
 				using var request = new HttpRequestMessage(HttpMethod.Post, "api/supporters") { Content = new StringContent($"{{\"limit\":{limit},\"skip\":{skip},\"query\":\"\",\"filters\":[0]}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json)) };
 				using var responseMessage = await DoRequest(request, cancellationToken).ConfigureAwait(false);
