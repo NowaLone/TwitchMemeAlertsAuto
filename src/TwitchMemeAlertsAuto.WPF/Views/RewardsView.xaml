@@ -5,7 +5,7 @@
     xmlns:converters="clr-namespace:TwitchMemeAlertsAuto.WPF.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:properties="clr-namespace:TwitchMemeAlertsAuto.WPF.Properties"
+xmlns:properties="clr-namespace:TwitchMemeAlertsAuto.Core.Properties;assembly=TwitchMemeAlertsAuto.Core"
     xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
     xmlns:views="clr-namespace:TwitchMemeAlertsAuto.WPF.Views"
     xmlns:vm="clr-namespace:TwitchMemeAlertsAuto.Core.ViewModels;assembly=TwitchMemeAlertsAuto.Core"

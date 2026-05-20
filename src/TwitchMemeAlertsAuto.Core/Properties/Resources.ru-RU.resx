@@ -225,4 +225,16 @@
   <data name="TryRewardWithWrongNickname" xml:space="preserve">
     <value>Пытаться награждать по нику на Twitch</value>
   </data>
+  <data name="AddShowMemer" xml:space="preserve">
+    <value>Добавить награду "Показать последнего мемера"</value>
+  </data>
+  <data name="ShowLastMemer" xml:space="preserve">
+    <value>Показать последнего мемера</value>
+  </data>
+  <data name="ShowMemerRewardSuccessfullyCreated" xml:space="preserve">
+    <value>Награда "Показать последнего мемера" успешно создана. Вы можете настроить цену, иконку и тд. в своём Twitch дашборде</value>
+  </data>
+  <data name="LastMemeSentBy" xml:space="preserve">
+    <value>Мем "{0}" отправлен {1}</value>
+  </data>
 </root>

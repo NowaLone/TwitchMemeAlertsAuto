@@ -145,7 +145,7 @@ namespace TwitchMemeAlertsAuto.WPF
 		private void ShowTray()
 		{
 			var contextMenuStrip = new System.Windows.Forms.ContextMenuStrip();
-			contextMenuStrip.Items.Add(TwitchMemeAlertsAuto.WPF.Properties.Resources.ExitMenu, null, (s, e) => Application.Current.Shutdown());
+			contextMenuStrip.Items.Add(Core.Properties.Resources.ExitMenu, null, (s, e) => Application.Current.Shutdown());
 			var icon = new NotifyIcon
 			{
 				Icon = new System.Drawing.Icon(Application.GetResourceStream(new Uri("pack://application:,,,/favicon-96x96.ico")).Stream),

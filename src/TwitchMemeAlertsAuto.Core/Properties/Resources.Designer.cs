@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TwitchMemeAlertsAuto.WPF.Properties {
+namespace TwitchMemeAlertsAuto.Core.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace TwitchMemeAlertsAuto.WPF.Properties {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TwitchMemeAlertsAuto.WPF.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TwitchMemeAlertsAuto.Core.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -66,6 +66,15 @@ namespace TwitchMemeAlertsAuto.WPF.Properties {
         public static string AboutMenu {
             get {
                 return ResourceManager.GetString("AboutMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add &quot;Show last memer&quot; Reward.
+        /// </summary>
+        public static string AddShowMemer {
+            get {
+                return ResourceManager.GetString("AddShowMemer", resourceCulture);
             }
         }
         
@@ -174,6 +183,15 @@ namespace TwitchMemeAlertsAuto.WPF.Properties {
         public static string HelpMenu {
             get {
                 return ResourceManager.GetString("HelpMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Meme &quot;{0}&quot; sent by {1}.
+        /// </summary>
+        public static string LastMemeSentBy {
+            get {
+                return ResourceManager.GetString("LastMemeSentBy", resourceCulture);
             }
         }
         
@@ -318,6 +336,24 @@ namespace TwitchMemeAlertsAuto.WPF.Properties {
         public static string SearchForSupportersTooltip {
             get {
                 return ResourceManager.GetString("SearchForSupportersTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show last memer.
+        /// </summary>
+        public static string ShowLastMemer {
+            get {
+                return ResourceManager.GetString("ShowLastMemer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;Show last memer&quot; reward successfully created. You can set up reward cost, icon, etc in your twitch dashboard.
+        /// </summary>
+        public static string ShowMemerRewardSuccessfullyCreated {
+            get {
+                return ResourceManager.GetString("ShowMemerRewardSuccessfullyCreated", resourceCulture);
             }
         }
         

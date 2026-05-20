@@ -9,7 +9,7 @@ namespace TwitchMemeAlertsAuto.WPF.Converters
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			if (value == null)
-				return Properties.Resources.Unknown;
+				return Core.Properties.Resources.Unknown;
 
 			DateTime date;
 			if (value is DateTime dt)
@@ -36,15 +36,15 @@ namespace TwitchMemeAlertsAuto.WPF.Converters
 
 			if (date == today)
 			{
-				return Properties.Resources.Today;
+				return Core.Properties.Resources.Today;
 			}
 			if (date == today.AddDays(-1))
 			{
-				return Properties.Resources.Yesterday;
+				return Core.Properties.Resources.Yesterday;
 			}
 			if (date == today.AddDays(-2))
 			{
-				return Properties.Resources.DayBeforeYesterday;
+				return Core.Properties.Resources.DayBeforeYesterday;
 			}
 			else
 			{

@@ -225,4 +225,16 @@
   <data name="TryRewardWithWrongNickname" xml:space="preserve">
     <value>Trying to reward by nickname on Twitch</value>
   </data>
+  <data name="AddShowMemer" xml:space="preserve">
+    <value>Add "Show last memer" Reward</value>
+  </data>
+  <data name="ShowLastMemer" xml:space="preserve">
+    <value>Show last memer</value>
+  </data>
+  <data name="ShowMemerRewardSuccessfullyCreated" xml:space="preserve">
+    <value>"Show last memer" reward successfully created. You can set up reward cost, icon, etc in your twitch dashboard</value>
+  </data>
+  <data name="LastMemeSentBy" xml:space="preserve">
+    <value>Meme "{0}" sent by {1}</value>
+  </data>
 </root>
