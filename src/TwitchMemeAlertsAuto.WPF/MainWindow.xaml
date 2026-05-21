@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:TwitchMemeAlertsAuto.WPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-xmlns:properties="clr-namespace:TwitchMemeAlertsAuto.Core.Properties;assembly=TwitchMemeAlertsAuto.Core"
+    xmlns:properties="clr-namespace:TwitchMemeAlertsAuto.Core.Properties;assembly=TwitchMemeAlertsAuto.Core"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:views="clr-namespace:TwitchMemeAlertsAuto.WPF.Views"
     xmlns:vm="clr-namespace:TwitchMemeAlertsAuto.Core.ViewModels;assembly=TwitchMemeAlertsAuto.Core"

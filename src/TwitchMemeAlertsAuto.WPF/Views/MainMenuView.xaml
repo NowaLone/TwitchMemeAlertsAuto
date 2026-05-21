@@ -28,6 +28,11 @@
                     Header="{x:Static properties:Resources.TryRewardWithWrongNickname}"
                     IsCheckable="True"
                     IsChecked="{Binding TryRewardWithWrongNickname}" />
+                <MenuItem
+                    Command="{Binding AddShowMemerCommand}"
+                    Header="{x:Static properties:Resources.AddShowMemer}"
+                    IsCheckable="True"
+                    IsChecked="{Binding ShowMemer}" />
                 <Separator />
                 <MenuItem Command="{Binding ExitCommand}" Header="{x:Static properties:Resources.ExitMenu}" />
             </MenuItem>
