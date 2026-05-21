@@ -2,12 +2,14 @@ using AutoFixture;
 using AutoFixture.AutoMoq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
+using TwitchLib.Api.Interfaces;
 using TwitchMemeAlertsAuto.Core.Services;
 using TwitchMemeAlertsAuto.Core.ViewModels;
 using TwitchMemeAlertsAuto.Core.ViewModels.Messages;
@@ -210,9 +212,11 @@ public class MainMenuViewModelTests
 		// Arrange
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
 		var settingsServiceMock = new Mock<ISettingsService>();
+		var twitchApiMock = new Mock<ITwitchAPI>();
 		var connectionViewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
 			Mock.Of<IRewardsService>(),
+			Mock.Of<IHostedService>(),
 			Mock.Of<ITwitchOAuthService>(),
 			Mock.Of<IMemeAlertsService>(),
 			dispatcherServiceMock.Object,
@@ -225,6 +229,7 @@ public class MainMenuViewModelTests
 		var viewModel = new MainMenuViewModel(
 			dispatcherServiceMock.Object,
 			settingsServiceMock.Object,
+			twitchApiMock.Object,
 			connectionViewModel,
 			loggerMock.Object);
 
@@ -245,9 +250,11 @@ public class MainMenuViewModelTests
 		// Arrange
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
 		var settingsServiceMock = new Mock<ISettingsService>();
+		var twitchApiMock = new Mock<ITwitchAPI>();
 		var connectionViewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
 			Mock.Of<IRewardsService>(),
+			Mock.Of<IHostedService>(),
 			Mock.Of<ITwitchOAuthService>(),
 			Mock.Of<IMemeAlertsService>(),
 			dispatcherServiceMock.Object,
@@ -259,6 +266,7 @@ public class MainMenuViewModelTests
 		var viewModel = new MainMenuViewModel(
 			dispatcherServiceMock.Object,
 			settingsServiceMock.Object,
+			twitchApiMock.Object,
 			connectionViewModel,
 			loggerMock.Object);
 
@@ -277,9 +285,11 @@ public class MainMenuViewModelTests
 		// Arrange
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
 		var settingsServiceMock = new Mock<ISettingsService>();
+		var twitchApiMock = new Mock<ITwitchAPI>();
 		var connectionViewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
 			Mock.Of<IRewardsService>(),
+			Mock.Of<IHostedService>(),
 			Mock.Of<ITwitchOAuthService>(),
 			Mock.Of<IMemeAlertsService>(),
 			dispatcherServiceMock.Object,
@@ -291,6 +301,7 @@ public class MainMenuViewModelTests
 		var viewModel = new MainMenuViewModel(
 			dispatcherServiceMock.Object,
 			settingsServiceMock.Object,
+			twitchApiMock.Object,
 			connectionViewModel,
 			loggerMock.Object);
 
@@ -309,9 +320,11 @@ public class MainMenuViewModelTests
 		// Arrange
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
 		var settingsServiceMock = new Mock<ISettingsService>();
+		var twitchApiMock = new Mock<ITwitchAPI>();
 		var connectionViewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
 			Mock.Of<IRewardsService>(),
+			Mock.Of<IHostedService>(),
 			Mock.Of<ITwitchOAuthService>(),
 			Mock.Of<IMemeAlertsService>(),
 			dispatcherServiceMock.Object,
@@ -323,6 +336,7 @@ public class MainMenuViewModelTests
 		var viewModel = new MainMenuViewModel(
 			dispatcherServiceMock.Object,
 			settingsServiceMock.Object,
+			twitchApiMock.Object,
 			connectionViewModel,
 			loggerMock.Object);
 
@@ -345,9 +359,11 @@ public class MainMenuViewModelTests
 		// Arrange
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
 		var settingsServiceMock = new Mock<ISettingsService>();
+		var twitchApiMock = new Mock<ITwitchAPI>();
 		var connectionViewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
 			Mock.Of<IRewardsService>(),
+			Mock.Of<IHostedService>(),
 			Mock.Of<ITwitchOAuthService>(),
 			Mock.Of<IMemeAlertsService>(),
 			dispatcherServiceMock.Object,
@@ -359,6 +375,7 @@ public class MainMenuViewModelTests
 		var viewModel = new MainMenuViewModel(
 			dispatcherServiceMock.Object,
 			settingsServiceMock.Object,
+			twitchApiMock.Object,
 			connectionViewModel,
 			loggerMock.Object);
 

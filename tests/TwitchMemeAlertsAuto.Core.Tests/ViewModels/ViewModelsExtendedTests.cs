@@ -2,6 +2,7 @@ using AutoFixture;
 using AutoFixture.AutoMoq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
@@ -35,6 +36,7 @@ public class ConnectionViewModelExtendedTests
 		// Arrange
 		var settingsServiceMock = new Mock<ISettingsService>();
 		var rewardsServiceMock = new Mock<IRewardsService>();
+		var hostedServiceMock = new Mock<IHostedService>();
 		var twitchOAuthServiceMock = new Mock<ITwitchOAuthService>();
 		var memeAlertsServiceMock = new Mock<IMemeAlertsService>();
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
@@ -45,6 +47,7 @@ public class ConnectionViewModelExtendedTests
 		var viewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
 			rewardsServiceMock.Object,
+			hostedServiceMock.Object,
 			twitchOAuthServiceMock.Object,
 			memeAlertsServiceMock.Object,
 			dispatcherServiceMock.Object,
@@ -61,7 +64,7 @@ public class ConnectionViewModelExtendedTests
 		viewModel.Receive(message);
 
 		// Assert
-		rewardsServiceMock.Verify(r => r.StartAsync(It.IsAny<IDictionary<string, int>>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()), Times.Never);
+		rewardsServiceMock.Verify(r => r.StartAsync(It.IsAny<IDictionary<string, int>>(), It.IsAny<string>(), It.IsAny<bool>(), cancellationToken: It.IsAny<CancellationToken>()), Times.Never);
 	}
 
 	[TestMethod]
@@ -72,6 +75,7 @@ public class ConnectionViewModelExtendedTests
 		// Arrange
 		var settingsServiceMock = new Mock<ISettingsService>();
 		var rewardsServiceMock = new Mock<IRewardsService>();
+		var hostedServiceMock = new Mock<IHostedService>();
 		var twitchOAuthServiceMock = new Mock<ITwitchOAuthService>();
 		var memeAlertsServiceMock = new Mock<IMemeAlertsService>();
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
@@ -82,6 +86,7 @@ public class ConnectionViewModelExtendedTests
 		var viewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
 			rewardsServiceMock.Object,
+			hostedServiceMock.Object,
 			twitchOAuthServiceMock.Object,
 			memeAlertsServiceMock.Object,
 			dispatcherServiceMock.Object,
@@ -98,7 +103,7 @@ public class ConnectionViewModelExtendedTests
 		viewModel.Receive(message);
 
 		// Assert
-		rewardsServiceMock.Verify(r => r.StartAsync(It.IsAny<IDictionary<string, int>>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()), Times.Never);
+		rewardsServiceMock.Verify(r => r.StartAsync(It.IsAny<IDictionary<string, int>>(), It.IsAny<string>(), It.IsAny<bool>(), cancellationToken: It.IsAny<CancellationToken>()), Times.Never);
 	}
 
 	#endregion
@@ -113,6 +118,7 @@ public class ConnectionViewModelExtendedTests
 		// Arrange
 		var settingsServiceMock = new Mock<ISettingsService>();
 		var rewardsServiceMock = new Mock<IRewardsService>();
+		var hostedServiceMock = new Mock<IHostedService>();
 		var twitchOAuthServiceMock = new Mock<ITwitchOAuthService>();
 		var memeAlertsServiceMock = new Mock<IMemeAlertsService>();
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
@@ -123,6 +129,7 @@ public class ConnectionViewModelExtendedTests
 		var viewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
 			rewardsServiceMock.Object,
+			hostedServiceMock.Object,
 			twitchOAuthServiceMock.Object,
 			memeAlertsServiceMock.Object,
 			dispatcherServiceMock.Object,
@@ -147,6 +154,7 @@ public class ConnectionViewModelExtendedTests
 		// Arrange
 		var settingsServiceMock = new Mock<ISettingsService>();
 		var rewardsServiceMock = new Mock<IRewardsService>();
+		var hostedServiceMock = new Mock<IHostedService>();
 		var twitchOAuthServiceMock = new Mock<ITwitchOAuthService>();
 		var memeAlertsServiceMock = new Mock<IMemeAlertsService>();
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
@@ -157,6 +165,7 @@ public class ConnectionViewModelExtendedTests
 		var viewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
 			rewardsServiceMock.Object,
+			hostedServiceMock.Object,
 			twitchOAuthServiceMock.Object,
 			memeAlertsServiceMock.Object,
 			dispatcherServiceMock.Object,
@@ -185,6 +194,7 @@ public class ConnectionViewModelExtendedTests
 		// Arrange
 		var settingsServiceMock = new Mock<ISettingsService>();
 		var rewardsServiceMock = new Mock<IRewardsService>();
+		var hostedServiceMock = new Mock<IHostedService>();
 		var twitchOAuthServiceMock = new Mock<ITwitchOAuthService>();
 		var memeAlertsServiceMock = new Mock<IMemeAlertsService>();
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
@@ -195,6 +205,7 @@ public class ConnectionViewModelExtendedTests
 		var viewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
 			rewardsServiceMock.Object,
+			hostedServiceMock.Object,
 			twitchOAuthServiceMock.Object,
 			memeAlertsServiceMock.Object,
 			dispatcherServiceMock.Object,
@@ -219,6 +230,7 @@ public class ConnectionViewModelExtendedTests
 		// Arrange
 		var settingsServiceMock = new Mock<ISettingsService>();
 		var rewardsServiceMock = new Mock<IRewardsService>();
+		var hostedServiceMock = new Mock<IHostedService>();
 		var twitchOAuthServiceMock = new Mock<ITwitchOAuthService>();
 		var memeAlertsServiceMock = new Mock<IMemeAlertsService>();
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
@@ -229,6 +241,7 @@ public class ConnectionViewModelExtendedTests
 		var viewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
 			rewardsServiceMock.Object,
+			hostedServiceMock.Object,
 			twitchOAuthServiceMock.Object,
 			memeAlertsServiceMock.Object,
 			dispatcherServiceMock.Object,
@@ -406,13 +419,14 @@ public class TestConnectionViewModel : ConnectionViewModel
 	public TestConnectionViewModel(
 		ISettingsService settingsService,
 		IRewardsService rewardsService,
+		IHostedService hostedService,
 		ITwitchOAuthService twitchOAuthService,
 		IMemeAlertsService twitchMemeAlertsAutoService,
 		IDispatcherService dispatcherService,
 		IServiceProvider serviceProvider,
 		IDbContextFactory<TmaaDbContext> dbContextFactory,
 		ILogger<ConnectionViewModel> logger)
-		: base(settingsService, rewardsService, twitchOAuthService, twitchMemeAlertsAutoService, dispatcherService, serviceProvider, dbContextFactory, logger)
+		: base(settingsService, rewardsService, hostedService, twitchOAuthService, twitchMemeAlertsAutoService, dispatcherService, serviceProvider, dbContextFactory, logger)
 	{
 	}
 
