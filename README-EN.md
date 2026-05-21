@@ -16,6 +16,7 @@ There are 2 versions of the program: a regular (GUI) version with additional fea
 | Ability to minimize to system tray | ✅ | ❌ |
 | Auto-update | ✅ | ❌ |
 | Auto-start on system login | ✅ | ❌ |
+| Ability to show last memer | ✅ | ❌ |
 
 Download both versions from the [latest release](https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/latest)
 
@@ -61,7 +62,8 @@ If you need the full functionality, you need to connect both Twitch and MemeAler
   - Reward the last N supporters who received meme coins
 - Updates are not checked automatically, but if updates are available, you can update automatically by clicking Help → Check for updates
 - Double-clicking the tray icon minimizes/restores the program
-
+- The File menu has buttons for enabling autoplay, rewarding by Twitch nickname, and creating a Twitch reward that allows you to report in chat who sent the last meme.
+- 
 ## Detailed CLI setup
 
 ### How to extract the MemeAlerts token?
