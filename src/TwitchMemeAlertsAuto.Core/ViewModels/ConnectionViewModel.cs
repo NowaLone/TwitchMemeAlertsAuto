@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 	{
 		private readonly ISettingsService settingsService;
 		private readonly IRewardsService rewardsService;
+		private readonly IHostedService hostedService;
 		private readonly ITwitchOAuthService twitchOAuthService;
 		private readonly IMemeAlertsService twitchMemeAlertsAutoService;
 		private readonly IDispatcherService dispatcherService;
@@ -52,10 +54,11 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		{
 		}
 
-		public ConnectionViewModel(ISettingsService settingsService, IRewardsService rewardsService, ITwitchOAuthService twitchOAuthService, IMemeAlertsService twitchMemeAlertsAutoService, IDispatcherService dispatcherService, IServiceProvider serviceProvider, IDbContextFactory<TmaaDbContext> dbContextFactory, ILogger<ConnectionViewModel> logger) : this()
+		public ConnectionViewModel(ISettingsService settingsService, IRewardsService rewardsService, IHostedService hostedService, ITwitchOAuthService twitchOAuthService, IMemeAlertsService twitchMemeAlertsAutoService, IDispatcherService dispatcherService, IServiceProvider serviceProvider, IDbContextFactory<TmaaDbContext> dbContextFactory, ILogger<ConnectionViewModel> logger) : this()
 		{
 			this.settingsService = settingsService;
 			this.rewardsService = rewardsService;
+			this.hostedService = hostedService;
 			this.twitchOAuthService = twitchOAuthService;
 			this.twitchMemeAlertsAutoService = twitchMemeAlertsAutoService;
 			this.dispatcherService = dispatcherService;
@@ -201,12 +204,14 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			if (cancellationTokenSource != null)
 			{
 				await rewardsService.StopAsync(cancellationToken).ConfigureAwait(false);
+				await hostedService.StopAsync(cancellationToken).ConfigureAwait(false);
+
 				cancellationTokenSource.Cancel();
 			}
 
 			var userId = await settingsService.GetTwitchUserIdAsync(cancellationToken).ConfigureAwait(false);
 			var tryRewardWithWrongNickname = await settingsService.GetTryRewardWithWrongNicknameOptionAsync(cancellationToken).ConfigureAwait(false);
-
+			
 			IDictionary<string, int> rewards = null;
 
 			using (var scope = serviceProvider.CreateAsyncScope())
@@ -224,6 +229,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			cancellationTokenSource = new CancellationTokenSource();
 
 			await rewardsService.StartAsync(rewards, TwitchUsername, tryRewardWithWrongNickname, cancellationToken: cancellationTokenSource.Token).ConfigureAwait(false);
+			await hostedService.StartAsync(cancellationToken).ConfigureAwait(false);
 		}
 
 		private async Task<string> GetMemeAlertsUsername(CancellationToken cancellationToken = default)

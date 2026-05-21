@@ -11,6 +11,7 @@
 		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.2" />
 		<PackageReference Include="NowaLone.TwitchChat.Client.Extensions" Version="1.0.1" />
 		<PackageReference Include="TwitchLib.Api" Version="3.10.2" />
+		<PackageReference Include="TwitchLib.EventSub.Websockets" Version="0.8.0" />
 	</ItemGroup>
 
 	<ItemGroup>

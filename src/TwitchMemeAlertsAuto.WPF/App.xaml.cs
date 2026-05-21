@@ -20,6 +20,7 @@ using TwitchChat.Client;
 using TwitchChat.Parser;
 using TwitchLib.Api;
 using TwitchLib.Api.Interfaces;
+using TwitchLib.EventSub.Websockets.Extensions;
 using TwitchMemeAlertsAuto.Core;
 using TwitchMemeAlertsAuto.Core.Logging;
 using TwitchMemeAlertsAuto.Core.Services;
@@ -77,6 +78,7 @@ namespace TwitchMemeAlertsAuto.WPF
 				.AddTransient<AllRewardViewModel>()
 				.AddTransient<SupporterViewModel>()
 				.AddTransient<SupportersViewModel>()
+				.AddTwitchLibEventSubWebsockets()
 				.AddTransient<ITwitchAPI, TwitchAPI>(sp =>
 				{
 					var api = new TwitchAPI(sp.GetRequiredService<ILoggerFactory>());
@@ -107,6 +109,7 @@ namespace TwitchMemeAlertsAuto.WPF
 					options.CurrentValue.Nickname = nickname;
 					return new TwitchClient(sp.GetRequiredService<IIrcClientWebSocket>(), sp.GetRequiredService<IIrcParser<TwitchMessage>>(), options, sp.GetRequiredService<ILogger<TwitchClient>>());
 				})
+				.AddSingleton<IHostedService, WebsocketHostedService>()
 				.AddHttpClient(nameof(MemeAlertsService), async (sp, client) =>
 				{
 					client.Timeout = TimeSpan.FromSeconds(30);
