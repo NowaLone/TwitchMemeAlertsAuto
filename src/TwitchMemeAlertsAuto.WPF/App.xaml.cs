@@ -1,4 +1,6 @@
-﻿using IrcNet.Client;
+﻿using IrcNet;
+using IrcNet.Client;
+using IrcNet.Client.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -8,7 +10,6 @@ using Polly;
 using Polly.Extensions.Http;
 using Polly.Timeout;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -89,7 +90,23 @@ namespace TwitchMemeAlertsAuto.WPF
 
 					return api;
 				})
-				.AddTransient<ITwitchClient, TwitchClient>((sp) => new TwitchClient(new IrcClientWebSocket(new IrcClientWebSocket.Options() { Uri = new Uri(TwitchClient.Options.wssUrlSSL) }, sp.GetRequiredService<ILogger<IrcClientWebSocket>>()), new TwitchParser(), new OptionsMonitor<TwitchClient.Options>(new OptionsFactory<TwitchClient.Options>(new List<IConfigureOptions<TwitchClient.Options>>(), new List<IPostConfigureOptions<TwitchClient.Options>>()), new List<IOptionsChangeTokenSource<TwitchClient.Options>>(), new OptionsCache<TwitchClient.Options>()), sp.GetRequiredService<ILogger<TwitchClient>>()))
+				.AddTransient<IIrcParser<TwitchMessage>, TwitchParser>()
+				.AddTransient(s => s.GetRequiredService<IOptions<IrcClientWebSocket.Options>>().Value)
+				.AddIrcWebSocketClient(o => o.Uri = new Uri(TwitchClient.Options.wssUrlSSL))
+				.AddSingleton<ITwitchClient, TwitchClient>((sp) =>
+				{
+					string token, nickname;
+					using (var scope = sp.CreateScope())
+					{
+						var settingsService = scope.ServiceProvider.GetRequiredService<ISettingsService>();
+						token = settingsService.GetTwitchOAuthTokenAsync().GetAwaiter().GetResult();
+						nickname = settingsService.GetTwitchUsernameAsync().GetAwaiter().GetResult();
+					}
+					var options = sp.GetRequiredService<IOptionsMonitor<TwitchClient.Options>>();
+					options.CurrentValue.OAuthToken = token;
+					options.CurrentValue.Nickname = nickname;
+					return new TwitchClient(sp.GetRequiredService<IIrcClientWebSocket>(), sp.GetRequiredService<IIrcParser<TwitchMessage>>(), options, sp.GetRequiredService<ILogger<TwitchClient>>());
+				})
 				.AddHttpClient(nameof(MemeAlertsService), async (sp, client) =>
 				{
 					client.Timeout = TimeSpan.FromSeconds(30);
