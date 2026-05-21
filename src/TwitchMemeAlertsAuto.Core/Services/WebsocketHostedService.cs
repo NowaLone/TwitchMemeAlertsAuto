@@ -52,7 +52,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			if (events.Count != 0)
 			{
 				var lastEvent = events.OrderByDescending(e => e.Timestamp).FirstOrDefault();
-				var msg = ircParser.BuildMessage(new IrcV3Message { Command = IrcCommand.PRIVMSG, Parameters = new List<string> { $"#{e.Payload.Event.BroadcasterUserLogin}", string.Format(":@" + e.Payload.Event.UserName + " " + Properties.Resources.LastMemeSentBy, lastEvent.StickerName, lastEvent.UserName) } });
+				var msg = ircParser.BuildMessage(new IrcV3Message { Command = IrcCommand.PRIVMSG, Parameters = new List<string> { $"#{e.Payload.Event.BroadcasterUserLogin}", string.Format(":@" + e.Payload.Event.UserName + " " + Properties.Resources.LastMemeSentBy, "Неизвестно", lastEvent.UserName) } });
 				await twitchClient.SendMessageAsync(msg).ConfigureAwait(false);
 			}
 		}
