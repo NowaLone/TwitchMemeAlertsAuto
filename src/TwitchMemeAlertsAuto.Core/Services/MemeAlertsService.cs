@@ -121,7 +121,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			var events = new List<Event>();
 			for (int limit = 100, total = 100, skip = 0; limit > 0 && limit + skip <= total; skip += limit, limit = total - skip)
 			{
-				using var request = new HttpRequestMessage(HttpMethod.Post, "api/event/period") { Content = new StringContent($"{{\"period\":30,\"skip\":{skip},\"limit\":{limit},\"filters\":[2,3,4],\"date\":null}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json)) };
+				using var request = new HttpRequestMessage(HttpMethod.Post, "api/event/period") { Content = new StringContent($"{{\"period\":30,\"skip\":{skip},\"limit\":{limit},\"filters\":[2],\"date\":null}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json)) };
 				using var responseMessage = await DoRequest(request, cancellationToken).ConfigureAwait(false);
 
 				if (responseMessage == null)
