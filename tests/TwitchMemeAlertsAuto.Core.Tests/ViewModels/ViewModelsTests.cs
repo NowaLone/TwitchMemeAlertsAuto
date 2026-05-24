@@ -216,7 +216,7 @@ public class MainMenuViewModelTests
 		var connectionViewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
 			Mock.Of<IRewardsService>(),
-			Mock.Of<IHostedService>(),
+			Mock.Of<IWebsocketHostedService>(),
 			Mock.Of<ITwitchOAuthService>(),
 			Mock.Of<IMemeAlertsService>(),
 			dispatcherServiceMock.Object,
@@ -254,7 +254,7 @@ public class MainMenuViewModelTests
 		var connectionViewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
 			Mock.Of<IRewardsService>(),
-			Mock.Of<IHostedService>(),
+			Mock.Of<IWebsocketHostedService>(),
 			Mock.Of<ITwitchOAuthService>(),
 			Mock.Of<IMemeAlertsService>(),
 			dispatcherServiceMock.Object,
@@ -289,7 +289,7 @@ public class MainMenuViewModelTests
 		var connectionViewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
 			Mock.Of<IRewardsService>(),
-			Mock.Of<IHostedService>(),
+			Mock.Of<IWebsocketHostedService>(),
 			Mock.Of<ITwitchOAuthService>(),
 			Mock.Of<IMemeAlertsService>(),
 			dispatcherServiceMock.Object,
@@ -324,7 +324,7 @@ public class MainMenuViewModelTests
 		var connectionViewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
 			Mock.Of<IRewardsService>(),
-			Mock.Of<IHostedService>(),
+			Mock.Of<IWebsocketHostedService>(),
 			Mock.Of<ITwitchOAuthService>(),
 			Mock.Of<IMemeAlertsService>(),
 			dispatcherServiceMock.Object,
@@ -363,7 +363,7 @@ public class MainMenuViewModelTests
 		var connectionViewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
 			Mock.Of<IRewardsService>(),
-			Mock.Of<IHostedService>(),
+			Mock.Of<IWebsocketHostedService>(),
 			Mock.Of<ITwitchOAuthService>(),
 			Mock.Of<IMemeAlertsService>(),
 			dispatcherServiceMock.Object,

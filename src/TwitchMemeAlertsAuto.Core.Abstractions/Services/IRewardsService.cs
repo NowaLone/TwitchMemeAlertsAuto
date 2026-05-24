@@ -8,6 +8,6 @@ namespace TwitchMemeAlertsAuto.Core.Services
 	{
 		Task StartAsync(IDictionary<string, int> rewards, string channel, bool tryRewardWithWrongNickname = false, CancellationToken cancellationToken = default);
 
-		Task StopAsync(CancellationToken cancellationToken);
+		Task StopAsync(CancellationToken cancellationToken = default);
 	}
 }

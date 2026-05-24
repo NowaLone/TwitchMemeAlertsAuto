@@ -20,7 +20,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 	{
 		private readonly ISettingsService settingsService;
 		private readonly IRewardsService rewardsService;
-		private readonly IHostedService hostedService;
+		private readonly IWebsocketHostedService websocketHostedService;
 		private readonly ITwitchOAuthService twitchOAuthService;
 		private readonly IMemeAlertsService twitchMemeAlertsAutoService;
 		private readonly IDispatcherService dispatcherService;
@@ -54,11 +54,11 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		{
 		}
 
-		public ConnectionViewModel(ISettingsService settingsService, IRewardsService rewardsService, IHostedService hostedService, ITwitchOAuthService twitchOAuthService, IMemeAlertsService twitchMemeAlertsAutoService, IDispatcherService dispatcherService, IServiceProvider serviceProvider, IDbContextFactory<TmaaDbContext> dbContextFactory, ILogger<ConnectionViewModel> logger) : this()
+		public ConnectionViewModel(ISettingsService settingsService, IRewardsService rewardsService, IWebsocketHostedService websocketHostedService, ITwitchOAuthService twitchOAuthService, IMemeAlertsService twitchMemeAlertsAutoService, IDispatcherService dispatcherService, IServiceProvider serviceProvider, IDbContextFactory<TmaaDbContext> dbContextFactory, ILogger<ConnectionViewModel> logger) : this()
 		{
 			this.settingsService = settingsService;
 			this.rewardsService = rewardsService;
-			this.hostedService = hostedService;
+			this.websocketHostedService = websocketHostedService;
 			this.twitchOAuthService = twitchOAuthService;
 			this.twitchMemeAlertsAutoService = twitchMemeAlertsAutoService;
 			this.dispatcherService = dispatcherService;
@@ -94,8 +94,11 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			base.OnActivated();
 		}
 
-		protected override void OnDeactivated()
+		protected override async void OnDeactivated()
 		{
+			await rewardsService.StopAsync(default);
+			await websocketHostedService.StopAsync(default);
+
 			base.OnDeactivated();
 		}
 
@@ -204,14 +207,14 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			if (cancellationTokenSource != null)
 			{
 				await rewardsService.StopAsync(cancellationToken).ConfigureAwait(false);
-				await hostedService.StopAsync(cancellationToken).ConfigureAwait(false);
+				await websocketHostedService.StopAsync(cancellationToken).ConfigureAwait(false);
 
 				cancellationTokenSource.Cancel();
 			}
 
 			var userId = await settingsService.GetTwitchUserIdAsync(cancellationToken).ConfigureAwait(false);
 			var tryRewardWithWrongNickname = await settingsService.GetTryRewardWithWrongNicknameOptionAsync(cancellationToken).ConfigureAwait(false);
-			
+
 			IDictionary<string, int> rewards = null;
 
 			using (var scope = serviceProvider.CreateAsyncScope())
@@ -229,7 +232,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			cancellationTokenSource = new CancellationTokenSource();
 
 			await rewardsService.StartAsync(rewards, TwitchUsername, tryRewardWithWrongNickname, cancellationToken: cancellationTokenSource.Token).ConfigureAwait(false);
-			await hostedService.StartAsync(cancellationToken).ConfigureAwait(false);
+			await websocketHostedService.StartAsync(cancellationToken).ConfigureAwait(false);
 		}
 
 		private async Task<string> GetMemeAlertsUsername(CancellationToken cancellationToken = default)

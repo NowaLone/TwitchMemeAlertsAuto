@@ -109,7 +109,7 @@ namespace TwitchMemeAlertsAuto.WPF
 					options.CurrentValue.Nickname = nickname;
 					return new TwitchClient(sp.GetRequiredService<IIrcClientWebSocket>(), sp.GetRequiredService<IIrcParser<TwitchMessage>>(), options, sp.GetRequiredService<ILogger<TwitchClient>>());
 				})
-				.AddSingleton<IHostedService, WebsocketHostedService>()
+				.AddTransient<IWebsocketHostedService, WebsocketHostedService>()
 				.AddHttpClient(nameof(MemeAlertsService), async (sp, client) =>
 				{
 					client.Timeout = TimeSpan.FromSeconds(30);

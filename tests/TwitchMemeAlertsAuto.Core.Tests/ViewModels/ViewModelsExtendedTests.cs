@@ -36,7 +36,7 @@ public class ConnectionViewModelExtendedTests
 		// Arrange
 		var settingsServiceMock = new Mock<ISettingsService>();
 		var rewardsServiceMock = new Mock<IRewardsService>();
-		var hostedServiceMock = new Mock<IHostedService>();
+		var hostedServiceMock = new Mock<IWebsocketHostedService>();
 		var twitchOAuthServiceMock = new Mock<ITwitchOAuthService>();
 		var memeAlertsServiceMock = new Mock<IMemeAlertsService>();
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
@@ -75,7 +75,7 @@ public class ConnectionViewModelExtendedTests
 		// Arrange
 		var settingsServiceMock = new Mock<ISettingsService>();
 		var rewardsServiceMock = new Mock<IRewardsService>();
-		var hostedServiceMock = new Mock<IHostedService>();
+		var hostedServiceMock = new Mock<IWebsocketHostedService>();
 		var twitchOAuthServiceMock = new Mock<ITwitchOAuthService>();
 		var memeAlertsServiceMock = new Mock<IMemeAlertsService>();
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
@@ -118,7 +118,7 @@ public class ConnectionViewModelExtendedTests
 		// Arrange
 		var settingsServiceMock = new Mock<ISettingsService>();
 		var rewardsServiceMock = new Mock<IRewardsService>();
-		var hostedServiceMock = new Mock<IHostedService>();
+		var hostedServiceMock = new Mock<IWebsocketHostedService>();
 		var twitchOAuthServiceMock = new Mock<ITwitchOAuthService>();
 		var memeAlertsServiceMock = new Mock<IMemeAlertsService>();
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
@@ -154,7 +154,7 @@ public class ConnectionViewModelExtendedTests
 		// Arrange
 		var settingsServiceMock = new Mock<ISettingsService>();
 		var rewardsServiceMock = new Mock<IRewardsService>();
-		var hostedServiceMock = new Mock<IHostedService>();
+		var hostedServiceMock = new Mock<IWebsocketHostedService>();
 		var twitchOAuthServiceMock = new Mock<ITwitchOAuthService>();
 		var memeAlertsServiceMock = new Mock<IMemeAlertsService>();
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
@@ -194,7 +194,7 @@ public class ConnectionViewModelExtendedTests
 		// Arrange
 		var settingsServiceMock = new Mock<ISettingsService>();
 		var rewardsServiceMock = new Mock<IRewardsService>();
-		var hostedServiceMock = new Mock<IHostedService>();
+		var hostedServiceMock = new Mock<IWebsocketHostedService>();
 		var twitchOAuthServiceMock = new Mock<ITwitchOAuthService>();
 		var memeAlertsServiceMock = new Mock<IMemeAlertsService>();
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
@@ -230,7 +230,7 @@ public class ConnectionViewModelExtendedTests
 		// Arrange
 		var settingsServiceMock = new Mock<ISettingsService>();
 		var rewardsServiceMock = new Mock<IRewardsService>();
-		var hostedServiceMock = new Mock<IHostedService>();
+		var hostedServiceMock = new Mock<IWebsocketHostedService>();
 		var twitchOAuthServiceMock = new Mock<ITwitchOAuthService>();
 		var memeAlertsServiceMock = new Mock<IMemeAlertsService>();
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
@@ -419,7 +419,7 @@ public class TestConnectionViewModel : ConnectionViewModel
 	public TestConnectionViewModel(
 		ISettingsService settingsService,
 		IRewardsService rewardsService,
-		IHostedService hostedService,
+		IWebsocketHostedService hostedService,
 		ITwitchOAuthService twitchOAuthService,
 		IMemeAlertsService twitchMemeAlertsAutoService,
 		IDispatcherService dispatcherService,
