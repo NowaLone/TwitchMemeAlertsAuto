@@ -7,8 +7,8 @@
 	<ItemGroup>
 		<PackageReference Include="AF.Securify.ShellLink" Version="1.1.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.2" />
-		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.8" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.8" />
 		<PackageReference Include="NowaLone.TwitchChat.Client.Extensions" Version="1.0.1" />
 		<PackageReference Include="TwitchLib.Api" Version="3.10.2" />
 		<PackageReference Include="TwitchLib.EventSub.Websockets" Version="0.8.0" />
