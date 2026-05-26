@@ -237,4 +237,10 @@
   <data name="LastMemeSentBy" xml:space="preserve">
     <value>Мем "{0}" отправлен {1}</value>
   </data>
+  <data name="Add" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
 </root>

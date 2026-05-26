@@ -120,29 +120,46 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			Messenger.Send(new SettingsChangedMessage(nameof(settingsService.GetTryRewardWithWrongNicknameOptionAsync)));
 		}
 
-		[RelayCommand]
+		[RelayCommand(CanExecute = nameof(CanAddShowMemer))]
 		private async Task AddShowMemerAsync(CancellationToken cancellationToken = default)
 		{
 			var userId = await settingsService.GetTwitchUserIdAsync(cancellationToken).ConfigureAwait(false);
-			
-			if (ShowMemer)
+
+			var response = await twitchAPI.Helix.ChannelPoints.CreateCustomRewardsAsync(userId, new TwitchLib.Api.Helix.Models.ChannelPoints.CreateCustomReward.CreateCustomRewardsRequest
 			{
-				var response = await twitchAPI.Helix.ChannelPoints.CreateCustomRewardsAsync(userId, new TwitchLib.Api.Helix.Models.ChannelPoints.CreateCustomReward.CreateCustomRewardsRequest
-				{
-					Cost = 100,
-					Title = Properties.Resources.ShowLastMemer,
-					IsEnabled = true,					
-				}).ConfigureAwait(false);
-				await settingsService.SetShowMemerRewardIdAsync(response.Data[0].Id, cancellationToken).ConfigureAwait(false);
-				Messenger.Send(new SettingsChangedMessage(nameof(settingsService.GetShowMemerRewardIdAsync)));
-				dispatcherService.ShowMessage(Properties.Resources.ShowMemerRewardSuccessfullyCreated);
-			}
-			else
-			{
-				var rewardId = await settingsService.GetShowMemerRewardIdAsync(cancellationToken).ConfigureAwait(false);
-				await twitchAPI.Helix.ChannelPoints.DeleteCustomRewardAsync(userId, rewardId).ConfigureAwait(false);
-				await settingsService.SetShowMemerRewardIdAsync(string.Empty, cancellationToken).ConfigureAwait(false);
-			}
+				Cost = 100,
+				Title = Properties.Resources.ShowLastMemer,
+				IsEnabled = true,
+			}).ConfigureAwait(false);
+			await settingsService.SetShowMemerRewardIdAsync(response.Data[0].Id, cancellationToken).ConfigureAwait(false);
+
+			Messenger.Send(new SettingsChangedMessage(nameof(settingsService.GetShowMemerRewardIdAsync)));
+			ShowMemer = false;
+
+			dispatcherService.ShowMessage(Properties.Resources.ShowMemerRewardSuccessfullyCreated);
+		}
+
+		private bool CanAddShowMemer()
+		{
+			return !ShowMemer;
+		}
+
+		[RelayCommand(CanExecute = nameof(CanRemoveShowMemer))]
+		private async Task RemoveShowMemerAsync(CancellationToken cancellationToken = default)
+		{
+			var userId = await settingsService.GetTwitchUserIdAsync(cancellationToken).ConfigureAwait(false);
+			var rewardId = await settingsService.GetShowMemerRewardIdAsync(cancellationToken).ConfigureAwait(false);
+
+			await twitchAPI.Helix.ChannelPoints.DeleteCustomRewardAsync(userId, rewardId).ConfigureAwait(false);
+			await settingsService.SetShowMemerRewardIdAsync(string.Empty, cancellationToken).ConfigureAwait(false);
+
+			Messenger.Send(new SettingsChangedMessage(nameof(settingsService.GetShowMemerRewardIdAsync)));
+			ShowMemer = true;
+		}
+
+		private bool CanRemoveShowMemer()
+		{
+			return ShowMemer;
 		}
 	}
 }

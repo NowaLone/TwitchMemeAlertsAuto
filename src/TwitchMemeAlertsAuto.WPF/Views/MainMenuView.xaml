@@ -28,14 +28,22 @@
                     Header="{x:Static properties:Resources.TryRewardWithWrongNickname}"
                     IsCheckable="True"
                     IsChecked="{Binding TryRewardWithWrongNickname}" />
-                <MenuItem
-                    Command="{Binding AddShowMemerCommand}"
-                    Header="{x:Static properties:Resources.AddShowMemer}"
-                    IsCheckable="True"
-                    IsChecked="{Binding ShowMemer}" />
                 <Separator />
                 <MenuItem Command="{Binding ExitCommand}" Header="{x:Static properties:Resources.ExitMenu}" />
             </MenuItem>
+            <MenuItem Header="{x:Static properties:Resources.RewardsHeader}">
+                <MenuItem Header="{x:Static properties:Resources.ShowLastMemer}">
+                    <MenuItem
+                        Command="{Binding AddShowMemerCommand}"
+                        Header="{x:Static properties:Resources.Add}"
+                        Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <MenuItem
+                        Command="{Binding RemoveShowMemerCommand}"
+                        Header="{x:Static properties:Resources.Remove}"
+                        Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </MenuItem>
+            </MenuItem>
+
             <MenuItem Header="{x:Static properties:Resources.HelpMenu}">
                 <MenuItem Command="{Binding AboutCommand}" Header="{x:Static properties:Resources.AboutMenu}" />
                 <MenuItem Command="{Binding CheckForUpdatesCommand}" Header="{x:Static properties:Resources.CheckForUpdates}" />

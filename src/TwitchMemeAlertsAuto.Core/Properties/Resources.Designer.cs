@@ -349,7 +349,7 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;Show last memer&quot; reward successfully created. You can set up reward cost, icon, etc in your twitch dashboard.
+        ///   Looks up a localized string similar to "Show last memer" reward successfully created. You can set up reward cost, icon, etc in your twitch dashboard.
         /// </summary>
         public static string ShowMemerRewardSuccessfullyCreated {
             get {
@@ -417,6 +417,24 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
         public static string Yesterday {
             get {
                 return ResourceManager.GetString("Yesterday", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        public static string Remove {
+            get {
+                return ResourceManager.GetString("Remove", resourceCulture);
             }
         }
     }
