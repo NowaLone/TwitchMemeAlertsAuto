@@ -72,7 +72,6 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			var supporters = new List<Supporter>();
 			for (int limit = 100, total = 100, skip = 0; limit > 0 && limit + skip <= total; skip += limit, limit = total - skip > 100 ? 100 : total - skip)
 			{
-
 				logger.LogDebug("Do supporters request. limit: {limit} total: {total} skip: {skip}", limit, total, skip);
 				using var request = new HttpRequestMessage(HttpMethod.Post, "api/supporters") { Content = new StringContent($"{{\"limit\":{limit},\"skip\":{skip},\"query\":\"\",\"filters\":[0]}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json)) };
 				using var responseMessage = await DoRequest(request, cancellationToken).ConfigureAwait(false);
@@ -135,6 +134,62 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			}
 
 			return events;
+		}
+
+		public async Task<List<Sticker>> GetStreamerAreaCatalogueAsync(CancellationToken cancellationToken = default)
+		{
+			if (string.IsNullOrWhiteSpace(streamerId))
+			{
+				streamerId = (await GetCurrent(cancellationToken).ConfigureAwait(false)).Id;
+			}
+
+			var stickers = new List<Sticker>();
+			for (int limit = 20, total = 20, skip = 0; limit > 0 && limit + skip <= total; skip += limit)
+			{
+				using var request = new HttpRequestMessage(HttpMethod.Post, "api/sticker/streamer-area/catalogue") { Content = new StringContent($"{{\"limit\":{limit},\"skip\":{skip},\"categories\":[],\"streamerId\":\"{streamerId}\",\"pageSize\":200}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json)) };
+				using var responseMessage = await DoRequest(request, cancellationToken).ConfigureAwait(false);
+
+				if (responseMessage == null)
+				{
+					break;
+				}
+
+				var response = await responseMessage.Content.ReadFromJsonAsync(jsonTypeInfo: SerializationModeOptionsContext.Default.ListSticker, cancellationToken).ConfigureAwait(false);
+				stickers.AddRange(response);
+				total = 200;
+
+				await Task.Delay(200, cancellationToken).ConfigureAwait(false);
+			}
+
+			return stickers;
+		}
+
+		public async Task<List<Sticker>> GetPersonalAreaCatalogueAsync(CancellationToken cancellationToken = default)
+		{
+			if (string.IsNullOrWhiteSpace(streamerId))
+			{
+				streamerId = (await GetCurrent(cancellationToken).ConfigureAwait(false)).Id;
+			}
+
+			var stickers = new List<Sticker>();
+			for (int limit = 20, total = 20, skip = 0; limit > 0 && limit + skip <= total; skip += limit)
+			{
+				using var request = new HttpRequestMessage(HttpMethod.Post, "api/sticker/personal-area/catalogue") { Content = new StringContent($"{{\"limit\":{limit},\"skip\":{skip}}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json)) };
+				using var responseMessage = await DoRequest(request, cancellationToken).ConfigureAwait(false);
+
+				if (responseMessage == null)
+				{
+					break;
+				}
+
+				var response = await responseMessage.Content.ReadFromJsonAsync(jsonTypeInfo: SerializationModeOptionsContext.Default.ListSticker, cancellationToken).ConfigureAwait(false);
+				stickers.AddRange(response);
+				total = 200;
+
+				await Task.Delay(200, cancellationToken).ConfigureAwait(false);
+			}
+
+			return stickers;
 		}
 
 		private async Task<HttpResponseMessage> DoRequest(HttpRequestMessage request, CancellationToken cancellationToken = default)
