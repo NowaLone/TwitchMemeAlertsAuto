@@ -234,6 +234,12 @@
   <data name="ShowMemerRewardSuccessfullyCreated" xml:space="preserve">
     <value>"Show last memer" reward successfully created. You can set up reward cost, icon, etc in your twitch dashboard</value>
   </data>
+  <data name="SendRandomMeme" xml:space="preserve">
+    <value>Send random meme</value>
+  </data>
+  <data name="SendRandomMemeRewardSuccessfullyCreated" xml:space="preserve">
+    <value>"Send random meme" reward successfully created. You can set up reward cost, icon, etc in your twitch dashboard</value>
+  </data>
   <data name="LastMemeSentBy" xml:space="preserve">
     <value>Meme "{0}" sent by {1}</value>
   </data>

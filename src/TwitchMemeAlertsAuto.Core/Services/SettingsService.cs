@@ -108,6 +108,16 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			return SetSettingAsync("Twitch:ShowMemerRewardId", rewardId, cancellationToken);
 		}
 
+	public Task<string> GetSendRandomMemeRewardIdAsync(CancellationToken cancellationToken = default)
+	{
+		return GetSettingAsync("Twitch:SendRandomMemeRewardId", string.Empty, cancellationToken);
+	}
+
+	public Task SetSendRandomMemeRewardIdAsync(string rewardId, CancellationToken cancellationToken = default)
+	{
+		return SetSettingAsync("Twitch:SendRandomMemeRewardId", rewardId, cancellationToken);
+	}
+
 		public async Task<T> GetSettingAsync<T>(string key, T defaultValue, CancellationToken cancellationToken = default)
 		{
 			using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);

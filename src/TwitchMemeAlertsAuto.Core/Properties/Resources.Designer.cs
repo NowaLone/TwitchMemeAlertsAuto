@@ -421,6 +421,24 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Send random meme.
+        /// </summary>
+        public static string SendRandomMeme {
+            get {
+                return ResourceManager.GetString("SendRandomMeme", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to "Send random meme" reward successfully created. You can set up reward cost, icon, etc in your twitch dashboard.
+        /// </summary>
+        public static string SendRandomMemeRewardSuccessfullyCreated {
+            get {
+                return ResourceManager.GetString("SendRandomMemeRewardSuccessfullyCreated", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
         public static string Add {

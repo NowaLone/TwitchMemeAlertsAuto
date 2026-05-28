@@ -45,5 +45,9 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		Task<string> GetShowMemerRewardIdAsync(CancellationToken cancellationToken = default);
 
 		Task SetShowMemerRewardIdAsync(string rewardId, CancellationToken cancellationToken = default);
+
+		Task<string> GetSendRandomMemeRewardIdAsync(CancellationToken cancellationToken = default);
+
+		Task SetSendRandomMemeRewardIdAsync(string rewardId, CancellationToken cancellationToken = default);
 	}
 }

@@ -34,6 +34,9 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		[ObservableProperty]
 		private bool showMemer;
 
+		[ObservableProperty]
+		private bool sendRandomMeme;
+
 		public MainMenuViewModel()
 		{
 		}
@@ -54,7 +57,8 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 
 			IsStartup = File.Exists(startupFullPath);
 			TryRewardWithWrongNickname = await settingsService.GetTryRewardWithWrongNicknameOptionAsync().ConfigureAwait(false);
-			ShowMemer = !string.IsNullOrWhiteSpace(await settingsService.GetShowMemerRewardIdAsync().ConfigureAwait(false));
+        ShowMemer = !string.IsNullOrWhiteSpace(await settingsService.GetShowMemerRewardIdAsync().ConfigureAwait(false));
+		SendRandomMeme = !string.IsNullOrWhiteSpace(await settingsService.GetSendRandomMemeRewardIdAsync().ConfigureAwait(false));
 			base.OnActivated();
 		}
 
@@ -143,6 +147,48 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		{
 			return !ShowMemer;
 		}
+
+	[RelayCommand(CanExecute = nameof(CanAddSendRandomMeme))]
+	private async Task AddSendRandomMemeAsync(CancellationToken cancellationToken = default)
+	{
+		var userId = await settingsService.GetTwitchUserIdAsync(cancellationToken).ConfigureAwait(false);
+
+		var response = await twitchAPI.Helix.ChannelPoints.CreateCustomRewardsAsync(userId, new TwitchLib.Api.Helix.Models.ChannelPoints.CreateCustomReward.CreateCustomRewardsRequest
+		{
+			Cost = 100,
+			Title = Properties.Resources.SendRandomMeme,
+			IsEnabled = true,
+		}).ConfigureAwait(false);
+		await settingsService.SetSendRandomMemeRewardIdAsync(response.Data[0].Id, cancellationToken).ConfigureAwait(false);
+
+		Messenger.Send(new SettingsChangedMessage(nameof(settingsService.GetSendRandomMemeRewardIdAsync)));
+		SendRandomMeme = false;
+
+		dispatcherService.ShowMessage(Properties.Resources.SendRandomMemeRewardSuccessfullyCreated);
+	}
+
+	private bool CanAddSendRandomMeme()
+	{
+		return !SendRandomMeme;
+	}
+
+	[RelayCommand(CanExecute = nameof(CanRemoveSendRandomMeme))]
+	private async Task RemoveSendRandomMemeAsync(CancellationToken cancellationToken = default)
+	{
+		var userId = await settingsService.GetTwitchUserIdAsync(cancellationToken).ConfigureAwait(false);
+		var rewardId = await settingsService.GetSendRandomMemeRewardIdAsync(cancellationToken).ConfigureAwait(false);
+
+		await twitchAPI.Helix.ChannelPoints.DeleteCustomRewardAsync(userId, rewardId).ConfigureAwait(false);
+		await settingsService.SetSendRandomMemeRewardIdAsync(string.Empty, cancellationToken).ConfigureAwait(false);
+
+		Messenger.Send(new SettingsChangedMessage(nameof(settingsService.GetSendRandomMemeRewardIdAsync)));
+		SendRandomMeme = true;
+	}
+
+	private bool CanRemoveSendRandomMeme()
+	{
+		return SendRandomMeme;
+	}
 
 		[RelayCommand(CanExecute = nameof(CanRemoveShowMemer))]
 		private async Task RemoveShowMemerAsync(CancellationToken cancellationToken = default)

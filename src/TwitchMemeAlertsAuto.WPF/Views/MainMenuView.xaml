@@ -42,6 +42,16 @@
                         Header="{x:Static properties:Resources.Remove}"
                         Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 </MenuItem>
+                <MenuItem Header="{x:Static properties:Resources.SendRandomMeme}">
+                    <MenuItem
+                        Command="{Binding AddSendRandomMemeCommand}"
+                        Header="{x:Static properties:Resources.Add}"
+                        Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <MenuItem
+                        Command="{Binding RemoveSendRandomMemeCommand}"
+                        Header="{x:Static properties:Resources.Remove}"
+                        Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </MenuItem>
             </MenuItem>
 
             <MenuItem Header="{x:Static properties:Resources.HelpMenu}">

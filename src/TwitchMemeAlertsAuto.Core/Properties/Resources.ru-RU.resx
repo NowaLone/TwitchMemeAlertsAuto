@@ -243,4 +243,10 @@
   <data name="Remove" xml:space="preserve">
     <value>Удалить</value>
   </data>
+  <data name="SendRandomMeme" xml:space="preserve">
+    <value>Отправить случайный мем</value>
+  </data>
+  <data name="SendRandomMemeRewardSuccessfullyCreated" xml:space="preserve">
+    <value>Награда "Отправить случайный мем" успешно создана. Вы можете настроить цену, иконку и тд. в своём Twitch дашборде</value>
+  </data>
 </root>
