@@ -454,6 +454,28 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
             get {
                 return ResourceManager.GetString("Remove", resourceCulture);
             }
-        }
-    }
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to ProfanityInfo.
+		/// </summary>
+		public static string ProfanityInfo
+		{
+			get
+			{
+				return ResourceManager.GetString("ProfanityInfo", resourceCulture);
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to ShowLastMemeName.
+		/// </summary>
+		public static string ShowLastMemeName
+		{
+			get
+			{
+				return ResourceManager.GetString("ShowLastMemeName", resourceCulture);
+			}
+		}
+	}
 }

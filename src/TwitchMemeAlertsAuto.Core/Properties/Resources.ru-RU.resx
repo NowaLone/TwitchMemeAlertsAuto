@@ -235,7 +235,7 @@
     <value>Награда "Показать последнего мемера" успешно создана. Вы можете настроить цену, иконку и тд. в своём Twitch дашборде</value>
   </data>
   <data name="LastMemeSentBy" xml:space="preserve">
-    <value>Мем "{0}" отправлен {1}</value>
+    <value>Мем {0} отправлен {1}</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Добавить</value>
@@ -248,5 +248,11 @@
   </data>
   <data name="SendRandomMemeRewardSuccessfullyCreated" xml:space="preserve">
     <value>Награда "Отправить случайный мем" успешно создана. Вы можете настроить цену, иконку и тд. в своём Twitch дашборде</value>
+  </data>
+  <data name="ProfanityInfo" xml:space="preserve">
+    <value>☢ ВНИМАНИЕ ☢ ИНФОРМАЦИЯ О МЕМЕ БУДЕТ ОТПРАВЛЯТЬСЯ ОТ ВАШЕГО АККАУНТА НО НАЗВАНИЯ МЕМОВ МОГУТ СОДЕРЖАТЬ ЗАПРЕЩЁННЫЕ СЛОВА. В ПРОГРАММУ ВСТРОЕН ПРОСТОЙ ФИЛЬТР КОТОРЫЙ НИЧЕГО НЕ ГАРАНТИРУЕТ, И В СЛУЧАЕ ЧЕГО ЭТО МОЖЕТ ПРИВЕСТИ К БЛОКИРОВКЕ ВАШЕ АККАУНТА. ИСПОЛЬЗУЙТЕ НА СВОЙ СТРАХ И РИСК!</value>
+  </data>
+  <data name="ShowLastMemeName" xml:space="preserve">
+    <value>Показывать название мема</value>
   </data>
 </root>

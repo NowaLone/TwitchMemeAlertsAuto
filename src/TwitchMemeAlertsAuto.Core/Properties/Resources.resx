@@ -241,12 +241,18 @@
     <value>"Send random meme" reward successfully created. You can set up reward cost, icon, etc in your twitch dashboard</value>
   </data>
   <data name="LastMemeSentBy" xml:space="preserve">
-    <value>Meme "{0}" sent by {1}</value>
+    <value>Meme {0} sent by {1}</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Add</value>
   </data>
   <data name="Remove" xml:space="preserve">
     <value>Remove</value>
+  </data>
+  <data name="ProfanityInfo" xml:space="preserve">
+    <value>☢ ATTENTION ☢ MEME INFORMATION WILL BE SENT FROM YOUR ACCOUNT, BUT MEME TITLES MAY CONTAIN PROHIBITED WORDS. THE PROGRAM HAS A SIMPLE FILTER BUILT IN, WHICH DOES NOT GUARANTEE ANYTHING, AND IF ANY, THIS MAY LEAD TO YOUR ACCOUNT BEING BLOCKED. USE AT YOUR OWN RISK!</value>
+  </data>
+  <data name="ShowLastMemeName" xml:space="preserve">
+    <value>Show meme name</value>
   </data>
 </root>

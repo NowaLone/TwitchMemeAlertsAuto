@@ -147,6 +147,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			if (rewardId == showMemerRewardId)
 			{
 				var events = await memeAlertsService.GetEventsAsync().ConfigureAwait(false);
+				var showMemeInfo = await settingsService.GetShowMemerWithMemeInfoAsync().ConfigureAwait(false);
 				if (events.Count != 0)
 				{
 					var lastEvent = events.OrderByDescending(e => e.Timestamp).FirstOrDefault();
@@ -156,7 +157,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 						Parameters = new List<string>
 						{
 							$"#{e.Payload.Event.BroadcasterUserLogin}",
-							string.Format(":@" + e.Payload.Event.UserName + " " + Properties.Resources.LastMemeSentBy, Censor(lastEvent.StickerName), lastEvent.UserName)
+							string.Format(":@" + e.Payload.Event.UserName + " " + Properties.Resources.LastMemeSentBy, showMemeInfo ? $"\"{Censor(lastEvent.StickerName)}\"": string.Empty, lastEvent.UserName)
 						},
 					});
 

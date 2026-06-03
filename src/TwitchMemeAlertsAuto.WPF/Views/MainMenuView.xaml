@@ -41,6 +41,12 @@
                         Command="{Binding RemoveShowMemerCommand}"
                         Header="{x:Static properties:Resources.Remove}"
                         Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <MenuItem
+                        Command="{Binding ShowMemerWithMemeInfoCommand}"
+                        CommandParameter="{Binding ShowMemerWithMemeInfo}"
+                        Header="{x:Static properties:Resources.ShowLastMemeName}"
+                        IsCheckable="True"
+                        IsChecked="{Binding ShowMemerWithMemeInfo}" />
                 </MenuItem>
                 <MenuItem Header="{x:Static properties:Resources.SendRandomMeme}">
                     <MenuItem
