@@ -72,6 +72,10 @@ namespace TwitchMemeAlertsAuto.Core.Services
 				randomStrickers = Enumerable.Empty<Sticker>();
 			}
 
+
+			await twitchApi.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, showMemerRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = false }).ConfigureAwait(false);
+			await twitchApi.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, sendRandomMemeRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = false }).ConfigureAwait(false);
+
 			await eventSubWebsocketClient.ConnectAsync();
 		}
 
@@ -92,6 +96,9 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			{
 				logger.LogWarning("Unable to delete event subscription {eventSubId}", eventSubId);
 			}
+
+			await twitchApi.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, showMemerRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = true }).ConfigureAwait(false);
+			await twitchApi.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, sendRandomMemeRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = true }).ConfigureAwait(false);
 		}
 
 		private async Task OnWebsocketConnected(object sender, WebsocketConnectedArgs e)
@@ -194,7 +201,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		private string Censor(string stickerName)
 		{
 			var message = profanityFilter.CensorString(stickerName, '*', true);
-			
+
 			if (profanityFilter.ContainsProfanity(message))
 			{
 				var sb = new StringBuilder(message);
