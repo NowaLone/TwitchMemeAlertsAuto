@@ -192,6 +192,24 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			return stickers;
 		}
 
+		public async Task<bool> SendMemeAsync(Sticker sticker, CancellationToken cancellationToken = default)
+		{
+			if (string.IsNullOrWhiteSpace(streamerId))
+			{
+				streamerId = (await GetCurrent(cancellationToken).ConfigureAwait(false)).Id;
+			}
+
+			using var request = new HttpRequestMessage(HttpMethod.Post, "api/sticker/send") { Content = new StringContent($"{{\"toChannel\":\"{streamerId}\",\"stickerId\":\"{sticker.Id}\",\"isSoundOnly\":false,\"topic\":\"Last\",\"name\":\"NowaruAlone\",\"isMemePartyActive\":false,\"message\":\"\",\"deviceType\":\"desktop\"}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json)) };
+			using var responseMessage = await DoRequest(request, cancellationToken).ConfigureAwait(false);
+
+			if (responseMessage == null)
+			{
+				return false;
+			}
+
+			return (await responseMessage.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false)).Equals("{\"result\":0}", StringComparison.OrdinalIgnoreCase);
+		}
+
 		private async Task<HttpResponseMessage> DoRequest(HttpRequestMessage request, CancellationToken cancellationToken = default)
 		{
 			try
