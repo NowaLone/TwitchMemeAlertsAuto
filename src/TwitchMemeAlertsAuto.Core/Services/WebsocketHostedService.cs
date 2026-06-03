@@ -1,6 +1,7 @@
 ﻿using IrcNet;
 using IrcNet.Parser.V3;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -26,8 +27,11 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		private readonly ILogger<WebsocketHostedService> logger;
 
 		private string showMemerRewardId;
+		private string sendRandomMemeRewardId;
 		private string userId;
 		private string eventSubId;
+
+		private IEnumerable<Sticker> randomStrickers;
 
 		public WebsocketHostedService(ITwitchAPI twitchAPI, EventSubWebsocketClient eventSubWebsocketClient, ITwitchClient twitchClient, IIrcParser<IrcV3Message> ircParser, ISettingsService settingsService, IMemeAlertsService memeAlertsService, ILogger<WebsocketHostedService> logger)
 		{
@@ -49,10 +53,22 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 			this.eventSubWebsocketClient.ChannelPointsCustomRewardRedemptionAdd += EventSubWebsocketClient_ChannelPointsCustomRewardRedemptionAdd;
 
-			await eventSubWebsocketClient.ConnectAsync();
-
-			showMemerRewardId = await settingsService.GetShowMemerRewardIdAsync(cancellationToken).ConfigureAwait(false);
 			userId = await settingsService.GetTwitchUserIdAsync(cancellationToken).ConfigureAwait(false);
+			showMemerRewardId = await settingsService.GetShowMemerRewardIdAsync(cancellationToken).ConfigureAwait(false);
+			sendRandomMemeRewardId = await settingsService.GetSendRandomMemeRewardIdAsync(cancellationToken).ConfigureAwait(false);
+
+			if (!string.IsNullOrWhiteSpace(sendRandomMemeRewardId))
+			{
+				var personalStickers = await memeAlertsService.GetPersonalAreaCatalogueAsync(cancellationToken).ConfigureAwait(false);
+				var streamerStickers = await memeAlertsService.GetStreamerAreaCatalogueAsync(cancellationToken).ConfigureAwait(false);
+				randomStrickers = personalStickers.Concat(streamerStickers);
+			}
+			else
+			{
+				randomStrickers = Enumerable.Empty<Sticker>();
+			}
+
+			await eventSubWebsocketClient.ConnectAsync();
 		}
 
 		public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -80,14 +96,21 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 			if (!e.IsRequestedReconnect)
 			{
-				var condition = new Dictionary<string, string> { { "broadcaster_user_id", userId }, { "reward_id", showMemerRewardId } };
 				var response2 = await twitchApi.Helix.EventSub.GetEventSubSubscriptionsAsync(new GetEventSubSubscriptionsRequest());
 				foreach (var item in response2.Subscriptions)
 				{
 					await twitchApi.Helix.EventSub.DeleteEventSubSubscriptionAsync(item.Id);
 				}
-				var response = await twitchApi.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.channel_points_custom_reward_redemption.add", "1", condition, EventSubTransportMethod.Websocket, eventSubWebsocketClient.SessionId);
-				eventSubId = response.Subscriptions.FirstOrDefault().Id;
+
+				if (!string.IsNullOrWhiteSpace(showMemerRewardId) || !string.IsNullOrWhiteSpace(sendRandomMemeRewardId))
+				{
+					var condition = new Dictionary<string, string> { { "broadcaster_user_id", userId } };
+					var response = await twitchApi.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.channel_points_custom_reward_redemption.add", "1", condition, EventSubTransportMethod.Websocket, eventSubWebsocketClient.SessionId);
+					if (response?.Subscriptions?.FirstOrDefault() != null)
+					{
+						eventSubId = response.Subscriptions.FirstOrDefault().Id;
+					}
+				}
 			}
 		}
 
@@ -105,30 +128,60 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 		private async Task OnWebsocketReconnected(object sender, WebsocketReconnectedArgs e)
 		{
-			//logger.LogWarning("Websocket {sessionId} reconnected", eventSubWebsocketClient.SessionId);
+			logger.LogWarning("Websocket {sessionId} reconnected", eventSubWebsocketClient.SessionId);
 		}
 
 		private async Task OnErrorOccurred(object sender, ErrorOccuredArgs e)
 		{
-			//logger.LogError("Websocket {sessionId} - Error occurred!", eventSubWebsocketClient.SessionId);
+			logger.LogError("Websocket {sessionId} - Error occurred!", eventSubWebsocketClient.SessionId);
 		}
 
 		private async Task EventSubWebsocketClient_ChannelPointsCustomRewardRedemptionAdd(object sender, ChannelPointsCustomRewardRedemptionArgs e)
 		{
-			var events = await memeAlertsService.GetEventsAsync().ConfigureAwait(false);
-			if (events.Count != 0)
+			var rewardId = e?.Payload?.Event?.Reward?.Id;
+
+			if (rewardId == showMemerRewardId)
 			{
-				var lastEvent = events.OrderByDescending(e => e.Timestamp).FirstOrDefault();
-				var msg = ircParser.BuildMessage(new IrcV3Message
+				var events = await memeAlertsService.GetEventsAsync().ConfigureAwait(false);
+				if (events.Count != 0)
 				{
-					Command = IrcCommand.PRIVMSG,
-					Parameters = new List<string>
+					var lastEvent = events.OrderByDescending(e => e.Timestamp).FirstOrDefault();
+					var msg = ircParser.BuildMessage(new IrcV3Message
 					{
-						$"#{e.Payload.Event.BroadcasterUserLogin}",
-						string.Format(":@" + e.Payload.Event.UserName + " " + Properties.Resources.LastMemeSentBy, "Неизвестно", lastEvent.UserName)
-					},
-				});
-				await twitchClient.SendMessageAsync(msg).ConfigureAwait(false);
+						Command = IrcCommand.PRIVMSG,
+						Parameters = new List<string>
+						{
+							$"#{e.Payload.Event.BroadcasterUserLogin}",
+							string.Format(":@" + e.Payload.Event.UserName + " " + Properties.Resources.LastMemeSentBy, "Неизвестно", lastEvent.UserName)
+						},
+					});
+
+					await twitchClient.SendMessageAsync(msg).ConfigureAwait(false);
+				}
+
+				return;
+			}
+			else if (rewardId == sendRandomMemeRewardId)
+			{
+				try
+				{
+					if (randomStrickers.Any())
+					{
+						var random = Random.Shared.Next(0, randomStrickers.Count());
+						var sticker = randomStrickers.ElementAt(random);
+						await memeAlertsService.SendMemeAsync(sticker).ConfigureAwait(false);
+					}
+					else
+					{
+						logger.LogWarning("No stickers available to send for SendRandomMeme reward");
+					}
+				}
+				catch (Exception ex)
+				{
+					logger.LogError(ex, "Error while handling SendRandomMeme reward redemption");
+				}
+
+				return;
 			}
 		}
 	}
