@@ -1,9 +1,11 @@
 ﻿using IrcNet;
 using IrcNet.Parser.V3;
 using Microsoft.Extensions.Logging;
+using ProfanityFilter.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TwitchChat.Client;
@@ -24,6 +26,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		private readonly IIrcParser<IrcV3Message> ircParser;
 		private readonly ISettingsService settingsService;
 		private readonly IMemeAlertsService memeAlertsService;
+		private readonly IProfanityFilter profanityFilter;
 		private readonly ILogger<WebsocketHostedService> logger;
 
 		private string showMemerRewardId;
@@ -33,7 +36,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 		private IEnumerable<Sticker> randomStrickers;
 
-		public WebsocketHostedService(ITwitchAPI twitchAPI, EventSubWebsocketClient eventSubWebsocketClient, ITwitchClient twitchClient, IIrcParser<IrcV3Message> ircParser, ISettingsService settingsService, IMemeAlertsService memeAlertsService, ILogger<WebsocketHostedService> logger)
+		public WebsocketHostedService(ITwitchAPI twitchAPI, EventSubWebsocketClient eventSubWebsocketClient, ITwitchClient twitchClient, IIrcParser<IrcV3Message> ircParser, ISettingsService settingsService, IMemeAlertsService memeAlertsService, IProfanityFilter profanityFilter, ILogger<WebsocketHostedService> logger)
 		{
 			this.twitchApi = twitchAPI;
 			this.eventSubWebsocketClient = eventSubWebsocketClient;
@@ -41,6 +44,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			this.ircParser = ircParser;
 			this.settingsService = settingsService;
 			this.memeAlertsService = memeAlertsService;
+			this.profanityFilter = profanityFilter;
 			this.logger = logger;
 		}
 
@@ -152,7 +156,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 						Parameters = new List<string>
 						{
 							$"#{e.Payload.Event.BroadcasterUserLogin}",
-							string.Format(":@" + e.Payload.Event.UserName + " " + Properties.Resources.LastMemeSentBy, "Неизвестно", lastEvent.UserName)
+							string.Format(":@" + e.Payload.Event.UserName + " " + Properties.Resources.LastMemeSentBy, Censor(lastEvent.StickerName), lastEvent.UserName)
 						},
 					});
 
@@ -183,6 +187,27 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 				return;
 			}
+		}
+
+		// hack from https://github.com/stephenhaunts/ProfanityDetector/issues/34#issuecomment-2789168413
+		private string Censor(string stickerName)
+		{
+			var message = profanityFilter.CensorString(stickerName, '*', true);
+			
+			if (profanityFilter.ContainsProfanity(message))
+			{
+				var sb = new StringBuilder(message);
+				for (int i = 0; i < sb.Length; i++)
+				{
+					if (sb[i] != ' ')
+					{
+						sb[i] = '*';
+					}
+				}
+				message = sb.ToString();
+			}
+
+			return message;
 		}
 	}
 }

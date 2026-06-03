@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Extensions.Http;
 using Polly.Timeout;
+using ProfanityFilter.Interfaces;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -69,6 +70,12 @@ namespace TwitchMemeAlertsAuto.WPF
 				.AddTransient<ISettingsService, SettingsService>()
 				.AddTransient<ITwitchOAuthService, TwitchOAuthService>()
 				.AddTransient<IMemeAlertsService, MemeAlertsService>()
+				.AddTransient<IProfanityFilter, ProfanityFilter.ProfanityFilter>(sp =>
+				{
+					var filter = new ProfanityFilter.ProfanityFilter();
+					filter.AddProfanity(new string[] { "нигер","ниггер", "нига", "нигга", "нага", "черножопый", "черномазый", "пидор", "педик", "пидорас", "гомосек", "гомик", "петух", "хохол", "русня", "хач", "жид", "чурка", "даун", "симп", "инцел", "куколд", "хайль" });
+					return filter;
+				})
 				.AddTransient<MainWindowViewModel>()
 				.AddTransient<RewardViewModel>()
 				.AddTransient<ConnectionViewModel>()
