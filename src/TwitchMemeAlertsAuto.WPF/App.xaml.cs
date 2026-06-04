@@ -16,6 +16,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Windows;
 using TwitchChat.Client;
 using TwitchChat.Parser;
@@ -38,8 +39,30 @@ namespace TwitchMemeAlertsAuto.WPF
 	{
 		private IHost host;
 
+		private static Mutex mutex;
+
 		protected override void OnStartup(StartupEventArgs e)
 		{
+			var fileVersionInfo = FileVersionInfo.GetVersionInfo(Environment.ProcessPath);
+
+			var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), fileVersionInfo.CompanyName, fileVersionInfo.ProductName);
+			Directory.CreateDirectory(dbPath);
+
+			// Try to gain exclusive ownership of the named mutex
+			var mutex = new Mutex(true, new Guid(Encoding.UTF8.GetBytes(dbPath, 0, 16)).ToString(), out bool isNewInstance);
+
+			if (!isNewInstance)
+			{
+				// Another instance is already running; warn and exit immediately
+				MessageBox.Show("The application is already running.", "Instance Check", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+				Application.Current.Shutdown(1);
+				return;
+			}
+			else
+			{
+				App.mutex = mutex;
+			}
+
 			var builder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder(e.Args);
 
 #if DEBUG
@@ -136,6 +159,17 @@ namespace TwitchMemeAlertsAuto.WPF
 			host = builder.Build();
 
 			base.OnStartup(e);
+		}
+
+		protected override void OnExit(ExitEventArgs e)
+		{
+			if (mutex != null)
+			{
+				mutex.ReleaseMutex();
+				mutex.Dispose();
+			}
+
+			base.OnExit(e);
 		}
 
 		private async void Application_Startup(object sender, StartupEventArgs e)
