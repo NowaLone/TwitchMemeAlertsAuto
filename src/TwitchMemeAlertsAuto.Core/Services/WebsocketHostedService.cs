@@ -163,6 +163,8 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 			if (rewardId == showMemerRewardId)
 			{
+				logger.LogInformation(EventIds.RandomMeme, "{userName} активировал награду \"{title}\"", e.Payload.Event.UserName, e.Payload.Event.Reward.Title);
+
 				var events = await memeAlertsService.GetEventsAsync().ConfigureAwait(false);
 				var showMemeInfo = await settingsService.GetShowMemerWithMemeInfoAsync().ConfigureAwait(false);
 				if (events.Count != 0)
@@ -185,6 +187,8 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			}
 			else if (rewardId == sendRandomMemeRewardId)
 			{
+				logger.LogInformation(EventIds.RandomMeme, "{userName} активировал награду \"{title}\"", e.Payload.Event.UserName, e.Payload.Event.Reward.Title);
+
 				try
 				{
 					if (randomStrickers.Any())
