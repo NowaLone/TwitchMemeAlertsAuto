@@ -164,5 +164,143 @@ public class TwitchOAuthServiceTests
 	}
 
 	#endregion
+
+	#region TryRefreshTokenAsync
+
+	[TestMethod]
+	[TestCategory(nameof(TwitchOAuthService))]
+	[TestCategory(nameof(TwitchOAuthService.TryRefreshTokenAsync))]
+	public async Task TryRefreshTokenAsync_ReturnsExistingToken_WhenStillValid()
+	{
+		var token = fixture.Create<string>();
+		var login = fixture.Create<string>();
+
+		var service = CreateService(
+			out _,
+			out var settingsMock,
+			request =>
+			{
+				if (request.RequestUri!.AbsoluteUri.Contains("/oauth2/validate", StringComparison.OrdinalIgnoreCase))
+				{
+					var json = $$"""{"client_id":"id","login":"{{login}}","user_id":"123","expires_in":3600,"scopes":[]}""";
+					return new HttpResponseMessage(HttpStatusCode.OK)
+					{
+						Content = new StringContent(json)
+					};
+				}
+
+				return new HttpResponseMessage(HttpStatusCode.NotFound);
+			});
+
+		settingsMock
+			.Setup(s => s.GetTwitchOAuthTokenAsync(It.IsAny<CancellationToken>()))
+			.ReturnsAsync(token);
+
+		settingsMock
+			.Setup(s => s.GetTwitchExpiresInAsync(It.IsAny<CancellationToken>()))
+			.ReturnsAsync(DateTimeOffset.UtcNow.AddMinutes(10));
+
+		var result = await service.TryRefreshTokenAsync(CancellationToken.None);
+
+		Assert.AreEqual(token, result);
+	}
+
+	[TestMethod]
+	[TestCategory(nameof(TwitchOAuthService))]
+	[TestCategory(nameof(TwitchOAuthService.TryRefreshTokenAsync))]
+	public async Task TryRefreshTokenAsync_Refreshes_WhenNearExpiry()
+	{
+		var oldToken = fixture.Create<string>();
+		var newToken = fixture.Create<string>();
+		var refreshToken = fixture.Create<string>();
+		var login = fixture.Create<string>();
+
+		var service = CreateService(
+			out _,
+			out var settingsMock,
+			request =>
+			{
+				if (request.RequestUri!.AbsoluteUri.Contains("/oauth2/token", StringComparison.OrdinalIgnoreCase))
+				{
+					var json = $$"""{"access_token":"{{newToken}}","refresh_token":"{{refreshToken}}","expires_in":3600,"token_type":"bearer","scope":[]}""";
+					return new HttpResponseMessage(HttpStatusCode.OK)
+					{
+						Content = new StringContent(json)
+					};
+				}
+
+				if (request.RequestUri!.AbsoluteUri.Contains("/oauth2/validate", StringComparison.OrdinalIgnoreCase))
+				{
+					var json = $$"""{"client_id":"id","login":"{{login}}","user_id":"123","expires_in":3600,"scopes":[]}""";
+					return new HttpResponseMessage(HttpStatusCode.OK)
+					{
+						Content = new StringContent(json)
+					};
+				}
+
+				return new HttpResponseMessage(HttpStatusCode.NotFound);
+			});
+
+		settingsMock
+			.Setup(s => s.GetTwitchOAuthTokenAsync(It.IsAny<CancellationToken>()))
+			.ReturnsAsync(oldToken);
+
+		settingsMock
+			.Setup(s => s.GetTwitchExpiresInAsync(It.IsAny<CancellationToken>()))
+			.ReturnsAsync(DateTimeOffset.UtcNow.AddSeconds(30));
+
+		settingsMock
+			.Setup(s => s.GetTwitchRefreshTokenAsync(It.IsAny<CancellationToken>()))
+			.ReturnsAsync(refreshToken);
+
+		var result = await service.TryRefreshTokenAsync(CancellationToken.None);
+
+		Assert.AreEqual(newToken, result);
+		settingsMock.Verify(s => s.SetTwitchOAuthTokenAsync(newToken, It.IsAny<CancellationToken>()), Times.Once);
+	}
+
+	[TestMethod]
+	[TestCategory(nameof(TwitchOAuthService))]
+	[TestCategory(nameof(TwitchOAuthService.TryRefreshTokenAsync))]
+	public async Task TryRefreshTokenAsync_ReturnsNull_WhenRefreshFails()
+	{
+		var oldToken = fixture.Create<string>();
+		var refreshToken = fixture.Create<string>();
+
+		var service = CreateService(
+			out _,
+			out var settingsMock,
+			request =>
+			{
+				if (request.RequestUri!.AbsoluteUri.Contains("/oauth2/token", StringComparison.OrdinalIgnoreCase))
+				{
+					var json = """{"status":400,"message":"invalid refresh token"}""";
+					return new HttpResponseMessage(HttpStatusCode.BadRequest)
+					{
+						Content = new StringContent(json)
+					};
+				}
+
+				return new HttpResponseMessage(HttpStatusCode.NotFound);
+			});
+
+		settingsMock
+			.Setup(s => s.GetTwitchOAuthTokenAsync(It.IsAny<CancellationToken>()))
+			.ReturnsAsync(oldToken);
+
+		settingsMock
+			.Setup(s => s.GetTwitchExpiresInAsync(It.IsAny<CancellationToken>()))
+			.ReturnsAsync(DateTimeOffset.UtcNow.AddSeconds(-30));
+
+		settingsMock
+			.Setup(s => s.GetTwitchRefreshTokenAsync(It.IsAny<CancellationToken>()))
+			.ReturnsAsync(refreshToken);
+
+		var result = await service.TryRefreshTokenAsync(CancellationToken.None);
+
+		Assert.IsNull(result);
+	}
+
+	#endregion
 }
 

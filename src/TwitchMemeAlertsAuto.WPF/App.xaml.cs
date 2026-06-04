@@ -17,6 +17,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using TwitchChat.Client;
 using TwitchChat.Parser;
@@ -70,10 +71,6 @@ namespace TwitchMemeAlertsAuto.WPF
 			CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("ru-RU");
 			builder.Logging.AddDebug();
 #endif
-			var fileVersionInfo = FileVersionInfo.GetVersionInfo(Environment.ProcessPath);
-
-			var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), fileVersionInfo.CompanyName, fileVersionInfo.ProductName);
-			Directory.CreateDirectory(dbPath);
 
 			// Add custom WPF logger provider to capture logs with EventId
 			builder.Logging.AddProvider(new WpfLoggerProvider(LogLevel.Information));
@@ -96,7 +93,7 @@ namespace TwitchMemeAlertsAuto.WPF
 				.AddTransient<IProfanityFilter, ProfanityFilter.ProfanityFilter>(sp =>
 				{
 					var filter = new ProfanityFilter.ProfanityFilter();
-					filter.AddProfanity(new string[] { "нигер","ниггер", "нига", "нигга", "нага", "черножопый", "черномазый", "пидор", "педик", "пидорас", "гомосек", "гомик", "петух", "хохол", "русня", "хач", "жид", "чурка", "даун", "симп", "инцел", "куколд", "хайль" });
+					filter.AddProfanity(new string[] { "нигер", "ниггер", "нига", "нигга", "нага", "черножопый", "черномазый", "пидор", "педик", "пидорас", "гомосек", "гомик", "петух", "хохол", "русня", "хач", "жид", "чурка", "даун", "симп", "инцел", "куколд", "хайль" });
 					return filter;
 				})
 				.AddTransient<MainWindowViewModel>()
@@ -140,6 +137,7 @@ namespace TwitchMemeAlertsAuto.WPF
 					return new TwitchClient(sp.GetRequiredService<IIrcClientWebSocket>(), sp.GetRequiredService<IIrcParser<TwitchMessage>>(), options, sp.GetRequiredService<ILogger<TwitchClient>>());
 				})
 				.AddTransient<IWebsocketHostedService, WebsocketHostedService>()
+				.AddHostedService<TwitchTokenRefreshHostedService>()
 				.AddHttpClient(nameof(MemeAlertsService), async (sp, client) =>
 				{
 					client.Timeout = TimeSpan.FromSeconds(30);

@@ -14,5 +14,11 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		/// <returns>Valid access token</returns>
 		/// <exception cref="Exception">Thrown if authentication fails</exception>
 		Task<string> AuthenticateAsync(CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Refreshes the access token if expired or near expiry.
+		/// Never starts device-code flow; returns null when refresh is not possible.
+		/// </summary>
+		Task<string?> TryRefreshTokenAsync(CancellationToken cancellationToken = default);
 	}
 }

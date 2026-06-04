@@ -4,11 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
+using TwitchChat.Client;
 using TwitchLib.Api.Interfaces;
 using TwitchMemeAlertsAuto.Core.Services;
 using TwitchMemeAlertsAuto.Core.ViewModels;
@@ -222,6 +224,8 @@ public class MainMenuViewModelTests
 			dispatcherServiceMock.Object,
 			Mock.Of<IServiceProvider>(),
 			Mock.Of<IDbContextFactory<TmaaDbContext>>(),
+			Mock.Of<ITwitchClient>(),
+			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			Mock.Of<ILogger<ConnectionViewModel>>());
 		var loggerMock = new Mock<ILogger<MainMenuViewModel>>();
 
@@ -260,6 +264,8 @@ public class MainMenuViewModelTests
 			dispatcherServiceMock.Object,
 			Mock.Of<IServiceProvider>(),
 			Mock.Of<IDbContextFactory<TmaaDbContext>>(),
+			Mock.Of<ITwitchClient>(),
+			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			Mock.Of<ILogger<ConnectionViewModel>>());
 		var loggerMock = new Mock<ILogger<MainMenuViewModel>>();
 
@@ -295,6 +301,8 @@ public class MainMenuViewModelTests
 			dispatcherServiceMock.Object,
 			Mock.Of<IServiceProvider>(),
 			Mock.Of<IDbContextFactory<TmaaDbContext>>(),
+			Mock.Of<ITwitchClient>(),
+			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			Mock.Of<ILogger<ConnectionViewModel>>());
 		var loggerMock = new Mock<ILogger<MainMenuViewModel>>();
 
@@ -330,6 +338,8 @@ public class MainMenuViewModelTests
 			dispatcherServiceMock.Object,
 			Mock.Of<IServiceProvider>(),
 			Mock.Of<IDbContextFactory<TmaaDbContext>>(),
+			Mock.Of<ITwitchClient>(),
+			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			Mock.Of<ILogger<ConnectionViewModel>>());
 		var loggerMock = new Mock<ILogger<MainMenuViewModel>>();
 
@@ -369,6 +379,8 @@ public class MainMenuViewModelTests
 			dispatcherServiceMock.Object,
 			Mock.Of<IServiceProvider>(),
 			Mock.Of<IDbContextFactory<TmaaDbContext>>(),
+			Mock.Of<ITwitchClient>(),
+			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			Mock.Of<ILogger<ConnectionViewModel>>());
 		var loggerMock = new Mock<ILogger<MainMenuViewModel>>();
 

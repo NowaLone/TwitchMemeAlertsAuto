@@ -2,14 +2,15 @@ using AutoFixture;
 using AutoFixture.AutoMoq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using TwitchChat.Client;
 using TwitchMemeAlertsAuto.Core.Services;
 using TwitchMemeAlertsAuto.Core.ViewModels;
 using TwitchMemeAlertsAuto.Core.ViewModels.Messages;
@@ -53,6 +54,8 @@ public class ConnectionViewModelExtendedTests
 			dispatcherServiceMock.Object,
 			serviceProviderMock.Object,
 			dbContextFactoryMock.Object,
+			Mock.Of<ITwitchClient>(),
+			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			loggerMock.Object);
 
 		viewModel.IsTwitchConnected = false;
@@ -92,6 +95,8 @@ public class ConnectionViewModelExtendedTests
 			dispatcherServiceMock.Object,
 			serviceProviderMock.Object,
 			dbContextFactoryMock.Object,
+			Mock.Of<ITwitchClient>(),
+			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			loggerMock.Object);
 
 		viewModel.IsTwitchConnected = true;
@@ -135,6 +140,8 @@ public class ConnectionViewModelExtendedTests
 			dispatcherServiceMock.Object,
 			serviceProviderMock.Object,
 			dbContextFactoryMock.Object,
+			Mock.Of<ITwitchClient>(),
+			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			loggerMock.Object);
 
 		viewModel.IsCheckingTwitch = false;
@@ -171,6 +178,8 @@ public class ConnectionViewModelExtendedTests
 			dispatcherServiceMock.Object,
 			serviceProviderMock.Object,
 			dbContextFactoryMock.Object,
+			Mock.Of<ITwitchClient>(),
+			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			loggerMock.Object);
 
 		viewModel.IsCheckingTwitch = true;
@@ -211,6 +220,8 @@ public class ConnectionViewModelExtendedTests
 			dispatcherServiceMock.Object,
 			serviceProviderMock.Object,
 			dbContextFactoryMock.Object,
+			Mock.Of<ITwitchClient>(),
+			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			loggerMock.Object);
 
 		viewModel.IsCheckingMemeAlerts = false;
@@ -247,6 +258,8 @@ public class ConnectionViewModelExtendedTests
 			dispatcherServiceMock.Object,
 			serviceProviderMock.Object,
 			dbContextFactoryMock.Object,
+			Mock.Of<ITwitchClient>(),
+			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			loggerMock.Object);
 
 		viewModel.IsCheckingMemeAlerts = true;
@@ -425,8 +438,10 @@ public class TestConnectionViewModel : ConnectionViewModel
 		IDispatcherService dispatcherService,
 		IServiceProvider serviceProvider,
 		IDbContextFactory<TmaaDbContext> dbContextFactory,
+		ITwitchClient twitchClient,
+		IOptionsMonitor<TwitchClient.Options> twitchClientOptions,
 		ILogger<ConnectionViewModel> logger)
-		: base(settingsService, rewardsService, hostedService, twitchOAuthService, twitchMemeAlertsAutoService, dispatcherService, serviceProvider, dbContextFactory, logger)
+		: base(settingsService, rewardsService, hostedService, twitchOAuthService, twitchMemeAlertsAutoService, dispatcherService, serviceProvider, dbContextFactory, twitchClient, twitchClientOptions, logger)
 	{
 	}
 

@@ -11,6 +11,8 @@ namespace TwitchMemeAlertsAuto.Core.Services
 {
 	public class TwitchOAuthService : ITwitchOAuthService
 	{
+		private static readonly SemaphoreSlim semaphore = new(1, 1); // Ensure only one authentication flow at a time
+
 		private readonly ISettingsService settingsService;
 		private readonly ILogger<TwitchOAuthService> logger;
 		private readonly HttpClient httpClient;
@@ -23,7 +25,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 		// OAuth configuration
 		private const string clientId = "mysd83coqn8u0sf40aev6nvsqqlyjy";
-		private const int TokenExpiryBufferSeconds = 60; // Refresh if token expires within 60 seconds
+		public const int TokenExpiryBufferSeconds = 60; // Refresh if token expires within 60 seconds
 
 		public TwitchOAuthService(ISettingsService settingsService, ILogger<TwitchOAuthService> logger)
 		{
@@ -39,53 +41,80 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		/// <param name="cancellationToken">Cancellation token</param>
 		/// <returns>Valid access token</returns>
 		/// <exception cref="Exception">Thrown if authentication fails</exception>
-		public async Task<string> AuthenticateAsync(CancellationToken cancellationToken = default)
+		public async Task<string?> TryRefreshTokenAsync(CancellationToken cancellationToken = default)
 		{
+			await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
+
 			try
 			{
-				// Step 1: Check if we have a valid token in settings
 				var accessToken = await settingsService.GetTwitchOAuthTokenAsync(cancellationToken);
 				var expiryTime = await settingsService.GetTwitchExpiresInAsync(cancellationToken);
 
 				if (!string.IsNullOrWhiteSpace(accessToken) && expiryTime > DateTimeOffset.UtcNow.AddSeconds(TokenExpiryBufferSeconds))
 				{
-					// Token exists and hasn't expired (with buffer), validate it
 					var validation = await ValidateTokenAsync(accessToken, cancellationToken);
 					if (validation != null)
 					{
 						logger.LogInformation("Using existing valid token for user: {Login}", validation.Login);
+						
+						semaphore.Release();
 						return accessToken;
 					}
-					else
-					{
-						logger.LogWarning("Existing token is invalid, will attempt refresh or re-authentication");
-					}
+
+					logger.LogWarning("Existing token is invalid, will attempt refresh");
 				}
 				else if (!string.IsNullOrWhiteSpace(accessToken))
 				{
 					logger.LogInformation("Token expired or about to expire, attempting refresh");
 				}
 
-				// Step 2: Try to refresh token if refresh token exists
 				var refreshToken = await settingsService.GetTwitchRefreshTokenAsync(cancellationToken);
-				if (!string.IsNullOrWhiteSpace(refreshToken))
+				if (string.IsNullOrWhiteSpace(refreshToken))
 				{
-					try
-					{
-						var refreshedToken = await RefreshTokenAsync(refreshToken, cancellationToken);
-						if (!string.IsNullOrWhiteSpace(refreshedToken))
-						{
-							logger.LogInformation("Token refreshed successfully");
-							return refreshedToken;
-						}
-					}
-					catch (Exception ex)
-					{
-						logger.LogWarning(ex, "Token refresh failed, will start new authentication flow");
-					}
+					logger.LogWarning("No refresh token available for token refresh");
+					
+					semaphore.Release();
+					return null;
 				}
 
-				// Step 3: No valid token or refresh failed, start device code flow
+				try
+				{
+					var refreshedToken = await RefreshTokenAsync(refreshToken, cancellationToken);
+					if (!string.IsNullOrWhiteSpace(refreshedToken))
+					{
+						logger.LogInformation("Token refreshed successfully");
+				
+						semaphore.Release();
+						return refreshedToken;
+					}
+				}
+				catch (Exception ex)
+				{
+					logger.LogWarning(ex, "Token refresh failed");
+				}
+
+				semaphore.Release();
+				return null;
+			}
+			catch (Exception ex)
+			{
+				logger.LogError(ex, "Error during token refresh");
+
+				semaphore.Release();
+				return null;
+			}
+		}
+
+		public async Task<string> AuthenticateAsync(CancellationToken cancellationToken = default)
+		{
+			try
+			{
+				var token = await TryRefreshTokenAsync(cancellationToken);
+				if (!string.IsNullOrWhiteSpace(token))
+				{
+					return token;
+				}
+
 				var newToken = await StartDeviceCodeFlowAsync(cancellationToken);
 				if (string.IsNullOrWhiteSpace(newToken))
 				{

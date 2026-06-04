@@ -3,20 +3,21 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using TwitchChat.Client;
 using TwitchLib.Api.Interfaces;
 using TwitchMemeAlertsAuto.Core.Services;
 using TwitchMemeAlertsAuto.Core.ViewModels.Messages;
 
 namespace TwitchMemeAlertsAuto.Core.ViewModels
 {
-	public partial class ConnectionViewModel : ObservableRecipient, IRecipient<SettingsChangedMessage>
+	public partial class ConnectionViewModel : ObservableRecipient, IRecipient<SettingsChangedMessage>, IRecipient<TwitchTokenRefreshedMessage>
 	{
 		private readonly ISettingsService settingsService;
 		private readonly IRewardsService rewardsService;
@@ -26,6 +27,8 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		private readonly IDispatcherService dispatcherService;
 		private readonly IServiceProvider serviceProvider;
 		private readonly IDbContextFactory<TmaaDbContext> dbContextFactory;
+		private readonly ITwitchClient twitchClient;
+		private readonly IOptionsMonitor<TwitchClient.Options> twitchClientOptions;
 		private readonly ILogger logger;
 
 		private CancellationTokenSource cancellationTokenSource;
@@ -54,7 +57,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		{
 		}
 
-		public ConnectionViewModel(ISettingsService settingsService, IRewardsService rewardsService, IWebsocketHostedService websocketHostedService, ITwitchOAuthService twitchOAuthService, IMemeAlertsService twitchMemeAlertsAutoService, IDispatcherService dispatcherService, IServiceProvider serviceProvider, IDbContextFactory<TmaaDbContext> dbContextFactory, ILogger<ConnectionViewModel> logger) : this()
+		public ConnectionViewModel(ISettingsService settingsService, IRewardsService rewardsService, IWebsocketHostedService websocketHostedService, ITwitchOAuthService twitchOAuthService, IMemeAlertsService twitchMemeAlertsAutoService, IDispatcherService dispatcherService, IServiceProvider serviceProvider, IDbContextFactory<TmaaDbContext> dbContextFactory, ITwitchClient twitchClient, IOptionsMonitor<TwitchClient.Options> twitchClientOptions, ILogger<ConnectionViewModel> logger) : this()
 		{
 			this.settingsService = settingsService;
 			this.rewardsService = rewardsService;
@@ -64,7 +67,31 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			this.dispatcherService = dispatcherService;
 			this.serviceProvider = serviceProvider;
 			this.dbContextFactory = dbContextFactory;
+			this.twitchClient = twitchClient;
+			this.twitchClientOptions = twitchClientOptions;
 			this.logger = logger;
+		}
+
+		public async void Receive(TwitchTokenRefreshedMessage message)
+		{
+			if (!IsTwitchConnected)
+			{
+				return;
+			}
+
+			try
+			{
+				twitchClientOptions.CurrentValue.OAuthToken = message.Value.Token;
+
+				if (cancellationTokenSource != null)
+				{
+					await ReconnectTwitchChatAsync(cancellationTokenSource.Token).ConfigureAwait(false);
+				}
+			}
+			catch (Exception ex)
+			{
+				logger.LogError(ex, "Error reconnecting Twitch chat after token refresh");
+			}
 		}
 
 		public async void Receive(SettingsChangedMessage message)
@@ -241,6 +268,24 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			await settingsService.SetMemeAlertsUsernameAsync(current.Name, cancellationToken).ConfigureAwait(false);
 
 			return current.Name;
+		}
+
+		private async Task ReconnectTwitchChatAsync(CancellationToken cancellationToken)
+		{
+			try
+			{
+				await twitchClient.DisconnectAsync(cancellationToken).ConfigureAwait(false);
+			}
+			catch (InvalidOperationException)
+			{
+			}
+
+			if (!string.IsNullOrWhiteSpace(TwitchUsername))
+			{
+				twitchClient.JoinChannel(TwitchUsername);
+			}
+
+			await twitchClient.ConnectAsync(cancellationToken).ConfigureAwait(false);
 		}
 	}
 }

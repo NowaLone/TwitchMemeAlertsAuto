@@ -14,7 +14,7 @@ using TwitchMemeAlertsAuto.Core.ViewModels.Messages;
 
 namespace TwitchMemeAlertsAuto.Core.ViewModels
 {
-	public partial class RewardsViewModel : ObservableRecipient, IRecipient<TwitchConnectedMessage>
+	public partial class RewardsViewModel : ObservableRecipient, IRecipient<TwitchConnectedMessage>, IRecipient<TwitchTokenRefreshedMessage>
 	{
 		private readonly IServiceProvider serviceProvider;
 		private readonly ILogger<RewardsViewModel> logger;
@@ -37,6 +37,11 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		}
 
 		public async void Receive(TwitchConnectedMessage message)
+		{
+			await LoadRewardsAsync(message.Value.Token, message.Value.UserId).ConfigureAwait(false);
+		}
+
+		public async void Receive(TwitchTokenRefreshedMessage message)
 		{
 			await LoadRewardsAsync(message.Value.Token, message.Value.UserId).ConfigureAwait(false);
 		}
