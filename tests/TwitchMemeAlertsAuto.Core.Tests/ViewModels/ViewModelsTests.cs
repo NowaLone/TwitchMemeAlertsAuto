@@ -229,7 +229,7 @@ public class MainMenuViewModelTests
 		var viewModel = new MainMenuViewModel(
 			dispatcherServiceMock.Object,
 			settingsServiceMock.Object,
-			twitchApiMock.Object,
+			Mock.Of<IServiceProvider>(),
 			connectionViewModel,
 			loggerMock.Object);
 
@@ -266,7 +266,7 @@ public class MainMenuViewModelTests
 		var viewModel = new MainMenuViewModel(
 			dispatcherServiceMock.Object,
 			settingsServiceMock.Object,
-			twitchApiMock.Object,
+			Mock.Of<IServiceProvider>(),
 			connectionViewModel,
 			loggerMock.Object);
 
@@ -301,7 +301,7 @@ public class MainMenuViewModelTests
 		var viewModel = new MainMenuViewModel(
 			dispatcherServiceMock.Object,
 			settingsServiceMock.Object,
-			twitchApiMock.Object,
+			Mock.Of<IServiceProvider>(),
 			connectionViewModel,
 			loggerMock.Object);
 
@@ -336,7 +336,7 @@ public class MainMenuViewModelTests
 		var viewModel = new MainMenuViewModel(
 			dispatcherServiceMock.Object,
 			settingsServiceMock.Object,
-			twitchApiMock.Object,
+			Mock.Of<IServiceProvider>(),
 			connectionViewModel,
 			loggerMock.Object);
 
@@ -375,7 +375,7 @@ public class MainMenuViewModelTests
 		var viewModel = new MainMenuViewModel(
 			dispatcherServiceMock.Object,
 			settingsServiceMock.Object,
-			twitchApiMock.Object,
+			Mock.Of<IServiceProvider>(),
 			connectionViewModel,
 			loggerMock.Object);
 

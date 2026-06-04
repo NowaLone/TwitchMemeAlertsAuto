@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Securify.ShellLink;
 using System;
@@ -18,7 +19,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 	{
 		private readonly IDispatcherService dispatcherService;
 		private readonly ISettingsService settingsService;
-		private readonly ITwitchAPI twitchAPI;
+		private readonly IServiceProvider serviceProvider;
 		private readonly ILogger logger;
 		private readonly string startupFullPath;
 
@@ -44,11 +45,11 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		{
 		}
 
-		public MainMenuViewModel(IDispatcherService dispatcherService, ISettingsService settingsService, ITwitchAPI twitchAPI, ConnectionViewModel connectionViewModel, ILogger<MainMenuViewModel> logger) : this()
+		public MainMenuViewModel(IDispatcherService dispatcherService, ISettingsService settingsService, IServiceProvider serviceProvider, ConnectionViewModel connectionViewModel, ILogger<MainMenuViewModel> logger) : this()
 		{
 			this.dispatcherService = dispatcherService;
 			this.settingsService = settingsService;
-			this.twitchAPI = twitchAPI;
+			this.serviceProvider = serviceProvider;
 			this.connectionViewModel = connectionViewModel;
 			this.logger = logger;
 			this.startupFullPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), Path.ChangeExtension(Path.GetFileName(Environment.ProcessPath), ".lnk"));
@@ -133,13 +134,17 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		{
 			var userId = await settingsService.GetTwitchUserIdAsync(cancellationToken).ConfigureAwait(false);
 
-			var response = await twitchAPI.Helix.ChannelPoints.CreateCustomRewardsAsync(userId, new TwitchLib.Api.Helix.Models.ChannelPoints.CreateCustomReward.CreateCustomRewardsRequest
+			using (var scope = serviceProvider.CreateAsyncScope())
 			{
-				Cost = 100,
-				Title = Properties.Resources.ShowLastMemer,
-				IsEnabled = true,
-			}).ConfigureAwait(false);
-			await settingsService.SetShowMemerRewardIdAsync(response.Data[0].Id, cancellationToken).ConfigureAwait(false);
+				var twitchAPI = scope.ServiceProvider.GetRequiredService<ITwitchAPI>();
+				var response = await twitchAPI.Helix.ChannelPoints.CreateCustomRewardsAsync(userId, new TwitchLib.Api.Helix.Models.ChannelPoints.CreateCustomReward.CreateCustomRewardsRequest
+				{
+					Cost = 100,
+					Title = Properties.Resources.ShowLastMemer,
+					IsEnabled = true,
+				}).ConfigureAwait(false);
+				await settingsService.SetShowMemerRewardIdAsync(response.Data[0].Id, cancellationToken).ConfigureAwait(false);
+			}
 
 			Messenger.Send(new SettingsChangedMessage(nameof(settingsService.GetShowMemerRewardIdAsync)));
 			ShowMemer = false;
@@ -157,13 +162,17 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		{
 			var userId = await settingsService.GetTwitchUserIdAsync(cancellationToken).ConfigureAwait(false);
 
-			var response = await twitchAPI.Helix.ChannelPoints.CreateCustomRewardsAsync(userId, new TwitchLib.Api.Helix.Models.ChannelPoints.CreateCustomReward.CreateCustomRewardsRequest
+			using (var scope = serviceProvider.CreateAsyncScope())
 			{
-				Cost = 100,
-				Title = Properties.Resources.SendRandomMeme,
-				IsEnabled = true,
-			}).ConfigureAwait(false);
-			await settingsService.SetSendRandomMemeRewardIdAsync(response.Data[0].Id, cancellationToken).ConfigureAwait(false);
+				var twitchAPI = scope.ServiceProvider.GetRequiredService<ITwitchAPI>();
+				var response = await twitchAPI.Helix.ChannelPoints.CreateCustomRewardsAsync(userId, new TwitchLib.Api.Helix.Models.ChannelPoints.CreateCustomReward.CreateCustomRewardsRequest
+				{
+					Cost = 100,
+					Title = Properties.Resources.SendRandomMeme,
+					IsEnabled = true,
+				}).ConfigureAwait(false);
+				await settingsService.SetSendRandomMemeRewardIdAsync(response.Data[0].Id, cancellationToken).ConfigureAwait(false);
+			}
 
 			Messenger.Send(new SettingsChangedMessage(nameof(settingsService.GetSendRandomMemeRewardIdAsync)));
 			SendRandomMeme = false;
@@ -182,7 +191,12 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			var userId = await settingsService.GetTwitchUserIdAsync(cancellationToken).ConfigureAwait(false);
 			var rewardId = await settingsService.GetSendRandomMemeRewardIdAsync(cancellationToken).ConfigureAwait(false);
 
-			await twitchAPI.Helix.ChannelPoints.DeleteCustomRewardAsync(userId, rewardId).ConfigureAwait(false);
+			using (var scope = serviceProvider.CreateAsyncScope())
+			{
+				var twitchAPI = scope.ServiceProvider.GetRequiredService<ITwitchAPI>();
+				await twitchAPI.Helix.ChannelPoints.DeleteCustomRewardAsync(userId, rewardId).ConfigureAwait(false);
+			}
+
 			await settingsService.SetSendRandomMemeRewardIdAsync(string.Empty, cancellationToken).ConfigureAwait(false);
 
 			Messenger.Send(new SettingsChangedMessage(nameof(settingsService.GetSendRandomMemeRewardIdAsync)));
@@ -200,7 +214,12 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			var userId = await settingsService.GetTwitchUserIdAsync(cancellationToken).ConfigureAwait(false);
 			var rewardId = await settingsService.GetShowMemerRewardIdAsync(cancellationToken).ConfigureAwait(false);
 
-			await twitchAPI.Helix.ChannelPoints.DeleteCustomRewardAsync(userId, rewardId).ConfigureAwait(false);
+			using (var scope = serviceProvider.CreateAsyncScope())
+			{
+				var twitchAPI = scope.ServiceProvider.GetRequiredService<ITwitchAPI>();
+				await twitchAPI.Helix.ChannelPoints.DeleteCustomRewardAsync(userId, rewardId).ConfigureAwait(false);
+			}
+
 			await settingsService.SetShowMemerRewardIdAsync(string.Empty, cancellationToken).ConfigureAwait(false);
 
 			Messenger.Send(new SettingsChangedMessage(nameof(settingsService.GetShowMemerRewardIdAsync)));

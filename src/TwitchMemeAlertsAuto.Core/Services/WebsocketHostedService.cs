@@ -1,5 +1,6 @@
 ﻿using IrcNet;
 using IrcNet.Parser.V3;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ProfanityFilter.Interfaces;
 using System;
@@ -20,13 +21,13 @@ namespace TwitchMemeAlertsAuto.Core.Services
 {
 	public class WebsocketHostedService : IWebsocketHostedService
 	{
-		private readonly ITwitchAPI twitchApi;
 		private readonly EventSubWebsocketClient eventSubWebsocketClient;
 		private readonly ITwitchClient twitchClient;
 		private readonly IIrcParser<IrcV3Message> ircParser;
 		private readonly ISettingsService settingsService;
 		private readonly IMemeAlertsService memeAlertsService;
 		private readonly IProfanityFilter profanityFilter;
+		private readonly IServiceProvider serviceProvider;
 		private readonly ILogger<WebsocketHostedService> logger;
 
 		private string showMemerRewardId;
@@ -36,15 +37,15 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 		private IEnumerable<Sticker> randomStrickers;
 
-		public WebsocketHostedService(ITwitchAPI twitchAPI, EventSubWebsocketClient eventSubWebsocketClient, ITwitchClient twitchClient, IIrcParser<IrcV3Message> ircParser, ISettingsService settingsService, IMemeAlertsService memeAlertsService, IProfanityFilter profanityFilter, ILogger<WebsocketHostedService> logger)
+		public WebsocketHostedService(EventSubWebsocketClient eventSubWebsocketClient, ITwitchClient twitchClient, IIrcParser<IrcV3Message> ircParser, ISettingsService settingsService, IMemeAlertsService memeAlertsService, IProfanityFilter profanityFilter, IServiceProvider serviceProvider, ILogger<WebsocketHostedService> logger)
 		{
-			this.twitchApi = twitchAPI;
 			this.eventSubWebsocketClient = eventSubWebsocketClient;
 			this.twitchClient = twitchClient;
 			this.ircParser = ircParser;
 			this.settingsService = settingsService;
 			this.memeAlertsService = memeAlertsService;
 			this.profanityFilter = profanityFilter;
+			this.serviceProvider = serviceProvider;
 			this.logger = logger;
 		}
 
@@ -72,11 +73,13 @@ namespace TwitchMemeAlertsAuto.Core.Services
 				randomStrickers = Enumerable.Empty<Sticker>();
 			}
 
-
-			await twitchApi.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, showMemerRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = false }).ConfigureAwait(false);
-			await twitchApi.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, sendRandomMemeRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = false }).ConfigureAwait(false);
-
-			await eventSubWebsocketClient.ConnectAsync();
+			using (var scope = serviceProvider.CreateAsyncScope())
+			{
+				var twitchAPI = scope.ServiceProvider.GetRequiredService<ITwitchAPI>();
+				await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, showMemerRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = false }).ConfigureAwait(false);
+				await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, sendRandomMemeRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = false }).ConfigureAwait(false);
+				await eventSubWebsocketClient.ConnectAsync();
+			}
 		}
 
 		public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -90,15 +93,18 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 			await eventSubWebsocketClient.DisconnectAsync();
 
-			var response = await twitchApi.Helix.EventSub.DeleteEventSubSubscriptionAsync(eventSubId);
-
-			if (response)
+			using (var scope = serviceProvider.CreateAsyncScope())
 			{
-				logger.LogWarning("Unable to delete event subscription {eventSubId}", eventSubId);
-			}
+				var twitchAPI = scope.ServiceProvider.GetRequiredService<ITwitchAPI>();
+				var response = await twitchAPI.Helix.EventSub.DeleteEventSubSubscriptionAsync(eventSubId);
 
-			await twitchApi.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, showMemerRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = true }).ConfigureAwait(false);
-			await twitchApi.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, sendRandomMemeRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = true }).ConfigureAwait(false);
+				if (response)
+				{
+					logger.LogWarning("Unable to delete event subscription {eventSubId}", eventSubId);
+				}
+				await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, showMemerRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = true }).ConfigureAwait(false);
+				await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, sendRandomMemeRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = true }).ConfigureAwait(false);
+			}
 		}
 
 		private async Task OnWebsocketConnected(object sender, WebsocketConnectedArgs e)
@@ -107,19 +113,23 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 			if (!e.IsRequestedReconnect)
 			{
-				var response2 = await twitchApi.Helix.EventSub.GetEventSubSubscriptionsAsync(new GetEventSubSubscriptionsRequest());
-				foreach (var item in response2.Subscriptions)
+				using (var scope = serviceProvider.CreateAsyncScope())
 				{
-					await twitchApi.Helix.EventSub.DeleteEventSubSubscriptionAsync(item.Id);
-				}
-
-				if (!string.IsNullOrWhiteSpace(showMemerRewardId) || !string.IsNullOrWhiteSpace(sendRandomMemeRewardId))
-				{
-					var condition = new Dictionary<string, string> { { "broadcaster_user_id", userId } };
-					var response = await twitchApi.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.channel_points_custom_reward_redemption.add", "1", condition, EventSubTransportMethod.Websocket, eventSubWebsocketClient.SessionId);
-					if (response?.Subscriptions?.FirstOrDefault() != null)
+					var twitchAPI = scope.ServiceProvider.GetRequiredService<ITwitchAPI>();
+					var response2 = await twitchAPI.Helix.EventSub.GetEventSubSubscriptionsAsync(new GetEventSubSubscriptionsRequest());
+					foreach (var item in response2.Subscriptions)
 					{
-						eventSubId = response.Subscriptions.FirstOrDefault().Id;
+						await twitchAPI.Helix.EventSub.DeleteEventSubSubscriptionAsync(item.Id);
+					}
+
+					if (!string.IsNullOrWhiteSpace(showMemerRewardId) || !string.IsNullOrWhiteSpace(sendRandomMemeRewardId))
+					{
+						var condition = new Dictionary<string, string> { { "broadcaster_user_id", userId } };
+						var response = await twitchAPI.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.channel_points_custom_reward_redemption.add", "1", condition, EventSubTransportMethod.Websocket, eventSubWebsocketClient.SessionId);
+						if (response?.Subscriptions?.FirstOrDefault() != null)
+						{
+							eventSubId = response.Subscriptions.FirstOrDefault().Id;
+						}
 					}
 				}
 			}
