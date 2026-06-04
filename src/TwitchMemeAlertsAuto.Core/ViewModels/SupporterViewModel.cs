@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using TwitchMemeAlertsAuto.Core.Services;
@@ -33,6 +34,10 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 
 			if (await twitchMemeAlertsAutoService.GiveBonusAsync(Supporter, value, cancellationToken).ConfigureAwait(false))
 			{
+				Supporter.Balance += value;
+				Supporter.LastSupport = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+				OnPropertyChanged(nameof(Supporter));
+
 				logger.LogInformation(EventIds.Rewarded, "Мемы для {username} успешно выданы в кол-ве {value} шт.", Supporter.SupporterName, value);
 			}
 			else

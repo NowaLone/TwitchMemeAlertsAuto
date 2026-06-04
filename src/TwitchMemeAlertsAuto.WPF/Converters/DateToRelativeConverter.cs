@@ -22,7 +22,7 @@ namespace TwitchMemeAlertsAuto.WPF.Converters
 			}
 			else if (value is long unixEpoch)
 			{
-				date = DateTimeOffset.FromUnixTimeMilliseconds(unixEpoch).Date;
+				date = DateTimeOffset.FromUnixTimeMilliseconds(unixEpoch).LocalDateTime.Date;
 			}
 			else
 			{
