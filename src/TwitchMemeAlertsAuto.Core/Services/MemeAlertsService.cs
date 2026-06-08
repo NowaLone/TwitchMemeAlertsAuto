@@ -210,6 +210,24 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			return (await responseMessage.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false)).Equals("{\"result\":0}", StringComparison.OrdinalIgnoreCase);
 		}
 
+		public async Task<Supporter> GetStreamerAsSupporterAsync(CancellationToken cancellationToken = default)
+		{
+			if (string.IsNullOrWhiteSpace(streamerId))
+			{
+				streamerId = (await GetCurrent(cancellationToken).ConfigureAwait(false)).Id;
+			}
+
+			using var request = new HttpRequestMessage(HttpMethod.Post, $"api/supporters/{streamerId}") { Content = new StringContent($"{{\"streamerId\":\"{streamerId}\"}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json)) };
+			using var responseMessage = await DoRequest(request, cancellationToken).ConfigureAwait(false);
+
+			if (responseMessage == null)
+			{
+				return new Supporter();
+			}
+
+			return await JsonSerializer.DeserializeAsync(responseMessage.Content.ReadAsStream(cancellationToken), SerializationModeOptionsContext.Default.Supporter, cancellationToken).ConfigureAwait(false);
+		}
+
 		private async Task<HttpResponseMessage> DoRequest(HttpRequestMessage request, CancellationToken cancellationToken = default)
 		{
 			try

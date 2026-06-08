@@ -21,5 +21,6 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		Task<List<Sticker>> GetStreamerAreaCatalogueAsync(CancellationToken cancellationToken = default);
 
 		Task<bool> SendMemeAsync(Sticker sticker, CancellationToken cancellationToken = default);
+		Task<Supporter> GetStreamerAsSupporterAsync(CancellationToken cancellationToken = default);
 	}
 }

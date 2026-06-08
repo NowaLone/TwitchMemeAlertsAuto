@@ -195,6 +195,13 @@ namespace TwitchMemeAlertsAuto.Core.Services
 					{
 						var random = Random.Shared.Next(0, randomStrickers.Count());
 						var sticker = randomStrickers.ElementAt(random);
+						var supporter = await memeAlertsService.GetStreamerAsSupporterAsync().ConfigureAwait(false);
+						
+						if (supporter.Balance == 0)
+						{
+							await memeAlertsService.GiveBonusAsync(supporter, 1).ConfigureAwait(false);
+						}
+
 						await memeAlertsService.SendMemeAsync(sticker).ConfigureAwait(false);
 					}
 					else
