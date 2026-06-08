@@ -54,6 +54,7 @@ namespace TwitchMemeAlertsAuto.WPF
 			// Try to gain exclusive ownership of the named mutex
 			var mutex = new Mutex(true, new Guid(Encoding.UTF8.GetBytes(dbPath, 0, 16)).ToString(), out bool isNewInstance);
 
+#if !DEBUG
 			if (!isNewInstance)
 			{
 				// Another instance is already running; warn and exit immediately
@@ -65,6 +66,7 @@ namespace TwitchMemeAlertsAuto.WPF
 			{
 				App.mutex = mutex;
 			}
+#endif
 
 			var builder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder(e.Args);
 
