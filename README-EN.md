@@ -17,6 +17,7 @@ There are 2 versions of the program: a regular (GUI) version with additional fea
 | Auto-update | ✅ | ❌ |
 | Auto-start on system login | ✅ | ❌ |
 | Ability to show last memer | ✅ | ❌ |
+| Ability to send random meme | ✅ | ❌ |
 
 Download both versions from the [latest release](https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/latest)
 
@@ -60,10 +61,19 @@ If you need the full functionality, you need to connect both Twitch and MemeAler
   - Reward all supporters
   - Reward the last N supporters who sent memes
   - Reward the last N supporters who received meme coins
-- Updates are not checked automatically, but if updates are available, you can update automatically by clicking Help → Check for updates
-- Double-clicking the tray icon minimizes/restores the program
-- The File menu has buttons for enabling autoplay, rewarding by Twitch nickname, and creating a Twitch reward that allows you to report in chat who sent the last meme.
-- 
+
+Updates are not checked automatically, but if updates are available, you can update automatically by clicking Help → Check for updates
+
+Double-clicking the tray icon minimizes/restores the program
+
+The File menu has buttons for enabling autoplay, rewarding by Twitch nickname
+
+The "Rewards" menu contains buttons for creating Twitch rewards, notifying the last meme sent in chat, and sending a random meme.
+
+The reward for the last meme sent is posted in chat on your behalf, along with the sender's nickname and the sticker title. **CAUTION** Meme titles may contain obscene words. The program has a built-in filter, but this doesn't guarantee anything, and you proceed at your own risk.
+
+A random meme is selected from the top 200 stickers from your channel page + the latest 200 stickers added to memealerts (the "Catalog" page on the website). The meme is sent on your behalf.
+
 ## Detailed CLI setup
 
 ### How to extract the MemeAlerts token?
