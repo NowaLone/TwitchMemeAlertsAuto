@@ -18,6 +18,7 @@ There are 2 versions of the program: a regular (GUI) version with additional fea
 | Auto-start on system login | ✅ | ❌ |
 | Ability to show last memer | ✅ | ❌ |
 | Ability to send random meme | ✅ | ❌ |
+| Ability to enable silent mode | ✅ | ❌ |
 
 Download both versions from the [latest release](https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/latest)
 
