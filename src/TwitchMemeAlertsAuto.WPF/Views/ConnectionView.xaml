@@ -13,7 +13,15 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     <StackPanel Orientation="Horizontal">
+        <CheckBox
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            Command="{Binding ChangeSilentModeCommand}"
+            CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
+            Content="{x:Static properties:Resources.SilentMode}"
+            IsChecked="{Binding IsSilentModeEnabled}" />
         <Button
+            Margin="16,0,0,0"
             Padding="0"
             Background="Transparent"
             Command="{Binding ConnectTwitchCommand}"

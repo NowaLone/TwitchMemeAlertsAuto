@@ -255,4 +255,7 @@
   <data name="ShowLastMemeName" xml:space="preserve">
     <value>Показывать название мема</value>
   </data>
+  <data name="SilentMode" xml:space="preserve">
+    <value>Тихий режим</value>
+  </data>
 </root>

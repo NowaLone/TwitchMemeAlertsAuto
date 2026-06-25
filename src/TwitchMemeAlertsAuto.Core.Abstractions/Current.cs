@@ -7,5 +7,6 @@ namespace TwitchMemeAlertsAuto.Core
 		public string Id { get; set; }
 		public string Name { get; set; }
 		public Uri Avatar { get; set; }
+		public Channel Channel { get; set; }
 	}
 }

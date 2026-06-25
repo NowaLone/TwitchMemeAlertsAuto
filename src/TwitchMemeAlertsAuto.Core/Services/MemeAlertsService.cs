@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Net.Mime;
+using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -226,6 +227,19 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			}
 
 			return await JsonSerializer.DeserializeAsync(responseMessage.Content.ReadAsStream(cancellationToken), SerializationModeOptionsContext.Default.Supporter, cancellationToken).ConfigureAwait(false);
+		}
+
+		public async Task<Current> SwitchSilentModeAsync(bool value, CancellationToken cancellationToken = default)
+		{
+			using var request = new HttpRequestMessage(HttpMethod.Put, "api/user/channel") { Content = new StringContent($"{{\"isSilentModeEnabled\":{value.ToString().ToLower()}}}", Encoding.UTF8, "application/json") };
+			using var responseMessage = await DoRequest(request, cancellationToken).ConfigureAwait(false);
+
+			if (responseMessage == null)
+			{
+				return new Current();
+			}
+
+			return await JsonSerializer.DeserializeAsync(responseMessage.Content.ReadAsStream(cancellationToken), SerializationModeOptionsContext.Default.Current, cancellationToken).ConfigureAwait(false);
 		}
 
 		private async Task<HttpResponseMessage> DoRequest(HttpRequestMessage request, CancellationToken cancellationToken = default)

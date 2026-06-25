@@ -255,4 +255,7 @@
   <data name="ShowLastMemeName" xml:space="preserve">
     <value>Show meme name</value>
   </data>
+  <data name="SilentMode" xml:space="preserve">
+    <value>Silent mode</value>
+  </data>
 </root>

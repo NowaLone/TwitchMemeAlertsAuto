@@ -53,6 +53,9 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		[ObservableProperty]
 		private string memeAlertsUsername;
 
+		[ObservableProperty]
+		private bool isSilentModeEnabled;
+
 		public ConnectionViewModel()
 		{
 		}
@@ -180,13 +183,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 
 				if (!string.IsNullOrWhiteSpace(maToken) && await twitchMemeAlertsAutoService.CheckToken(maToken, cancellationToken))
 				{
-					MemeAlertsUsername = string.IsNullOrWhiteSpace(memeAlertsUsername)
-						? await GetMemeAlertsUsername(cancellationToken).ConfigureAwait(false)
-						: memeAlertsUsername;
-					dispatcherService.CallWithDispatcher(() => IsMemeAlertsConnected = true);
-
-					Messenger.Send(new MemealertsConnectedMessage(maToken));
-					await StartWork(cancellationToken).ConfigureAwait(false);
+					await FinishLogin(maToken, cancellationToken).ConfigureAwait(false);
 				}
 				else
 				{
@@ -194,13 +191,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 
 					if (!string.IsNullOrWhiteSpace(maToken) && await twitchMemeAlertsAutoService.CheckToken(maToken, cancellationToken).ConfigureAwait(false))
 					{
-						await settingsService.SetMemeAlertsTokenAsync(maToken, cancellationToken).ConfigureAwait(false);
-
-						MemeAlertsUsername = await GetMemeAlertsUsername(cancellationToken).ConfigureAwait(false);
-						dispatcherService.CallWithDispatcher(() => IsMemeAlertsConnected = true);
-
-						Messenger.Send(new MemealertsConnectedMessage(maToken));
-						await StartWork(cancellationToken).ConfigureAwait(false);
+						await FinishLogin(maToken, cancellationToken).ConfigureAwait(false);
 					}
 					else
 					{
@@ -262,12 +253,17 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			await websocketHostedService.StartAsync(cancellationToken).ConfigureAwait(false);
 		}
 
-		private async Task<string> GetMemeAlertsUsername(CancellationToken cancellationToken = default)
+		private async Task FinishLogin(string maToken, CancellationToken cancellationToken = default)
 		{
 			var current = await twitchMemeAlertsAutoService.GetCurrent(cancellationToken).ConfigureAwait(false);
 			await settingsService.SetMemeAlertsUsernameAsync(current.Name, cancellationToken).ConfigureAwait(false);
 
-			return current.Name;
+			MemeAlertsUsername = current.Name;
+			IsSilentModeEnabled = current.Channel.IsSilentModeEnabled;
+			dispatcherService.CallWithDispatcher(() => IsMemeAlertsConnected = true);
+
+			Messenger.Send(new MemealertsConnectedMessage(maToken));
+			await StartWork(cancellationToken).ConfigureAwait(false);
 		}
 
 		private async Task ReconnectTwitchChatAsync(CancellationToken cancellationToken)
@@ -286,6 +282,13 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			}
 
 			await twitchClient.ConnectAsync(cancellationToken).ConfigureAwait(false);
+		}
+
+		[RelayCommand]
+		private async Task ChangeSilentModeAsync(bool parameter, CancellationToken cancellationToken)
+		{
+			var current = await twitchMemeAlertsAutoService.SwitchSilentModeAsync(parameter, cancellationToken).ConfigureAwait(false);
+			IsSilentModeEnabled = current.Channel.IsSilentModeEnabled;
 		}
 	}
 }

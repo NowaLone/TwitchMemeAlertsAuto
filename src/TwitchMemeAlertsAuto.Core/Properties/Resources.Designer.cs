@@ -70,6 +70,15 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add &quot;Show last memer&quot; Reward.
         /// </summary>
         public static string AddShowMemer {
@@ -187,7 +196,7 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Meme &quot;{0}&quot; sent by {1}.
+        ///   Looks up a localized string similar to Meme {0} sent by {1}.
         /// </summary>
         public static string LastMemeSentBy {
             get {
@@ -241,6 +250,15 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ☢ ATTENTION ☢ MEME INFORMATION WILL BE SENT FROM YOUR ACCOUNT, BUT MEME TITLES MAY CONTAIN PROHIBITED WORDS. THE PROGRAM HAS A SIMPLE FILTER BUILT IN, WHICH DOES NOT GUARANTEE ANYTHING, AND IF ANY, THIS MAY LEAD TO YOUR ACCOUNT BEING BLOCKED. USE AT YOUR OWN RISK!.
+        /// </summary>
+        public static string ProfanityInfo {
+            get {
+                return ResourceManager.GetString("ProfanityInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Qty:.
         /// </summary>
         public static string Quantity {
@@ -255,6 +273,15 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
         public static string RefreshTooltip {
             get {
                 return ResourceManager.GetString("RefreshTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        public static string Remove {
+            get {
+                return ResourceManager.GetString("Remove", resourceCulture);
             }
         }
         
@@ -340,6 +367,33 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Send random meme.
+        /// </summary>
+        public static string SendRandomMeme {
+            get {
+                return ResourceManager.GetString("SendRandomMeme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;Send random meme&quot; reward successfully created. You can set up reward cost, icon, etc in your twitch dashboard.
+        /// </summary>
+        public static string SendRandomMemeRewardSuccessfullyCreated {
+            get {
+                return ResourceManager.GetString("SendRandomMemeRewardSuccessfullyCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show meme name.
+        /// </summary>
+        public static string ShowLastMemeName {
+            get {
+                return ResourceManager.GetString("ShowLastMemeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show last memer.
         /// </summary>
         public static string ShowLastMemer {
@@ -349,11 +403,20 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to "Show last memer" reward successfully created. You can set up reward cost, icon, etc in your twitch dashboard.
+        ///   Looks up a localized string similar to &quot;Show last memer&quot; reward successfully created. You can set up reward cost, icon, etc in your twitch dashboard.
         /// </summary>
         public static string ShowMemerRewardSuccessfullyCreated {
             get {
                 return ResourceManager.GetString("ShowMemerRewardSuccessfullyCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Silent mode.
+        /// </summary>
+        public static string SilentMode {
+            get {
+                return ResourceManager.GetString("SilentMode", resourceCulture);
             }
         }
         
@@ -419,63 +482,5 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
                 return ResourceManager.GetString("Yesterday", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Send random meme.
-        /// </summary>
-        public static string SendRandomMeme {
-            get {
-                return ResourceManager.GetString("SendRandomMeme", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to "Send random meme" reward successfully created. You can set up reward cost, icon, etc in your twitch dashboard.
-        /// </summary>
-        public static string SendRandomMemeRewardSuccessfullyCreated {
-            get {
-                return ResourceManager.GetString("SendRandomMemeRewardSuccessfullyCreated", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Add.
-        /// </summary>
-        public static string Add {
-            get {
-                return ResourceManager.GetString("Add", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Remove.
-        /// </summary>
-        public static string Remove {
-            get {
-                return ResourceManager.GetString("Remove", resourceCulture);
-            }
-		}
-
-		/// <summary>
-		///   Looks up a localized string similar to ProfanityInfo.
-		/// </summary>
-		public static string ProfanityInfo
-		{
-			get
-			{
-				return ResourceManager.GetString("ProfanityInfo", resourceCulture);
-			}
-		}
-
-		/// <summary>
-		///   Looks up a localized string similar to ShowLastMemeName.
-		/// </summary>
-		public static string ShowLastMemeName
-		{
-			get
-			{
-				return ResourceManager.GetString("ShowLastMemeName", resourceCulture);
-			}
-		}
-	}
+    }
 }
