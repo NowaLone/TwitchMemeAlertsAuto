@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.2] - 2026-06-27
+
+### Added
+
+- Reopen currently launched app copy if user tries to launch another one
+
 ## [2.4.1] - 2026-06-25
 
 ### Added
@@ -135,6 +141,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - First public release.
 
+[2.4.2]: https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/tag/v2.4.2
 [2.4.1]: https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/tag/v2.4.1
 [2.4.0]: https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/tag/v2.4.0
 [2.3.1]: https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/tag/v2.3.1
