@@ -41,11 +41,13 @@ namespace TwitchMemeAlertsAuto.WPF
 		private IHost host;
 		private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
 		private NotifyIcon icon;
+		private uint _customWindowMessage;
 
 		private static Mutex mutex;
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
+			_customWindowMessage = NativeMethods.RegisterWindowMessage(NativeMethods.ShowWindowMessageName);
 			var fileVersionInfo = FileVersionInfo.GetVersionInfo(Environment.ProcessPath);
 
 			var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), fileVersionInfo.CompanyName, fileVersionInfo.ProductName);
@@ -58,8 +60,14 @@ namespace TwitchMemeAlertsAuto.WPF
 			if (!isNewInstance)
 			{
 				// Another instance is already running; warn and exit immediately
-				MessageBox.Show("The application is already running.", "Instance Check", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-				Application.Current.Shutdown(1);
+				NativeMethods.PostMessage(
+						   NativeMethods.HWND_BROADCAST,
+						   _customWindowMessage,
+						   IntPtr.Zero,
+						   IntPtr.Zero
+					   );
+
+				Current.Shutdown();
 				return;
 			}
 			else
