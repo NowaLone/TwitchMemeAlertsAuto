@@ -184,6 +184,14 @@ namespace TwitchMemeAlertsAuto.WPF
 
 		private async void Application_Startup(object sender, StartupEventArgs e)
 		{
+			using (var scope = host.Services.CreateAsyncScope())
+			{
+				using (var context = scope.ServiceProvider.GetRequiredService<TmaaDbContext>())
+				{
+					await context.Database.MigrateAsync().ConfigureAwait(false);
+				}
+			}
+
 			var mainWindowViewModel = host.Services.GetRequiredService<MainWindowViewModel>();
 
 			var mainWindow = new MainWindow
@@ -199,14 +207,6 @@ namespace TwitchMemeAlertsAuto.WPF
 			}
 
 			ShowTray();
-
-			using (var scope = host.Services.CreateAsyncScope())
-			{
-				using (var context = scope.ServiceProvider.GetRequiredService<TmaaDbContext>())
-				{
-					await context.Database.MigrateAsync().ConfigureAwait(false);
-				}
-			}
 
 			mainWindowViewModel.IsActive = true;
 
