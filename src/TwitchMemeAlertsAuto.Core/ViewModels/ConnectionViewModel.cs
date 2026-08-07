@@ -191,6 +191,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 
 					if (!string.IsNullOrWhiteSpace(maToken) && await twitchMemeAlertsAutoService.CheckToken(maToken, cancellationToken).ConfigureAwait(false))
 					{
+						await settingsService.SetMemeAlertsTokenAsync(maToken, cancellationToken).ConfigureAwait(false);
 						await FinishLogin(maToken, cancellationToken).ConfigureAwait(false);
 					}
 					else
