@@ -56,6 +56,16 @@ jobs:
           </item>" | Out-File -FilePath src\TwitchMemeAlertsAuto.WPF\publish-wpf\AutoUpdater.xml
 
 
+      - name: Resolve tag version
+        run: echo "VERSION=$($env:GITHUB_REF_NAME.TrimStart('v'))" >> $env:GITHUB_ENV
+
+      - name: Read changelog entry
+        id: changelog
+        uses: mindsers/changelog-reader-action@v2
+        with:
+          version: ${{ env.VERSION }}
+          path: ./CHANGELOG.md
+
       - name: Upload assets to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -63,6 +73,6 @@ jobs:
             ${{ env.WPF_ZIP }}
             src/TwitchMemeAlertsAuto.CLI/publish-cli/tmaa.exe
             src/TwitchMemeAlertsAuto.WPF/publish-wpf/AutoUpdater.xml
-          body_path: CHANGELOG.md
+          body: ${{ steps.changelog.outputs.changes }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
