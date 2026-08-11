@@ -14,7 +14,7 @@ using TwitchMemeAlertsAuto.Core.ViewModels.Messages;
 
 namespace TwitchMemeAlertsAuto.Core.ViewModels
 {
-	public partial class RewardsViewModel : ObservableRecipient, IRecipient<TwitchConnectedMessage>, IRecipient<TwitchTokenRefreshedMessage>
+	public partial class RewardsViewModel : ObservableRecipient, IRecipient<TwitchConnectedMessage>, IRecipient<TwitchTokenRefreshedMessage>, IDisposable
 	{
 		private readonly IServiceProvider serviceProvider;
 		private readonly ILogger<RewardsViewModel> logger;
@@ -36,6 +36,15 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			this.logger = logger;
 		}
 
+		public void Dispose()
+		{
+			foreach (var item in Rewards)
+			{
+				item.IsActive = false;
+			}
+			IsActive = false;
+		}
+
 		public async void Receive(TwitchConnectedMessage message)
 		{
 			await LoadRewardsAsync(message.Value.Token, message.Value.UserId).ConfigureAwait(false);
@@ -47,17 +56,17 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		}
 
 		[RelayCommand(CanExecute = nameof(CanRefresh))]
-		private Task RefreshAsync(object parameter, CancellationToken cancellationToken = default)
+		private async Task RefreshAsync(object parameter, CancellationToken cancellationToken = default)
 		{
-			string token, userId = null;
+			string token, userId;
 			using (var scope = serviceProvider.CreateAsyncScope())
 			{
 				var settingsService = scope.ServiceProvider.GetRequiredService<ISettingsService>();
-				token = settingsService.GetTwitchOAuthTokenAsync(cancellationToken).GetAwaiter().GetResult();
-				userId = settingsService.GetTwitchUserIdAsync(cancellationToken).GetAwaiter().GetResult();
+				token = await settingsService.GetTwitchOAuthTokenAsync(cancellationToken).ConfigureAwait(false);
+				userId = await settingsService.GetTwitchUserIdAsync(cancellationToken).ConfigureAwait(false);
 			}
 
-			return LoadRewardsAsync(token, userId);
+			await LoadRewardsAsync(token, userId).ConfigureAwait(false);
 		}
 
 		private bool CanRefresh(object parameter)
@@ -77,6 +86,10 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 					var response = await twitchAPI.Helix.ChannelPoints.GetCustomRewardAsync(userId);
 					if (response?.Data != null && response.Data.Any())
 					{
+						foreach (var item in Rewards)
+						{
+							item.IsActive = false;
+						}
 						Rewards.Clear();
 						foreach (var r in response.Data)
 						{

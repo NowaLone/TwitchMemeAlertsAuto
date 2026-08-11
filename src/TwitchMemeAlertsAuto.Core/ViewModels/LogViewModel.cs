@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -52,16 +53,23 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 
 		public async void Receive(LogMessage message)
 		{
-			await dispatcherService.CallWithDispatcherAsync(async () => Log.Add(message.Value)).ConfigureAwait(false);
-
-			if (Log.Count == 1)
+			try
 			{
-				OnPropertyChanged(nameof(Log));
+				await dispatcherService.CallWithDispatcherAsync(async () => Log.Add(message.Value)).ConfigureAwait(false);
+
+				if (Log.Count == 1)
+				{
+					OnPropertyChanged(nameof(Log));
+				}
+
+				if (!ignoredEventIds.Contains(message.Value.EventId))
+				{
+					await SaveHistory(message.Value).ConfigureAwait(false);
+				}
 			}
-
-			if (!ignoredEventIds.Contains(message.Value.EventId))
+			catch (Exception ex)
 			{
-				await SaveHistory(message.Value).ConfigureAwait(false);
+				logger?.LogError(ex, "Не удалось обработать сообщение лога");
 			}
 		}
 

@@ -34,6 +34,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		private string sendRandomMemeRewardId;
 		private string userId;
 		private string eventSubId;
+		private CancellationToken serviceCancellationToken;
 
 		private IEnumerable<Sticker> randomStrickers;
 
@@ -51,6 +52,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 		public async Task StartAsync(CancellationToken cancellationToken = default)
 		{
+			serviceCancellationToken = cancellationToken;
 			this.eventSubWebsocketClient.WebsocketConnected += OnWebsocketConnected;
 			this.eventSubWebsocketClient.WebsocketDisconnected += OnWebsocketDisconnected;
 			this.eventSubWebsocketClient.WebsocketReconnected += OnWebsocketReconnected;
@@ -139,22 +141,40 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		{
 			logger.LogError("Websocket {sessionId} disconnected!", eventSubWebsocketClient.SessionId);
 
-			// Don't do this in production. You should implement a better reconnect strategy with exponential backoff
-			while (!await eventSubWebsocketClient.ReconnectAsync())
+			var attempt = 0;
+
+			while (!serviceCancellationToken.IsCancellationRequested)
 			{
-				logger.LogError("Websocket reconnect failed!");
-				await Task.Delay(1000);
+				if (await eventSubWebsocketClient.ReconnectAsync().ConfigureAwait(false))
+				{
+					return;
+				}
+
+				attempt++;
+				var delay = TimeSpan.FromSeconds(Math.Min(Math.Pow(2, attempt), 60));
+				logger.LogError("Websocket reconnect failed! Next attempt in {delay}", delay);
+
+				try
+				{
+					await Task.Delay(delay, serviceCancellationToken).ConfigureAwait(false);
+				}
+				catch (OperationCanceledException)
+				{
+					return;
+				}
 			}
 		}
 
-		private async Task OnWebsocketReconnected(object sender, WebsocketReconnectedArgs e)
+		private Task OnWebsocketReconnected(object sender, WebsocketReconnectedArgs e)
 		{
 			logger.LogWarning("Websocket {sessionId} reconnected", eventSubWebsocketClient.SessionId);
+			return Task.CompletedTask;
 		}
 
-		private async Task OnErrorOccurred(object sender, ErrorOccuredArgs e)
+		private Task OnErrorOccurred(object sender, ErrorOccuredArgs e)
 		{
 			logger.LogError("Websocket {sessionId} - Error occurred!", eventSubWebsocketClient.SessionId);
+			return Task.CompletedTask;
 		}
 
 		private async Task EventSubWebsocketClient_ChannelPointsCustomRewardRedemptionAdd(object sender, ChannelPointsCustomRewardRedemptionArgs e)

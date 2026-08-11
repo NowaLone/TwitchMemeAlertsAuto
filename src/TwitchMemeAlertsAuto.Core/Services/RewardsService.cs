@@ -5,9 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 using TwitchChat.Client;
 using TwitchChat.EventsArgs;
+using MessageChannel = System.Threading.Channels.Channel;
 
 namespace TwitchMemeAlertsAuto.Core.Services
 {
@@ -22,6 +24,9 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		private string channel;
 		private bool tryRewardWithWrongNickname;
 		private List<Supporter> data;
+
+		private System.Threading.Channels.Channel<IrcV3Message> messageChannel;
+		private Task processingTask;
 
 		public RewardsService(IMemeAlertsService twitchMemeAlertsAutoService, ITwitchClient twitchClient, ILogger<RewardsService> logger)
 		{
@@ -39,29 +44,72 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 			data = await twitchMemeAlertsAutoService.GetSupportersAsync(cancellationToken).ConfigureAwait(false);
 
+			messageChannel = MessageChannel.CreateUnbounded<IrcV3Message>(new UnboundedChannelOptions { SingleReader = true, SingleWriter = false });
+			processingTask = ProcessMessagesAsync(messageChannel.Reader, cancellationToken);
+
 			twitchClient.JoinChannel(channel);
 			twitchClient.OnMessageReceived += TwitchClient_OnMessageReceived;
 
 			await twitchClient.ConnectAsync(cancellationToken).ConfigureAwait(false);
 		}
 
-		public Task StopAsync(CancellationToken cancellationToken)
+		public async Task StopAsync(CancellationToken cancellationToken)
 		{
 			twitchClient.OnMessageReceived -= TwitchClient_OnMessageReceived;
-			
+
+			messageChannel?.Writer.TryComplete();
+
+			if (processingTask != null)
+			{
+				try
+				{
+					await processingTask.ConfigureAwait(false);
+				}
+				catch (OperationCanceledException)
+				{
+					// Shutdown in progress
+				}
+			}
+
 			try
 			{
-				return twitchClient.DisconnectAsync(cancellationToken);
+				await twitchClient.DisconnectAsync(cancellationToken).ConfigureAwait(false);
 			}
 			catch (InvalidOperationException)
 			{
-				return Task.CompletedTask;
 			}
 		}
 
-		private async void TwitchClient_OnMessageReceived(object sender, MessageReceivedEventArgs e)
+		private void TwitchClient_OnMessageReceived(object sender, MessageReceivedEventArgs e)
 		{
-			if (e.Message is IrcV3Message ircV3Message && ircV3Message.Command == IrcCommand.PRIVMSG && ircV3Message.Parameters.ElementAt(0) == $"#{channel}" && ircV3Message.Tags.TryGetValue("custom-reward-id", out string customRewardId))
+			if (e.Message is IrcV3Message ircV3Message && ircV3Message.Command == IrcCommand.PRIVMSG && ircV3Message.Parameters.ElementAt(0) == $"#{channel}" && ircV3Message.Tags.TryGetValue("custom-reward-id", out _))
+			{
+				messageChannel?.Writer.TryWrite(ircV3Message);
+			}
+		}
+
+		private async Task ProcessMessagesAsync(ChannelReader<IrcV3Message> reader, CancellationToken cancellationToken)
+		{
+			await foreach (var ircV3Message in reader.ReadAllAsync(cancellationToken).ConfigureAwait(false))
+			{
+				try
+				{
+					await HandleRewardMessageAsync(ircV3Message).ConfigureAwait(false);
+				}
+				catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+				{
+					break;
+				}
+				catch (Exception ex)
+				{
+					logger.LogError(EventIds.Error, ex, "Ошибка при обработке сообщения о награде");
+				}
+			}
+		}
+
+		private async Task HandleRewardMessageAsync(IrcV3Message ircV3Message)
+		{
+			if (ircV3Message.Tags.TryGetValue("custom-reward-id", out string customRewardId))
 			{
 				if (rewards.TryGetValue(customRewardId, out var value))
 				{
@@ -100,7 +148,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 				}
 				else
 				{
-					logger.LogTrace("У сообщения не найден тег custom-reward-id");
+					logger.LogTrace("Награда {customRewardId} не настроена в списке наград", customRewardId);
 				}
 			}
 		}

@@ -18,7 +18,8 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		private readonly IHttpClientFactory httpClientFactory;
 		private readonly ILogger logger;
 
-		private string streamerId;
+		private readonly object streamerIdLock = new();
+		private Lazy<Task<string>> streamerIdLazy;
 
 		public MemeAlertsService(IHttpClientFactory httpClientFactory, ILogger<MemeAlertsService> logger)
 		{
@@ -100,10 +101,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 		public async Task<bool> GiveBonusAsync(Supporter supporter, int value, CancellationToken cancellationToken = default)
 		{
-			if (string.IsNullOrWhiteSpace(streamerId))
-			{
-				streamerId = (await GetCurrent(cancellationToken).ConfigureAwait(false)).Id;
-			}
+			var streamerId = await GetStreamerIdAsync(cancellationToken).ConfigureAwait(false);
 
 			using var request = new HttpRequestMessage(HttpMethod.Post, "api/user/give-bonus") { Content = new StringContent($"{{\"userId\":\"{supporter.SupporterId}\",\"streamerId\":\"{streamerId}\",\"value\":{value}}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json)) };
 			using var responseMessage = await DoRequest(request, cancellationToken).ConfigureAwait(false);
@@ -139,10 +137,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 		public async Task<List<Sticker>> GetStreamerAreaCatalogueAsync(CancellationToken cancellationToken = default)
 		{
-			if (string.IsNullOrWhiteSpace(streamerId))
-			{
-				streamerId = (await GetCurrent(cancellationToken).ConfigureAwait(false)).Id;
-			}
+			var streamerId = await GetStreamerIdAsync(cancellationToken).ConfigureAwait(false);
 
 			var stickers = new List<Sticker>();
 			for (int limit = 20, total = 20, skip = 0; limit > 0 && limit + skip <= total; skip += limit)
@@ -167,10 +162,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 		public async Task<List<Sticker>> GetPersonalAreaCatalogueAsync(CancellationToken cancellationToken = default)
 		{
-			if (string.IsNullOrWhiteSpace(streamerId))
-			{
-				streamerId = (await GetCurrent(cancellationToken).ConfigureAwait(false)).Id;
-			}
+			var streamerId = await GetStreamerIdAsync(cancellationToken).ConfigureAwait(false);
 
 			var stickers = new List<Sticker>();
 			for (int limit = 20, total = 20, skip = 0; limit > 0 && limit + skip <= total; skip += limit)
@@ -195,10 +187,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 		public async Task<bool> SendMemeAsync(Sticker sticker, CancellationToken cancellationToken = default)
 		{
-			if (string.IsNullOrWhiteSpace(streamerId))
-			{
-				streamerId = (await GetCurrent(cancellationToken).ConfigureAwait(false)).Id;
-			}
+			var streamerId = await GetStreamerIdAsync(cancellationToken).ConfigureAwait(false);
 
 			using var request = new HttpRequestMessage(HttpMethod.Post, "api/sticker/send") { Content = new StringContent($"{{\"toChannel\":\"{streamerId}\",\"stickerId\":\"{sticker.Id}\",\"isSoundOnly\":false,\"topic\":\"Last\",\"name\":\"NowaruAlone\",\"isMemePartyActive\":false,\"message\":\"\",\"deviceType\":\"desktop\"}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json)) };
 			using var responseMessage = await DoRequest(request, cancellationToken).ConfigureAwait(false);
@@ -213,10 +202,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 		public async Task<Supporter> GetStreamerAsSupporterAsync(CancellationToken cancellationToken = default)
 		{
-			if (string.IsNullOrWhiteSpace(streamerId))
-			{
-				streamerId = (await GetCurrent(cancellationToken).ConfigureAwait(false)).Id;
-			}
+			var streamerId = await GetStreamerIdAsync(cancellationToken).ConfigureAwait(false);
 
 			using var request = new HttpRequestMessage(HttpMethod.Post, $"api/supporters/{streamerId}") { Content = new StringContent($"{{\"streamerId\":\"{streamerId}\"}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json)) };
 			using var responseMessage = await DoRequest(request, cancellationToken).ConfigureAwait(false);
@@ -246,7 +232,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		{
 			try
 			{
-				using var memeAlertsClient = httpClientFactory.CreateClient(nameof(MemeAlertsService));
+				var memeAlertsClient = httpClientFactory.CreateClient(nameof(MemeAlertsService));
 				var httpResponseMessage = await memeAlertsClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
 				httpResponseMessage.EnsureSuccessStatusCode();
 				return httpResponseMessage;
@@ -256,6 +242,31 @@ namespace TwitchMemeAlertsAuto.Core.Services
 				logger.LogError(EventIds.Error, ex, "HttpRequestError: {error} with {result} StatusCode while sending {path} request", ex.HttpRequestError, ex.StatusCode, request.RequestUri);
 				return null;
 			}
+		}
+
+		private Task<string> GetStreamerIdAsync(CancellationToken cancellationToken = default)
+		{
+			lock (streamerIdLock)
+			{
+				streamerIdLazy ??= new Lazy<Task<string>>(async () =>
+				{
+					var id = (await GetCurrent(cancellationToken).ConfigureAwait(false)).Id;
+
+					if (string.IsNullOrWhiteSpace(id))
+					{
+						lock (streamerIdLock)
+						{
+							streamerIdLazy = null;
+						}
+
+						throw new InvalidOperationException("MemeAlerts returned an empty streamer id");
+					}
+
+					return id;
+				});
+			}
+
+			return streamerIdLazy.Value;
 		}
 	}
 }
