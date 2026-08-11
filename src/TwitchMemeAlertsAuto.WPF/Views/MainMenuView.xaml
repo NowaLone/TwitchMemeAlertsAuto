@@ -31,7 +31,7 @@
                 <Separator />
                 <MenuItem Command="{Binding ExitCommand}" Header="{x:Static properties:Resources.ExitMenu}" />
             </MenuItem>
-            <MenuItem Header="{x:Static properties:Resources.RewardsHeader}">
+            <MenuItem Header="{x:Static properties:Resources.RewardsHeader}" IsEnabled="{Binding IsTwitchConnected}">
                 <MenuItem Header="{x:Static properties:Resources.ShowLastMemer}">
                     <MenuItem
                         Command="{Binding AddShowMemerCommand}"

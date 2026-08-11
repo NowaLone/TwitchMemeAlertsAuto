@@ -15,7 +15,7 @@ using TwitchMemeAlertsAuto.Core.ViewModels.Messages;
 
 namespace TwitchMemeAlertsAuto.Core.ViewModels
 {
-	public partial class MainMenuViewModel : ObservableRecipient
+	public partial class MainMenuViewModel : ObservableRecipient, IRecipient<MemealertsConnectedMessage>, IRecipient<TwitchConnectedMessage>
 	{
 		private readonly IDispatcherService dispatcherService;
 		private readonly ISettingsService settingsService;
@@ -41,6 +41,12 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		[ObservableProperty]
 		private bool showMemerWithMemeInfo;
 
+		[ObservableProperty]
+		private bool isTwitchConnected;
+
+		[ObservableProperty]
+		private bool isMemeAlertsConnected;
+
 		public MainMenuViewModel()
 		{
 		}
@@ -53,6 +59,16 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			this.connectionViewModel = connectionViewModel;
 			this.logger = logger;
 			this.startupFullPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), Path.ChangeExtension(Path.GetFileName(Environment.ProcessPath), ".lnk"));
+		}
+
+		public void Receive(TwitchConnectedMessage message)
+		{
+			IsTwitchConnected = true;
+		}
+
+		public void Receive(MemealertsConnectedMessage message)
+		{
+			IsMemeAlertsConnected = true;
 		}
 
 		protected override async void OnActivated()
@@ -154,7 +170,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 
 		private bool CanAddShowMemer()
 		{
-			return !ShowMemer;
+			return !ShowMemer && IsTwitchConnected && IsMemeAlertsConnected;
 		}
 
 		[RelayCommand(CanExecute = nameof(CanAddSendRandomMeme))]
@@ -182,7 +198,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 
 		private bool CanAddSendRandomMeme()
 		{
-			return !SendRandomMeme;
+			return !SendRandomMeme && IsTwitchConnected && IsMemeAlertsConnected;
 		}
 
 		[RelayCommand(CanExecute = nameof(CanRemoveSendRandomMeme))]
@@ -205,7 +221,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 
 		private bool CanRemoveSendRandomMeme()
 		{
-			return SendRandomMeme;
+			return SendRandomMeme && IsTwitchConnected;
 		}
 
 		[RelayCommand(CanExecute = nameof(CanRemoveShowMemer))]
@@ -228,7 +244,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 
 		private bool CanRemoveShowMemer()
 		{
-			return ShowMemer;
+			return ShowMemer && IsTwitchConnected;
 		}
 
 		[RelayCommand(CanExecute = nameof(CanShowMemerWithMemeInfo))]
