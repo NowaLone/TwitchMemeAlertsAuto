@@ -196,5 +196,36 @@ public class MemeAlertsServiceTests
 	}
 
 	#endregion
+
+	#region LogoutAsync
+
+	[TestMethod]
+	[TestCategory(nameof(MemeAlertsService))]
+	[TestCategory(nameof(MemeAlertsService.LogoutAsync))]
+	public async Task LogoutAsync_PostsToLogoutEndpoint_AndReturnsTrue()
+	{
+		// Arrange
+		var callCount = 0;
+
+		var service = CreateService(
+			out _,
+			out _,
+			req =>
+			{
+				Assert.AreEqual(HttpMethod.Post, req.Method);
+				Assert.IsTrue(req.RequestUri!.PathAndQuery.EndsWith("api/auth/logout", StringComparison.Ordinal));
+				callCount++;
+				return new HttpResponseMessage(HttpStatusCode.OK);
+			});
+
+		// Act
+		var result = await service.LogoutAsync(CancellationToken.None);
+
+		// Assert
+		Assert.IsTrue(result);
+		Assert.AreEqual(1, callCount);
+	}
+
+	#endregion
 }
 

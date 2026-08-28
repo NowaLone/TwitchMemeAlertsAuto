@@ -271,6 +271,95 @@ public class ConnectionViewModelExtendedTests
 		Assert.IsFalse(canExecute);
 	}
 
+	#region LogoutTwitch
+
+	[TestMethod]
+	[TestCategory(nameof(ConnectionViewModel))]
+	[TestCategory(nameof(ConnectionViewModel.LogoutTwitchCommand))]
+	public async Task LogoutTwitchCommand_DoesNotRevoke_WhenConfirmationCancelled()
+	{
+		// Arrange
+		var settingsServiceMock = new Mock<ISettingsService>();
+		var rewardsServiceMock = new Mock<IRewardsService>();
+		var hostedServiceMock = new Mock<IWebsocketHostedService>();
+		var twitchOAuthServiceMock = new Mock<ITwitchOAuthService>();
+		var memeAlertsServiceMock = new Mock<IMemeAlertsService>();
+		var dispatcherServiceMock = new Mock<IDispatcherService>();
+
+		dispatcherServiceMock
+			.Setup(d => d.ShowConfirmation(It.IsAny<string>()))
+			.Returns(false);
+
+		var viewModel = new ConnectionViewModel(
+			settingsServiceMock.Object,
+			rewardsServiceMock.Object,
+			hostedServiceMock.Object,
+			twitchOAuthServiceMock.Object,
+			memeAlertsServiceMock.Object,
+			dispatcherServiceMock.Object,
+			Mock.Of<IServiceProvider>(),
+			Mock.Of<IDbContextFactory<TmaaDbContext>>(),
+			Mock.Of<ITwitchClient>(),
+			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
+			Mock.Of<ILogger<ConnectionViewModel>>());
+
+		viewModel.IsTwitchConnected = true;
+
+		// Act
+		await viewModel.LogoutTwitchCommand.ExecuteAsync(CancellationToken.None);
+
+		// Assert
+		twitchOAuthServiceMock.Verify(s => s.RevokeAsync(It.IsAny<CancellationToken>()), Times.Never);
+		settingsServiceMock.Verify(s => s.SetTwitchOAuthTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
+	}
+
+	[TestMethod]
+	[TestCategory(nameof(ConnectionViewModel))]
+	[TestCategory(nameof(ConnectionViewModel.LogoutTwitchCommand))]
+	public async Task LogoutTwitchCommand_RevokesAndDisconnects_WhenConfirmed()
+	{
+		// Arrange
+		var settingsServiceMock = new Mock<ISettingsService>();
+		var rewardsServiceMock = new Mock<IRewardsService>();
+		var hostedServiceMock = new Mock<IWebsocketHostedService>();
+		var twitchOAuthServiceMock = new Mock<ITwitchOAuthService>();
+		var memeAlertsServiceMock = new Mock<IMemeAlertsService>();
+		var dispatcherServiceMock = new Mock<IDispatcherService>();
+
+		dispatcherServiceMock
+			.Setup(d => d.ShowConfirmation(It.IsAny<string>()))
+			.Returns(true);
+
+		dispatcherServiceMock
+			.Setup(d => d.CallWithDispatcher(It.IsAny<Action>()))
+			.Callback<Action>(a => a());
+
+		var viewModel = new ConnectionViewModel(
+			settingsServiceMock.Object,
+			rewardsServiceMock.Object,
+			hostedServiceMock.Object,
+			twitchOAuthServiceMock.Object,
+			memeAlertsServiceMock.Object,
+			dispatcherServiceMock.Object,
+			Mock.Of<IServiceProvider>(),
+			Mock.Of<IDbContextFactory<TmaaDbContext>>(),
+			Mock.Of<ITwitchClient>(),
+			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
+			Mock.Of<ILogger<ConnectionViewModel>>());
+
+		viewModel.IsTwitchConnected = true;
+
+		// Act
+		await viewModel.LogoutTwitchCommand.ExecuteAsync(CancellationToken.None);
+
+		// Assert
+		twitchOAuthServiceMock.Verify(s => s.RevokeAsync(It.IsAny<CancellationToken>()), Times.Once);
+		Assert.IsFalse(viewModel.IsTwitchConnected);
+	}
+
+	#endregion
+
+
 	#endregion
 }
 

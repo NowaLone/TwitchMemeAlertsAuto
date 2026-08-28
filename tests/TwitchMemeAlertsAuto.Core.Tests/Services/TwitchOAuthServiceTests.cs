@@ -302,5 +302,71 @@ public class TwitchOAuthServiceTests
 	}
 
 	#endregion
+
+	#region RevokeAsync
+
+	[TestMethod]
+	[TestCategory(nameof(TwitchOAuthService))]
+	[TestCategory(nameof(TwitchOAuthService.RevokeAsync))]
+	public async Task RevokeAsync_RevokesToken_AndClearsLocalSettings()
+	{
+		// Arrange
+		var token = fixture.Create<string>();
+
+		var service = CreateService(
+			out _,
+			out var settingsMock,
+			request =>
+			{
+				Assert.AreEqual(HttpMethod.Post, request.Method);
+				Assert.AreEqual("https://id.twitch.tv/oauth2/revoke", request.RequestUri!.AbsoluteUri);
+				var body = request.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+				Assert.IsTrue(body.Contains("client_id=mysd83coqn8u0sf40aev6nvsqqlyjy", StringComparison.Ordinal));
+				Assert.IsTrue(body.Contains("token=", StringComparison.Ordinal));
+				return new HttpResponseMessage(HttpStatusCode.OK);
+			});
+
+		settingsMock
+			.Setup(s => s.GetTwitchOAuthTokenAsync(It.IsAny<CancellationToken>()))
+			.ReturnsAsync(token);
+
+		// Act
+		var result = await service.RevokeAsync(CancellationToken.None);
+
+		// Assert
+		Assert.IsTrue(result);
+		settingsMock.Verify(s => s.SetTwitchOAuthTokenAsync(string.Empty, It.IsAny<CancellationToken>()), Times.Once);
+		settingsMock.Verify(s => s.SetTwitchRefreshTokenAsync(string.Empty, It.IsAny<CancellationToken>()), Times.Once);
+		settingsMock.Verify(s => s.SetTwitchUserIdAsync(string.Empty, It.IsAny<CancellationToken>()), Times.Once);
+		settingsMock.Verify(s => s.SetTwitchUsernameAsync(string.Empty, It.IsAny<CancellationToken>()), Times.Once);
+	}
+
+	[TestMethod]
+	[TestCategory(nameof(TwitchOAuthService))]
+	[TestCategory(nameof(TwitchOAuthService.RevokeAsync))]
+	public async Task RevokeAsync_ClearsLocalSettings_WhenRevokeFails()
+	{
+		// Arrange
+		var token = fixture.Create<string>();
+
+		var service = CreateService(
+			out _,
+			out var settingsMock,
+			_ => new HttpResponseMessage(HttpStatusCode.InternalServerError));
+
+		settingsMock
+			.Setup(s => s.GetTwitchOAuthTokenAsync(It.IsAny<CancellationToken>()))
+			.ReturnsAsync(token);
+
+		// Act
+		var result = await service.RevokeAsync(CancellationToken.None);
+
+		// Assert
+		Assert.IsTrue(result);
+		settingsMock.Verify(s => s.SetTwitchOAuthTokenAsync(string.Empty, It.IsAny<CancellationToken>()), Times.Once);
+		settingsMock.Verify(s => s.SetTwitchRefreshTokenAsync(string.Empty, It.IsAny<CancellationToken>()), Times.Once);
+	}
+
+	#endregion
 }
 
