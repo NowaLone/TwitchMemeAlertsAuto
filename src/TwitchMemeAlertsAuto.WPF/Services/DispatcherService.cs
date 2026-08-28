@@ -78,6 +78,12 @@ namespace TwitchMemeAlertsAuto.WPF.Services
 						if (cook1.Succeeded)
 						{
 							cook1.TryGetResultAsString(out stringResult, out value);
+
+							if (value == 1)
+							{
+								// Clear storage after login to prevent invalid tokens acceptance
+								await webView2.CoreWebView2.ExecuteScriptAsync("javascript:localStorage.clear()");
+							}
 						}
 					}).ConfigureAwait(false);
 			}
@@ -95,6 +101,11 @@ namespace TwitchMemeAlertsAuto.WPF.Services
 		public void ShowMessage(string message)
 		{
 			MessageBox.Show(message);
+		}
+
+		public bool ShowConfirmation(string message)
+		{
+			return MessageBox.Show(message, string.Empty, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes;
 		}
 
 		public void CheckForUpdates()

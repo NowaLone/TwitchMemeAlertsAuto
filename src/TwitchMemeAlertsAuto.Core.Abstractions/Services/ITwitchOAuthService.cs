@@ -20,5 +20,10 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		/// Never starts device-code flow; returns null when refresh is not possible.
 		/// </summary>
 		Task<string?> TryRefreshTokenAsync(CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Revokes the current Twitch access token on the server and clears local OAuth data.
+		/// </summary>
+		Task<bool> RevokeAsync(CancellationToken cancellationToken = default);
 	}
 }

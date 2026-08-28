@@ -223,6 +223,34 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Logout.
+        /// </summary>
+        public static string Logout {
+            get {
+                return ResourceManager.GetString("Logout", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to log out of MemeAlerts?.
+        /// </summary>
+        public static string LogoutMemeAlertsConfirmation {
+            get {
+                return ResourceManager.GetString("LogoutMemeAlertsConfirmation", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to log out of Twitch?.
+        /// </summary>
+        public static string LogoutTwitchConfirmation {
+            get {
+                return ResourceManager.GetString("LogoutTwitchConfirmation", resourceCulture);
+            }
+        }
+
+
+        /// <summary>
         ///   Looks up a localized string similar to tmaa.
         /// </summary>
         public static string MainWindowTitle {

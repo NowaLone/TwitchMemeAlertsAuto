@@ -258,4 +258,13 @@
   <data name="SilentMode" xml:space="preserve">
     <value>Silent mode</value>
   </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="LogoutTwitchConfirmation" xml:space="preserve">
+    <value>Are you sure you want to log out of Twitch?</value>
+  </data>
+  <data name="LogoutMemeAlertsConfirmation" xml:space="preserve">
+    <value>Are you sure you want to log out of MemeAlerts?</value>
+  </data>
 </root>

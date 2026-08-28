@@ -40,7 +40,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			}
 			catch (HttpRequestException ex)
 			{
-				if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+				if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized || ex.StatusCode == System.Net.HttpStatusCode.Forbidden)
 				{
 					return false;
 				}
@@ -226,6 +226,19 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			}
 
 			return await JsonSerializer.DeserializeAsync(responseMessage.Content.ReadAsStream(cancellationToken), SerializationModeOptionsContext.Default.Current, cancellationToken).ConfigureAwait(false);
+		}
+
+		public async Task<bool> LogoutAsync(CancellationToken cancellationToken = default)
+		{
+			using var request = new HttpRequestMessage(HttpMethod.Post, "api/auth/logout");
+			using var responseMessage = await DoRequest(request, cancellationToken).ConfigureAwait(false);
+
+			lock (streamerIdLock)
+			{
+				streamerIdLazy = null;
+			}
+
+			return responseMessage != null;
 		}
 
 		private async Task<HttpResponseMessage> DoRequest(HttpRequestMessage request, CancellationToken cancellationToken = default)

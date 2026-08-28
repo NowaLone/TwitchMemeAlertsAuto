@@ -22,6 +22,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		private const string TwitchDeviceUrl = "https://id.twitch.tv/oauth2/device";
 		private const string TwitchTokenUrl = "https://id.twitch.tv/oauth2/token";
 		private const string TwitchValidateUrl = "https://id.twitch.tv/oauth2/validate";
+		private const string TwitchRevokeUrl = "https://id.twitch.tv/oauth2/revoke";
 
 		// OAuth configuration
 		private const string clientId = "mysd83coqn8u0sf40aev6nvsqqlyjy";
@@ -404,6 +405,48 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			await settingsService.SetTwitchUsernameAsync(twitchValidationResponse.Login, cancellationToken);
 
 			return tokenResponse.AccessToken;
+		}
+
+		public async Task<bool> RevokeAsync(CancellationToken cancellationToken = default)
+		{
+			var token = await settingsService.GetTwitchOAuthTokenAsync(cancellationToken).ConfigureAwait(false);
+
+			if (!string.IsNullOrWhiteSpace(token))
+			{
+				try
+				{
+					var requestBody = new Dictionary<string, string>
+					{
+						["client_id"] = clientId,
+						["token"] = token
+					};
+
+					using var content = new FormUrlEncodedContent(requestBody);
+					using var response = await httpClient.PostAsync(TwitchRevokeUrl, content, cancellationToken).ConfigureAwait(false);
+
+					if (!response.IsSuccessStatusCode)
+					{
+						logger.LogError("Twitch token revoke failed. Status: {Status}", response.StatusCode);
+					}
+					else
+					{
+						logger.LogInformation("Twitch token revoked successfully");
+					}
+				}
+				catch (Exception ex)
+				{
+					logger.LogError(ex, "Error during Twitch token revoke");
+				}
+			}
+
+			// Always clear local Twitch session data so the user can log in again.
+			await settingsService.SetTwitchOAuthTokenAsync(string.Empty, cancellationToken).ConfigureAwait(false);
+			await settingsService.SetTwitchRefreshTokenAsync(string.Empty, cancellationToken).ConfigureAwait(false);
+			await settingsService.SetTwitchExpiresInAsync(default, cancellationToken).ConfigureAwait(false);
+			await settingsService.SetTwitchUserIdAsync(string.Empty, cancellationToken).ConfigureAwait(false);
+			await settingsService.SetTwitchUsernameAsync(string.Empty, cancellationToken).ConfigureAwait(false);
+
+			return true;
 		}
 
 		public void Dispose()

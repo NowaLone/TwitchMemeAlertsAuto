@@ -258,4 +258,13 @@
   <data name="SilentMode" xml:space="preserve">
     <value>Тихий режим</value>
   </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Выйти</value>
+  </data>
+  <data name="LogoutTwitchConfirmation" xml:space="preserve">
+    <value>Вы уверены, что хотите выйти из Twitch?</value>
+  </data>
+  <data name="LogoutMemeAlertsConfirmation" xml:space="preserve">
+    <value>Вы уверены, что хотите выйти из MemeAlerts?</value>
+  </data>
 </root>

@@ -33,17 +33,21 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 
 		private CancellationTokenSource cancellationTokenSource;
 
+		[NotifyCanExecuteChangedFor(nameof(LogoutTwitchCommand))]
 		[ObservableProperty]
 		private bool isTwitchConnected;
 
+		[NotifyCanExecuteChangedFor(nameof(LogoutMemeAlertsCommand))]
 		[ObservableProperty]
 		private bool isMemeAlertsConnected;
 
 		[NotifyCanExecuteChangedFor(nameof(ConnectTwitchCommand))]
+		[NotifyCanExecuteChangedFor(nameof(LogoutTwitchCommand))]
 		[ObservableProperty]
 		private bool isCheckingTwitch;
 
 		[NotifyCanExecuteChangedFor(nameof(ConnectMemeAlertsCommand))]
+		[NotifyCanExecuteChangedFor(nameof(LogoutMemeAlertsCommand))]
 		[ObservableProperty]
 		private bool isCheckingMemeAlerts;
 
@@ -126,8 +130,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 
 		protected override async void OnDeactivated()
 		{
-			await rewardsService.StopAsync(default);
-			await websocketHostedService.StopAsync(default);
+			await StopWorkAsync(default).ConfigureAwait(false);
 
 			base.OnDeactivated();
 		}
@@ -225,10 +228,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 
 			if (cancellationTokenSource != null)
 			{
-				await rewardsService.StopAsync(cancellationToken).ConfigureAwait(false);
-				await websocketHostedService.StopAsync(cancellationToken).ConfigureAwait(false);
-
-				cancellationTokenSource.Cancel();
+				await StopWorkAsync(cancellationToken).ConfigureAwait(false);
 			}
 
 			var userId = await settingsService.GetTwitchUserIdAsync(cancellationToken).ConfigureAwait(false);
@@ -290,6 +290,79 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		{
 			var current = await twitchMemeAlertsAutoService.SwitchSilentModeAsync(parameter, cancellationToken).ConfigureAwait(false);
 			IsSilentModeEnabled = current.Channel.IsSilentModeEnabled;
+		}
+
+		[RelayCommand(CanExecute = nameof(CanLogoutTwitch))]
+		private async Task LogoutTwitch(CancellationToken cancellationToken = default)
+		{
+			if (!dispatcherService.ShowConfirmation(Properties.Resources.LogoutTwitchConfirmation))
+			{
+				return;
+			}
+
+			await StopWorkAsync(cancellationToken).ConfigureAwait(false);
+			await twitchOAuthService.RevokeAsync(cancellationToken).ConfigureAwait(false);
+
+			dispatcherService.CallWithDispatcher(() =>
+			{
+				IsTwitchConnected = false;
+				TwitchUsername = string.Empty;
+			});
+		}
+
+		private bool CanLogoutTwitch()
+		{
+			return IsTwitchConnected && !IsCheckingTwitch;
+		}
+
+		[RelayCommand(CanExecute = nameof(CanLogoutMemeAlerts))]
+		private async Task LogoutMemeAlerts(CancellationToken cancellationToken = default)
+		{
+			if (!dispatcherService.ShowConfirmation(Properties.Resources.LogoutMemeAlertsConfirmation))
+			{
+				return;
+			}
+
+			await StopWorkAsync(cancellationToken).ConfigureAwait(false);
+			await twitchMemeAlertsAutoService.LogoutAsync(cancellationToken).ConfigureAwait(false);
+
+			await settingsService.SetMemeAlertsTokenAsync(string.Empty, cancellationToken).ConfigureAwait(false);
+			await settingsService.SetMemeAlertsUsernameAsync(string.Empty, cancellationToken).ConfigureAwait(false);
+
+			dispatcherService.CallWithDispatcher(() =>
+			{
+				IsMemeAlertsConnected = false;
+				MemeAlertsUsername = string.Empty;
+			});
+		}
+
+		private bool CanLogoutMemeAlerts()
+		{
+			return IsMemeAlertsConnected && !IsCheckingMemeAlerts;
+		}
+
+		private async Task StopWorkAsync(CancellationToken cancellationToken = default)
+		{
+			try
+			{
+				await rewardsService.StopAsync(cancellationToken).ConfigureAwait(false);
+			}
+			catch (Exception ex)
+			{
+				logger.LogWarning(ex, "Error stopping rewards service");
+			}
+
+			try
+			{
+				await websocketHostedService.StopAsync(cancellationToken).ConfigureAwait(false);
+			}
+			catch (Exception ex)
+			{
+				logger.LogWarning(ex, "Error stopping websocket service");
+			}
+
+			cancellationTokenSource?.Cancel();
+			cancellationTokenSource = null;
 		}
 	}
 }

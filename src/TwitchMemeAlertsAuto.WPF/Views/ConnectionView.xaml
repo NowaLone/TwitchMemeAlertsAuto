@@ -56,6 +56,14 @@
             </Grid>
         </Button>
         <Button
+            Padding="2"
+            Background="Transparent"
+            Command="{Binding LogoutTwitchCommand}"
+            ToolTip="{x:Static properties:Resources.Logout}"
+            Visibility="{Binding IsTwitchConnected, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <TextBlock Text="🚪" />
+        </Button>
+        <Button
             Margin="16,0,0,0"
             Padding="0"
             Background="Transparent"
@@ -89,6 +97,14 @@
                     IsIndeterminate="True"
                     Visibility="{Binding IsCheckingMemeAlerts, Converter={StaticResource BooleanToVisibilityConverter}}" />
             </Grid>
+        </Button>
+        <Button
+            Padding="2"
+            Background="Transparent"
+            Command="{Binding LogoutMemeAlertsCommand}"
+            ToolTip="{x:Static properties:Resources.Logout}"
+            Visibility="{Binding IsMemeAlertsConnected, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <TextBlock Text="🚪" />
         </Button>
     </StackPanel>
 </UserControl>
