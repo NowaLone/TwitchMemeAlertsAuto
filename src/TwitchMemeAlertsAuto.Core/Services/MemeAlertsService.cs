@@ -152,8 +152,9 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 				var response = await responseMessage.Content.ReadFromJsonAsync(jsonTypeInfo: SerializationModeOptionsContext.Default.ListSticker, cancellationToken).ConfigureAwait(false);
 				stickers.AddRange(response);
+#if Release
 				total = 200;
-
+#endif
 				await Task.Delay(200, cancellationToken).ConfigureAwait(false);
 			}
 
@@ -177,7 +178,9 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 				var response = await responseMessage.Content.ReadFromJsonAsync(jsonTypeInfo: SerializationModeOptionsContext.Default.ListSticker, cancellationToken).ConfigureAwait(false);
 				stickers.AddRange(response);
+#if Release
 				total = 200;
+#endif
 
 				await Task.Delay(200, cancellationToken).ConfigureAwait(false);
 			}
