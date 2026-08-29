@@ -19,6 +19,7 @@ There are 2 versions of the program: a regular (GUI) version with additional fea
 | Ability to show last memer | ✅ | ❌ |
 | Ability to send random meme | ✅ | ❌ |
 | Ability to enable silent mode | ✅ | ❌ |
+| Ability to send meme with text | ✅ | ❌ |
 
 Download both versions from the [latest release](https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/latest)
 
@@ -74,6 +75,8 @@ The "Rewards" menu contains buttons for creating Twitch rewards, notifying the l
 The reward for the last meme sent is posted in chat on your behalf, along with the sender's nickname and the sticker title. **CAUTION** Meme titles may contain obscene words. The program has a built-in filter, but this doesn't guarantee anything, and you proceed at your own risk.
 
 A random meme is selected from the top 200 stickers from your channel page + the latest 200 stickers added to memealerts (the "Catalog" page on the website). The meme is sent on your behalf.
+
+A Text Reward searches for a meme based on the text entered as a reward and sends the first matching one.
 
 ## Detailed CLI setup
 

@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.5] - 2026-08-29
+
+### Added
+
+- Ability to logout
+- Send meme with text
+
+### Fixed
+
+- Wrong memer name when sending random meme
+- Add/Remove rewards errors
+- Add/Remove rewards button state doesn't refresh
+- Sometimes unable to connect to memealerts
+
+### Changed
+
+- Disable reward buttons if not logged in
+- Show minimal changelog on release page
+ 
 ## [2.4.4] - 2026-08-07
 
 ### Fixed
@@ -153,6 +172,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - First public release.
 
+[2.4.5]: https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/tag/v2.4.5
 [2.4.4]: https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/tag/v2.4.4
 [2.4.3]: https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/tag/v2.4.3
 [2.4.2]: https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/tag/v2.4.2
