@@ -267,4 +267,10 @@
   <data name="LogoutMemeAlertsConfirmation" xml:space="preserve">
     <value>Вы уверены, что хотите выйти из MemeAlerts?</value>
   </data>
+  <data name="SendMemeWithText" xml:space="preserve">
+    <value>Отправить мем текстом</value>
+  </data>
+  <data name="SendMemeWithTextRewardSuccessfullyCreated" xml:space="preserve">
+    <value>Награда "Отправить мем текстом" успешно создана. Вы можете настроить цену, иконку и тд. в своём Twitch дашборде</value>
+  </data>
 </root>

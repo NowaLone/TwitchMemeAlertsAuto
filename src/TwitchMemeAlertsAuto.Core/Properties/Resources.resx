@@ -267,4 +267,10 @@
   <data name="LogoutMemeAlertsConfirmation" xml:space="preserve">
     <value>Are you sure you want to log out of MemeAlerts?</value>
   </data>
+  <data name="SendMemeWithText" xml:space="preserve">
+    <value>Send meme with text</value>
+  </data>
+  <data name="SendMemeWithTextRewardSuccessfullyCreated" xml:space="preserve">
+    <value>"Send meme with text" reward successfully created. You can set up reward cost, icon, etc in your twitch dashboard</value>
+  </data>
 </root>

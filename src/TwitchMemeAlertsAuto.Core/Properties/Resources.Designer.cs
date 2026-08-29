@@ -230,7 +230,7 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
                 return ResourceManager.GetString("Logout", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to log out of MemeAlerts?.
         /// </summary>
@@ -239,7 +239,7 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
                 return ResourceManager.GetString("LogoutMemeAlertsConfirmation", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to log out of Twitch?.
         /// </summary>
@@ -248,8 +248,7 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
                 return ResourceManager.GetString("LogoutTwitchConfirmation", resourceCulture);
             }
         }
-
-
+        
         /// <summary>
         ///   Looks up a localized string similar to tmaa.
         /// </summary>
@@ -391,6 +390,24 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
         public static string SearchForSupportersTooltip {
             get {
                 return ResourceManager.GetString("SearchForSupportersTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send meme with text.
+        /// </summary>
+        public static string SendMemeWithText {
+            get {
+                return ResourceManager.GetString("SendMemeWithText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;Send meme with text&quot; reward successfully created. You can set up reward cost, icon, etc in your twitch dashboard.
+        /// </summary>
+        public static string SendMemeWithTextRewardSuccessfullyCreated {
+            get {
+                return ResourceManager.GetString("SendMemeWithTextRewardSuccessfullyCreated", resourceCulture);
             }
         }
         

@@ -241,6 +241,30 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			return responseMessage != null;
 		}
 
+		public async Task<List<Sticker>> GetPersonalAreaSearchAsync(string searchQuery, CancellationToken cancellationToken = default)
+		{
+			var streamerId = await GetStreamerIdAsync(cancellationToken).ConfigureAwait(false);
+
+			var stickers = new List<Sticker>();
+			for (int pageSize = 20, total = 20, skip = 0; pageSize > 0 && pageSize + skip <= total; skip += pageSize)
+			{
+				using var request = new HttpRequestMessage(HttpMethod.Post, "api/sticker/streamer-area/search") { Content = new StringContent($"{{\"pageSize\":{pageSize},\"skip\":{skip},\"searchQuery\":\"{searchQuery}\",\"streamerId\":\"{streamerId}\"}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json)) };
+				using var responseMessage = await DoRequest(request, cancellationToken).ConfigureAwait(false);
+
+				if (responseMessage == null)
+				{
+					break;
+				}
+
+				var response = await responseMessage.Content.ReadFromJsonAsync(jsonTypeInfo: SerializationModeOptionsContext.Default.ListSticker, cancellationToken).ConfigureAwait(false);
+				stickers.AddRange(response);
+
+				await Task.Delay(200, cancellationToken).ConfigureAwait(false);
+			}
+
+			return stickers;
+		}
+
 		private async Task<HttpResponseMessage> DoRequest(HttpRequestMessage request, CancellationToken cancellationToken = default)
 		{
 			try

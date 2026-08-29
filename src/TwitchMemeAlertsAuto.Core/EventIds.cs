@@ -13,6 +13,7 @@ namespace TwitchMemeAlertsAuto.Core
 		public static EventId Error => new EventId(19980906, nameof(Error));
 		public static EventId ShowMemer => new EventId(19980907, nameof(ShowMemer));
 		public static EventId RandomMeme => new EventId(19980908, nameof(RandomMeme));
+		public static EventId MemeWithText => new EventId(19980908, nameof(MemeWithText));
 
 		public static List<EventId> Events => new List<EventId>
 		{
@@ -24,6 +25,7 @@ namespace TwitchMemeAlertsAuto.Core
 			Error,
 			ShowMemer,
 			RandomMeme,
+			MemeWithText
 		};
 	}
 }

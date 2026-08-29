@@ -32,6 +32,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 		private string showMemerRewardId;
 		private string sendRandomMemeRewardId;
+		private string sendMemeWithTextId;
 		private string userId;
 		private string eventSubId;
 		private CancellationToken serviceCancellationToken;
@@ -63,6 +64,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			userId = await settingsService.GetTwitchUserIdAsync(cancellationToken).ConfigureAwait(false);
 			showMemerRewardId = await settingsService.GetShowMemerRewardIdAsync(cancellationToken).ConfigureAwait(false);
 			sendRandomMemeRewardId = await settingsService.GetSendRandomMemeRewardIdAsync(cancellationToken).ConfigureAwait(false);
+			sendMemeWithTextId = await settingsService.GetSendMemeWithTextIdAsync(cancellationToken).ConfigureAwait(false);
 
 			if (!string.IsNullOrWhiteSpace(sendRandomMemeRewardId))
 			{
@@ -81,12 +83,19 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 				if (!string.IsNullOrWhiteSpace(showMemerRewardId))
 				{
-				await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, showMemerRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = false }).ConfigureAwait(false);
+					await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, showMemerRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = false }).ConfigureAwait(false);
 				}
 
 				if (!string.IsNullOrWhiteSpace(sendRandomMemeRewardId))
 				{
-				await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, sendRandomMemeRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = false }).ConfigureAwait(false);
+					await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, sendRandomMemeRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = false }).ConfigureAwait(false);
+				}
+
+				if (!string.IsNullOrWhiteSpace(sendMemeWithTextId))
+				{
+					await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, sendMemeWithTextId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = false }).ConfigureAwait(false);
+				}
+
 				await eventSubWebsocketClient.ConnectAsync();
 			}
 		}
@@ -114,12 +123,18 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 				if (!string.IsNullOrWhiteSpace(showMemerRewardId))
 				{
-				await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, showMemerRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = true }).ConfigureAwait(false);
+					await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, showMemerRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = true }).ConfigureAwait(false);
 				}
 
 				if (!string.IsNullOrWhiteSpace(sendRandomMemeRewardId))
 				{
-				await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, sendRandomMemeRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = true }).ConfigureAwait(false);
+					await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, sendRandomMemeRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = true }).ConfigureAwait(false);
+				}
+
+				if (!string.IsNullOrWhiteSpace(sendMemeWithTextId))
+				{
+					await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, sendMemeWithTextId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = true }).ConfigureAwait(false);
+				}
 			}
 		}
 
@@ -138,7 +153,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 						await twitchAPI.Helix.EventSub.DeleteEventSubSubscriptionAsync(item.Id);
 					}
 
-					if (!string.IsNullOrWhiteSpace(showMemerRewardId) || !string.IsNullOrWhiteSpace(sendRandomMemeRewardId))
+					if (!string.IsNullOrWhiteSpace(showMemerRewardId) || !string.IsNullOrWhiteSpace(sendRandomMemeRewardId) || !string.IsNullOrWhiteSpace(sendMemeWithTextId))
 					{
 						var condition = new Dictionary<string, string> { { "broadcaster_user_id", userId } };
 						var response = await twitchAPI.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.channel_points_custom_reward_redemption.add", "1", condition, EventSubTransportMethod.Websocket, eventSubWebsocketClient.SessionId);
@@ -230,7 +245,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 						var random = Random.Shared.Next(0, randomStrickers.Count());
 						var sticker = randomStrickers.ElementAt(random);
 						var supporter = await memeAlertsService.GetStreamerAsSupporterAsync().ConfigureAwait(false);
-						
+
 						if (supporter.Balance == 0)
 						{
 							await memeAlertsService.GiveBonusAsync(supporter, 1).ConfigureAwait(false);
@@ -246,6 +261,30 @@ namespace TwitchMemeAlertsAuto.Core.Services
 				catch (Exception ex)
 				{
 					logger.LogError(ex, "Error while handling SendRandomMeme reward redemption");
+				}
+
+				return;
+			}
+			else if (rewardId == sendMemeWithTextId)
+			{
+				logger.LogInformation(EventIds.MemeWithText, "{userName} активировал награду \"{title}\"", e.Payload.Event.UserName, e.Payload.Event.Reward.Title);
+
+				try
+				{
+					var stickers = await memeAlertsService.GetPersonalAreaSearchAsync(e.Payload.Event.UserInput).ConfigureAwait(false);
+
+					if (stickers.Any())
+					{
+						await memeAlertsService.SendMemeAsync(stickers.FirstOrDefault(), e.Payload.Event.UserName).ConfigureAwait(false);
+					}
+					else
+					{
+						logger.LogWarning("No stickers available to send for SendMemeWithText reward");
+					}
+				}
+				catch (Exception ex)
+				{
+					logger.LogError(ex, "Error while handling SendMemeWithText reward redemption");
 				}
 
 				return;

@@ -58,6 +58,16 @@
                         Header="{x:Static properties:Resources.Remove}"
                         Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 </MenuItem>
+                <MenuItem Header="{x:Static properties:Resources.SendMemeWithText}">
+                    <MenuItem
+                        Command="{Binding AddSendMemeWithTextCommand}"
+                        Header="{x:Static properties:Resources.Add}"
+                        Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <MenuItem
+                        Command="{Binding RemoveSendMemeWithTextCommand}"
+                        Header="{x:Static properties:Resources.Remove}"
+                        Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </MenuItem>
             </MenuItem>
 
             <MenuItem Header="{x:Static properties:Resources.HelpMenu}">

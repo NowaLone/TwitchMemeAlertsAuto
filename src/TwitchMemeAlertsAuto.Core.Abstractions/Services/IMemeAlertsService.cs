@@ -25,5 +25,6 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		Task<Current> SwitchSilentModeAsync(bool value, CancellationToken cancellationToken = default);
 
 		Task<bool> LogoutAsync(CancellationToken cancellationToken = default);
+		Task<List<Sticker>> GetPersonalAreaSearchAsync(string searchQuery, CancellationToken cancellationToken = default);
 	}
 }

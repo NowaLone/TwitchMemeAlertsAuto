@@ -46,10 +46,17 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		[ObservableProperty]
 		private bool showMemerWithMemeInfo;
 
+		[NotifyCanExecuteChangedFor(nameof(AddSendMemeWithTextCommand))]
+		[NotifyCanExecuteChangedFor(nameof(RemoveSendMemeWithTextCommand))]
+		[ObservableProperty]
+		private bool sendMemeWithText;
+
 		[NotifyCanExecuteChangedFor(nameof(AddShowMemerCommand))]
 		[NotifyCanExecuteChangedFor(nameof(RemoveShowMemerCommand))]
 		[NotifyCanExecuteChangedFor(nameof(AddSendRandomMemeCommand))]
 		[NotifyCanExecuteChangedFor(nameof(RemoveSendRandomMemeCommand))]
+		[NotifyCanExecuteChangedFor(nameof(AddSendMemeWithTextCommand))]
+		[NotifyCanExecuteChangedFor(nameof(RemoveSendMemeWithTextCommand))]
 		[ObservableProperty]
 		private bool isTwitchConnected;
 
@@ -57,6 +64,8 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		[NotifyCanExecuteChangedFor(nameof(RemoveShowMemerCommand))]
 		[NotifyCanExecuteChangedFor(nameof(AddSendRandomMemeCommand))]
 		[NotifyCanExecuteChangedFor(nameof(RemoveSendRandomMemeCommand))]
+		[NotifyCanExecuteChangedFor(nameof(AddSendMemeWithTextCommand))]
+		[NotifyCanExecuteChangedFor(nameof(RemoveSendMemeWithTextCommand))]
 		[ObservableProperty]
 		private bool isMemeAlertsConnected;
 
@@ -93,6 +102,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			ShowMemer = !string.IsNullOrWhiteSpace(await settingsService.GetShowMemerRewardIdAsync().ConfigureAwait(false));
 			SendRandomMeme = !string.IsNullOrWhiteSpace(await settingsService.GetSendRandomMemeRewardIdAsync().ConfigureAwait(false));
 			ShowMemerWithMemeInfo = await settingsService.GetShowMemerWithMemeInfoAsync().ConfigureAwait(false);
+			SendMemeWithText = !string.IsNullOrWhiteSpace(await settingsService.GetSendMemeWithTextIdAsync().ConfigureAwait(false));
 			base.OnActivated();
 		}
 
@@ -291,5 +301,71 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		}
 
 		#endregion ShowMemerWithMemeInfo
+
+		#region SendMemeWithText
+
+		[RelayCommand(CanExecute = nameof(CanAddSendMemeWithText))]
+		private async Task AddSendMemeWithTextAsync(CancellationToken cancellationToken = default)
+		{
+			var userId = await settingsService.GetTwitchUserIdAsync(cancellationToken).ConfigureAwait(false);
+
+			using (var scope = serviceProvider.CreateAsyncScope())
+			{
+				var twitchAPI = scope.ServiceProvider.GetRequiredService<ITwitchAPI>();
+				var response = await twitchAPI.Helix.ChannelPoints.CreateCustomRewardsAsync(userId, new TwitchLib.Api.Helix.Models.ChannelPoints.CreateCustomReward.CreateCustomRewardsRequest
+				{
+					Cost = 200,
+					Title = Properties.Resources.SendMemeWithText,
+					IsEnabled = true,
+					IsUserInputRequired = true,
+				}).ConfigureAwait(false);
+				await settingsService.SetSendMemeWithTextIdAsync(response.Data[0].Id, cancellationToken).ConfigureAwait(false);
+			}
+
+			Messenger.Send(new SettingsChangedMessage(nameof(settingsService.GetSendMemeWithTextIdAsync)));
+			dispatcherService.CallWithDispatcher(() => SendMemeWithText = true);
+
+			dispatcherService.ShowMessage(Properties.Resources.SendMemeWithTextRewardSuccessfullyCreated);
+		}
+
+		private bool CanAddSendMemeWithText()
+		{
+			return !SendMemeWithText && IsTwitchConnected && IsMemeAlertsConnected;
+		}
+
+		[RelayCommand(CanExecute = nameof(CanRemoveSendMemeWithText))]
+		private async Task RemoveSendMemeWithTextAsync(CancellationToken cancellationToken = default)
+		{
+			var userId = await settingsService.GetTwitchUserIdAsync(cancellationToken).ConfigureAwait(false);
+			var rewardId = await settingsService.GetSendMemeWithTextIdAsync(cancellationToken).ConfigureAwait(false);
+
+			using (var scope = serviceProvider.CreateAsyncScope())
+			{
+				var twitchAPI = scope.ServiceProvider.GetRequiredService<ITwitchAPI>();
+				try
+				{
+					await twitchAPI.Helix.ChannelPoints.DeleteCustomRewardAsync(userId, rewardId).ConfigureAwait(false);
+				}
+				catch (TwitchLib.Api.Core.Exceptions.BadResourceException ex)
+				{
+					if (ex.HttpResponse.StatusCode == System.Net.HttpStatusCode.NotFound)
+					{
+						logger.LogWarning("{errorMessage}", ex.Message);
+					}
+				}
+			}
+
+			await settingsService.SetSendMemeWithTextIdAsync(string.Empty, cancellationToken).ConfigureAwait(false);
+
+			Messenger.Send(new SettingsChangedMessage(nameof(settingsService.GetSendMemeWithTextIdAsync)));
+			dispatcherService.CallWithDispatcher(() => SendMemeWithText = false);
+		}
+
+		private bool CanRemoveSendMemeWithText()
+		{
+			return SendMemeWithText && IsTwitchConnected;
+		}
+
+		#endregion SendMemeWithText
 	}
 }
