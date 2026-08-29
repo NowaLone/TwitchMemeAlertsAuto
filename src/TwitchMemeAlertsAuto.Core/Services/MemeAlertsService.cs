@@ -248,7 +248,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			var stickers = new List<Sticker>();
 			for (int pageSize = 20, total = 20, skip = 0; pageSize > 0 && pageSize + skip <= total; skip += pageSize)
 			{
-				using var request = new HttpRequestMessage(HttpMethod.Post, "api/sticker/streamer-area/search") { Content = new StringContent($"{{\"pageSize\":{pageSize},\"skip\":{skip},\"searchQuery\":\"{searchQuery}\",\"streamerId\":\"{streamerId}\"}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json)) };
+				using var request = new HttpRequestMessage(HttpMethod.Post, "api/sticker/streamer-area/search") { Content = new StringContent($"{{\"pageSize\":{pageSize},\"skip\":{skip},\"searchQuery\":\"{searchQuery.Trim()}\",\"streamerId\":\"{streamerId}\"}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json)) };
 				using var responseMessage = await DoRequest(request, cancellationToken).ConfigureAwait(false);
 
 				if (responseMessage == null)
