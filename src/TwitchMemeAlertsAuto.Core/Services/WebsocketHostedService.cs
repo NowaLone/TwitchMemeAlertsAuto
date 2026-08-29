@@ -78,7 +78,14 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			using (var scope = serviceProvider.CreateAsyncScope())
 			{
 				var twitchAPI = scope.ServiceProvider.GetRequiredService<ITwitchAPI>();
+
+				if (!string.IsNullOrWhiteSpace(showMemerRewardId))
+				{
 				await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, showMemerRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = false }).ConfigureAwait(false);
+				}
+
+				if (!string.IsNullOrWhiteSpace(sendRandomMemeRewardId))
+				{
 				await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, sendRandomMemeRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = false }).ConfigureAwait(false);
 				await eventSubWebsocketClient.ConnectAsync();
 			}
@@ -104,7 +111,14 @@ namespace TwitchMemeAlertsAuto.Core.Services
 				{
 					logger.LogWarning("Unable to delete event subscription {eventSubId}", eventSubId);
 				}
+
+				if (!string.IsNullOrWhiteSpace(showMemerRewardId))
+				{
 				await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, showMemerRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = true }).ConfigureAwait(false);
+				}
+
+				if (!string.IsNullOrWhiteSpace(sendRandomMemeRewardId))
+				{
 				await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, sendRandomMemeRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = true }).ConfigureAwait(false);
 			}
 		}
@@ -183,7 +197,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 			if (rewardId == showMemerRewardId)
 			{
-				logger.LogInformation(EventIds.RandomMeme, "{userName} активировал награду \"{title}\"", e.Payload.Event.UserName, e.Payload.Event.Reward.Title);
+				logger.LogInformation(EventIds.ShowMemer, "{userName} активировал награду \"{title}\"", e.Payload.Event.UserName, e.Payload.Event.Reward.Title);
 
 				var events = await memeAlertsService.GetEventsAsync().ConfigureAwait(false);
 				var showMemeInfo = await settingsService.GetShowMemerWithMemeInfoAsync().ConfigureAwait(false);
@@ -222,7 +236,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 							await memeAlertsService.GiveBonusAsync(supporter, 1).ConfigureAwait(false);
 						}
 
-						await memeAlertsService.SendMemeAsync(sticker).ConfigureAwait(false);
+						await memeAlertsService.SendMemeAsync(sticker, e.Payload.Event.UserName).ConfigureAwait(false);
 					}
 					else
 					{

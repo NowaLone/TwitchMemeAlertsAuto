@@ -185,11 +185,11 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			return stickers;
 		}
 
-		public async Task<bool> SendMemeAsync(Sticker sticker, CancellationToken cancellationToken = default)
+		public async Task<bool> SendMemeAsync(Sticker sticker, string senderName, CancellationToken cancellationToken = default)
 		{
 			var streamerId = await GetStreamerIdAsync(cancellationToken).ConfigureAwait(false);
 
-			using var request = new HttpRequestMessage(HttpMethod.Post, "api/sticker/send") { Content = new StringContent($"{{\"toChannel\":\"{streamerId}\",\"stickerId\":\"{sticker.Id}\",\"isSoundOnly\":false,\"topic\":\"Last\",\"name\":\"NowaruAlone\",\"isMemePartyActive\":false,\"message\":\"\",\"deviceType\":\"desktop\"}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json)) };
+			using var request = new HttpRequestMessage(HttpMethod.Post, "api/sticker/send") { Content = new StringContent($"{{\"toChannel\":\"{streamerId}\",\"stickerId\":\"{sticker.Id}\",\"isSoundOnly\":false,\"topic\":\"Last\",\"name\":\"{senderName}\",\"isMemePartyActive\":false,\"message\":\"\",\"deviceType\":\"desktop\"}}", new MediaTypeHeaderValue(MediaTypeNames.Application.Json)) };
 			using var responseMessage = await DoRequest(request, cancellationToken).ConfigureAwait(false);
 
 			if (responseMessage == null)

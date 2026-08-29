@@ -263,7 +263,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			IsSilentModeEnabled = current.Channel.IsSilentModeEnabled;
 			dispatcherService.CallWithDispatcher(() => IsMemeAlertsConnected = true);
 
-			Messenger.Send(new MemealertsConnectedMessage(maToken));
+			dispatcherService.CallWithDispatcher(() => Messenger.Send(new MemealertsConnectedMessage(maToken)));
 			await StartWork(cancellationToken).ConfigureAwait(false);
 		}
 

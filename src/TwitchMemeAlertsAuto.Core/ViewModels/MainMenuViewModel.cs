@@ -32,18 +32,31 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		[ObservableProperty]
 		private bool tryRewardWithWrongNickname;
 
+		[NotifyCanExecuteChangedFor(nameof(AddShowMemerCommand))]
+		[NotifyCanExecuteChangedFor(nameof(RemoveShowMemerCommand))]
+		[NotifyCanExecuteChangedFor(nameof(ShowMemerWithMemeInfoCommand))]
 		[ObservableProperty]
 		private bool showMemer;
 
+		[NotifyCanExecuteChangedFor(nameof(AddSendRandomMemeCommand))]
+		[NotifyCanExecuteChangedFor(nameof(RemoveSendRandomMemeCommand))]
 		[ObservableProperty]
 		private bool sendRandomMeme;
 
 		[ObservableProperty]
 		private bool showMemerWithMemeInfo;
 
+		[NotifyCanExecuteChangedFor(nameof(AddShowMemerCommand))]
+		[NotifyCanExecuteChangedFor(nameof(RemoveShowMemerCommand))]
+		[NotifyCanExecuteChangedFor(nameof(AddSendRandomMemeCommand))]
+		[NotifyCanExecuteChangedFor(nameof(RemoveSendRandomMemeCommand))]
 		[ObservableProperty]
 		private bool isTwitchConnected;
 
+		[NotifyCanExecuteChangedFor(nameof(AddShowMemerCommand))]
+		[NotifyCanExecuteChangedFor(nameof(RemoveShowMemerCommand))]
+		[NotifyCanExecuteChangedFor(nameof(AddSendRandomMemeCommand))]
+		[NotifyCanExecuteChangedFor(nameof(RemoveSendRandomMemeCommand))]
 		[ObservableProperty]
 		private bool isMemeAlertsConnected;
 
@@ -138,40 +151,18 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			}
 		}
 
+		#region TryRewardWithWrongNickname
+
 		[RelayCommand]
-		private async Task SetTryRewardWithWrongNickname(CancellationToken cancellationToken = default)
+		private async Task SetTryRewardWithWrongNicknameAsync(CancellationToken cancellationToken = default)
 		{
 			await settingsService.SetTryRewardWithWrongNicknameOptionAsync(TryRewardWithWrongNickname, cancellationToken).ConfigureAwait(false);
 			Messenger.Send(new SettingsChangedMessage(nameof(settingsService.GetTryRewardWithWrongNicknameOptionAsync)));
 		}
 
-		[RelayCommand(CanExecute = nameof(CanAddShowMemer))]
-		private async Task AddShowMemerAsync(CancellationToken cancellationToken = default)
-		{
-			var userId = await settingsService.GetTwitchUserIdAsync(cancellationToken).ConfigureAwait(false);
+		#endregion TryRewardWithWrongNickname
 
-			using (var scope = serviceProvider.CreateAsyncScope())
-			{
-				var twitchAPI = scope.ServiceProvider.GetRequiredService<ITwitchAPI>();
-				var response = await twitchAPI.Helix.ChannelPoints.CreateCustomRewardsAsync(userId, new TwitchLib.Api.Helix.Models.ChannelPoints.CreateCustomReward.CreateCustomRewardsRequest
-				{
-					Cost = 100,
-					Title = Properties.Resources.ShowLastMemer,
-					IsEnabled = true,
-				}).ConfigureAwait(false);
-				await settingsService.SetShowMemerRewardIdAsync(response.Data[0].Id, cancellationToken).ConfigureAwait(false);
-			}
-
-			Messenger.Send(new SettingsChangedMessage(nameof(settingsService.GetShowMemerRewardIdAsync)));
-			ShowMemer = false;
-
-			dispatcherService.ShowMessage(Properties.Resources.ShowMemerRewardSuccessfullyCreated);
-		}
-
-		private bool CanAddShowMemer()
-		{
-			return !ShowMemer && IsTwitchConnected && IsMemeAlertsConnected;
-		}
+		#region SendRandomMeme
 
 		[RelayCommand(CanExecute = nameof(CanAddSendRandomMeme))]
 		private async Task AddSendRandomMemeAsync(CancellationToken cancellationToken = default)
@@ -191,7 +182,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			}
 
 			Messenger.Send(new SettingsChangedMessage(nameof(settingsService.GetSendRandomMemeRewardIdAsync)));
-			SendRandomMeme = false;
+			dispatcherService.CallWithDispatcher(() => SendRandomMeme = true);
 
 			dispatcherService.ShowMessage(Properties.Resources.SendRandomMemeRewardSuccessfullyCreated);
 		}
@@ -216,12 +207,44 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			await settingsService.SetSendRandomMemeRewardIdAsync(string.Empty, cancellationToken).ConfigureAwait(false);
 
 			Messenger.Send(new SettingsChangedMessage(nameof(settingsService.GetSendRandomMemeRewardIdAsync)));
-			SendRandomMeme = true;
+			dispatcherService.CallWithDispatcher(() => SendRandomMeme = false);
 		}
 
 		private bool CanRemoveSendRandomMeme()
 		{
 			return SendRandomMeme && IsTwitchConnected;
+		}
+
+		#endregion SendRandomMeme
+
+		#region ShowMemer
+
+		[RelayCommand(CanExecute = nameof(CanAddShowMemer))]
+		private async Task AddShowMemerAsync(CancellationToken cancellationToken = default)
+		{
+			var userId = await settingsService.GetTwitchUserIdAsync(cancellationToken).ConfigureAwait(false);
+
+			using (var scope = serviceProvider.CreateAsyncScope())
+			{
+				var twitchAPI = scope.ServiceProvider.GetRequiredService<ITwitchAPI>();
+				var response = await twitchAPI.Helix.ChannelPoints.CreateCustomRewardsAsync(userId, new TwitchLib.Api.Helix.Models.ChannelPoints.CreateCustomReward.CreateCustomRewardsRequest
+				{
+					Cost = 100,
+					Title = Properties.Resources.ShowLastMemer,
+					IsEnabled = true,
+				}).ConfigureAwait(false);
+				await settingsService.SetShowMemerRewardIdAsync(response.Data[0].Id, cancellationToken).ConfigureAwait(false);
+			}
+
+			Messenger.Send(new SettingsChangedMessage(nameof(settingsService.GetShowMemerRewardIdAsync)));
+			dispatcherService.CallWithDispatcher(() => ShowMemer = true);
+
+			dispatcherService.ShowMessage(Properties.Resources.ShowMemerRewardSuccessfullyCreated);
+		}
+
+		private bool CanAddShowMemer()
+		{
+			return !ShowMemer && IsTwitchConnected && IsMemeAlertsConnected;
 		}
 
 		[RelayCommand(CanExecute = nameof(CanRemoveShowMemer))]
@@ -239,13 +262,17 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			await settingsService.SetShowMemerRewardIdAsync(string.Empty, cancellationToken).ConfigureAwait(false);
 
 			Messenger.Send(new SettingsChangedMessage(nameof(settingsService.GetShowMemerRewardIdAsync)));
-			ShowMemer = true;
+			dispatcherService.CallWithDispatcher(() => ShowMemer = false);
 		}
 
 		private bool CanRemoveShowMemer()
 		{
 			return ShowMemer && IsTwitchConnected;
 		}
+
+		#endregion ShowMemer
+
+		#region ShowMemerWithMemeInfo
 
 		[RelayCommand(CanExecute = nameof(CanShowMemerWithMemeInfo))]
 		private async Task ShowMemerWithMemeInfoAsync(bool option, CancellationToken cancellationToken = default)
@@ -254,6 +281,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 			{
 				dispatcherService.ShowMessage(Properties.Resources.ProfanityInfo);
 			}
+
 			await settingsService.SetShowMemerWithMemeInfoAsync(option, cancellationToken).ConfigureAwait(false);
 		}
 
@@ -261,5 +289,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		{
 			return ShowMemer;
 		}
+
+		#endregion ShowMemerWithMemeInfo
 	}
 }
