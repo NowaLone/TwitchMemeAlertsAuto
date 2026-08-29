@@ -36,24 +36,20 @@ public class ConnectionViewModelExtendedTests
 	{
 		// Arrange
 		var settingsServiceMock = new Mock<ISettingsService>();
-		var rewardsServiceMock = new Mock<IRewardsService>();
 		var hostedServiceMock = new Mock<IWebsocketHostedService>();
 		var twitchOAuthServiceMock = new Mock<ITwitchOAuthService>();
 		var memeAlertsServiceMock = new Mock<IMemeAlertsService>();
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
 		var serviceProviderMock = new Mock<IServiceProvider>();
-		var dbContextFactoryMock = new Mock<IDbContextFactory<TmaaDbContext>>();
 		var loggerMock = new Mock<ILogger<ConnectionViewModel>>();
 
 		var viewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
-			rewardsServiceMock.Object,
 			hostedServiceMock.Object,
 			twitchOAuthServiceMock.Object,
 			memeAlertsServiceMock.Object,
 			dispatcherServiceMock.Object,
 			serviceProviderMock.Object,
-			dbContextFactoryMock.Object,
 			Mock.Of<ITwitchClient>(),
 			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			loggerMock.Object);
@@ -67,7 +63,7 @@ public class ConnectionViewModelExtendedTests
 		viewModel.Receive(message);
 
 		// Assert
-		rewardsServiceMock.Verify(r => r.StartAsync(It.IsAny<IDictionary<string, int>>(), It.IsAny<string>(), It.IsAny<bool>(), cancellationToken: It.IsAny<CancellationToken>()), Times.Never);
+		hostedServiceMock.Verify(h => h.StartAsync(It.IsAny<CancellationToken>()), Times.Never);
 	}
 
 	[TestMethod]
@@ -77,24 +73,20 @@ public class ConnectionViewModelExtendedTests
 	{
 		// Arrange
 		var settingsServiceMock = new Mock<ISettingsService>();
-		var rewardsServiceMock = new Mock<IRewardsService>();
 		var hostedServiceMock = new Mock<IWebsocketHostedService>();
 		var twitchOAuthServiceMock = new Mock<ITwitchOAuthService>();
 		var memeAlertsServiceMock = new Mock<IMemeAlertsService>();
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
 		var serviceProviderMock = new Mock<IServiceProvider>();
-		var dbContextFactoryMock = new Mock<IDbContextFactory<TmaaDbContext>>();
 		var loggerMock = new Mock<ILogger<ConnectionViewModel>>();
 
 		var viewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
-			rewardsServiceMock.Object,
 			hostedServiceMock.Object,
 			twitchOAuthServiceMock.Object,
 			memeAlertsServiceMock.Object,
 			dispatcherServiceMock.Object,
 			serviceProviderMock.Object,
-			dbContextFactoryMock.Object,
 			Mock.Of<ITwitchClient>(),
 			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			loggerMock.Object);
@@ -108,7 +100,7 @@ public class ConnectionViewModelExtendedTests
 		viewModel.Receive(message);
 
 		// Assert
-		rewardsServiceMock.Verify(r => r.StartAsync(It.IsAny<IDictionary<string, int>>(), It.IsAny<string>(), It.IsAny<bool>(), cancellationToken: It.IsAny<CancellationToken>()), Times.Never);
+		hostedServiceMock.Verify(h => h.StartAsync(It.IsAny<CancellationToken>()), Times.Never);
 	}
 
 	#endregion
@@ -122,24 +114,20 @@ public class ConnectionViewModelExtendedTests
 	{
 		// Arrange
 		var settingsServiceMock = new Mock<ISettingsService>();
-		var rewardsServiceMock = new Mock<IRewardsService>();
 		var hostedServiceMock = new Mock<IWebsocketHostedService>();
 		var twitchOAuthServiceMock = new Mock<ITwitchOAuthService>();
 		var memeAlertsServiceMock = new Mock<IMemeAlertsService>();
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
 		var serviceProviderMock = new Mock<IServiceProvider>();
-		var dbContextFactoryMock = new Mock<IDbContextFactory<TmaaDbContext>>();
 		var loggerMock = new Mock<ILogger<ConnectionViewModel>>();
 
 		var viewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
-			rewardsServiceMock.Object,
 			hostedServiceMock.Object,
 			twitchOAuthServiceMock.Object,
 			memeAlertsServiceMock.Object,
 			dispatcherServiceMock.Object,
 			serviceProviderMock.Object,
-			dbContextFactoryMock.Object,
 			Mock.Of<ITwitchClient>(),
 			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			loggerMock.Object);
@@ -160,24 +148,20 @@ public class ConnectionViewModelExtendedTests
 	{
 		// Arrange
 		var settingsServiceMock = new Mock<ISettingsService>();
-		var rewardsServiceMock = new Mock<IRewardsService>();
 		var hostedServiceMock = new Mock<IWebsocketHostedService>();
 		var twitchOAuthServiceMock = new Mock<ITwitchOAuthService>();
 		var memeAlertsServiceMock = new Mock<IMemeAlertsService>();
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
 		var serviceProviderMock = new Mock<IServiceProvider>();
-		var dbContextFactoryMock = new Mock<IDbContextFactory<TmaaDbContext>>();
 		var loggerMock = new Mock<ILogger<ConnectionViewModel>>();
 
 		var viewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
-			rewardsServiceMock.Object,
 			hostedServiceMock.Object,
 			twitchOAuthServiceMock.Object,
 			memeAlertsServiceMock.Object,
 			dispatcherServiceMock.Object,
 			serviceProviderMock.Object,
-			dbContextFactoryMock.Object,
 			Mock.Of<ITwitchClient>(),
 			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			loggerMock.Object);
@@ -202,24 +186,20 @@ public class ConnectionViewModelExtendedTests
 	{
 		// Arrange
 		var settingsServiceMock = new Mock<ISettingsService>();
-		var rewardsServiceMock = new Mock<IRewardsService>();
 		var hostedServiceMock = new Mock<IWebsocketHostedService>();
 		var twitchOAuthServiceMock = new Mock<ITwitchOAuthService>();
 		var memeAlertsServiceMock = new Mock<IMemeAlertsService>();
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
 		var serviceProviderMock = new Mock<IServiceProvider>();
-		var dbContextFactoryMock = new Mock<IDbContextFactory<TmaaDbContext>>();
 		var loggerMock = new Mock<ILogger<ConnectionViewModel>>();
 
 		var viewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
-			rewardsServiceMock.Object,
 			hostedServiceMock.Object,
 			twitchOAuthServiceMock.Object,
 			memeAlertsServiceMock.Object,
 			dispatcherServiceMock.Object,
 			serviceProviderMock.Object,
-			dbContextFactoryMock.Object,
 			Mock.Of<ITwitchClient>(),
 			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			loggerMock.Object);
@@ -240,24 +220,20 @@ public class ConnectionViewModelExtendedTests
 	{
 		// Arrange
 		var settingsServiceMock = new Mock<ISettingsService>();
-		var rewardsServiceMock = new Mock<IRewardsService>();
 		var hostedServiceMock = new Mock<IWebsocketHostedService>();
 		var twitchOAuthServiceMock = new Mock<ITwitchOAuthService>();
 		var memeAlertsServiceMock = new Mock<IMemeAlertsService>();
 		var dispatcherServiceMock = new Mock<IDispatcherService>();
 		var serviceProviderMock = new Mock<IServiceProvider>();
-		var dbContextFactoryMock = new Mock<IDbContextFactory<TmaaDbContext>>();
 		var loggerMock = new Mock<ILogger<ConnectionViewModel>>();
 
 		var viewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
-			rewardsServiceMock.Object,
 			hostedServiceMock.Object,
 			twitchOAuthServiceMock.Object,
 			memeAlertsServiceMock.Object,
 			dispatcherServiceMock.Object,
 			serviceProviderMock.Object,
-			dbContextFactoryMock.Object,
 			Mock.Of<ITwitchClient>(),
 			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			loggerMock.Object);
@@ -280,7 +256,6 @@ public class ConnectionViewModelExtendedTests
 	{
 		// Arrange
 		var settingsServiceMock = new Mock<ISettingsService>();
-		var rewardsServiceMock = new Mock<IRewardsService>();
 		var hostedServiceMock = new Mock<IWebsocketHostedService>();
 		var twitchOAuthServiceMock = new Mock<ITwitchOAuthService>();
 		var memeAlertsServiceMock = new Mock<IMemeAlertsService>();
@@ -292,13 +267,11 @@ public class ConnectionViewModelExtendedTests
 
 		var viewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
-			rewardsServiceMock.Object,
 			hostedServiceMock.Object,
 			twitchOAuthServiceMock.Object,
 			memeAlertsServiceMock.Object,
 			dispatcherServiceMock.Object,
 			Mock.Of<IServiceProvider>(),
-			Mock.Of<IDbContextFactory<TmaaDbContext>>(),
 			Mock.Of<ITwitchClient>(),
 			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			Mock.Of<ILogger<ConnectionViewModel>>());
@@ -320,7 +293,6 @@ public class ConnectionViewModelExtendedTests
 	{
 		// Arrange
 		var settingsServiceMock = new Mock<ISettingsService>();
-		var rewardsServiceMock = new Mock<IRewardsService>();
 		var hostedServiceMock = new Mock<IWebsocketHostedService>();
 		var twitchOAuthServiceMock = new Mock<ITwitchOAuthService>();
 		var memeAlertsServiceMock = new Mock<IMemeAlertsService>();
@@ -336,13 +308,11 @@ public class ConnectionViewModelExtendedTests
 
 		var viewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
-			rewardsServiceMock.Object,
 			hostedServiceMock.Object,
 			twitchOAuthServiceMock.Object,
 			memeAlertsServiceMock.Object,
 			dispatcherServiceMock.Object,
 			Mock.Of<IServiceProvider>(),
-			Mock.Of<IDbContextFactory<TmaaDbContext>>(),
 			Mock.Of<ITwitchClient>(),
 			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			Mock.Of<ILogger<ConnectionViewModel>>());
@@ -520,17 +490,15 @@ public class TestConnectionViewModel : ConnectionViewModel
 {
 	public TestConnectionViewModel(
 		ISettingsService settingsService,
-		IRewardsService rewardsService,
 		IWebsocketHostedService hostedService,
 		ITwitchOAuthService twitchOAuthService,
 		IMemeAlertsService twitchMemeAlertsAutoService,
 		IDispatcherService dispatcherService,
 		IServiceProvider serviceProvider,
-		IDbContextFactory<TmaaDbContext> dbContextFactory,
 		ITwitchClient twitchClient,
 		IOptionsMonitor<TwitchClient.Options> twitchClientOptions,
 		ILogger<ConnectionViewModel> logger)
-		: base(settingsService, rewardsService, hostedService, twitchOAuthService, twitchMemeAlertsAutoService, dispatcherService, serviceProvider, dbContextFactory, twitchClient, twitchClientOptions, logger)
+		: base(settingsService, hostedService, twitchOAuthService, twitchMemeAlertsAutoService, dispatcherService, serviceProvider, twitchClient, twitchClientOptions, logger)
 	{
 	}
 

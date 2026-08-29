@@ -33,11 +33,15 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		private string showMemerRewardId;
 		private string sendRandomMemeRewardId;
 		private string sendMemeWithTextId;
+		private bool tryRewardWithWrongNickname;
+		private Dictionary<string, int> rewards;
+		private List<Supporter> supporters;
 		private string userId;
 		private string eventSubId;
 		private CancellationToken serviceCancellationToken;
 
 		private IEnumerable<Sticker> randomStrickers;
+		private readonly SemaphoreSlim rewardProcessingSemaphore = new SemaphoreSlim(1, 1);
 
 		public WebsocketHostedService(EventSubWebsocketClient eventSubWebsocketClient, ITwitchClient twitchClient, IIrcParser<IrcV3Message> ircParser, ISettingsService settingsService, IMemeAlertsService memeAlertsService, IProfanityFilter profanityFilter, IServiceProvider serviceProvider, ILogger<WebsocketHostedService> logger)
 		{
@@ -65,6 +69,10 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			showMemerRewardId = await settingsService.GetShowMemerRewardIdAsync(cancellationToken).ConfigureAwait(false);
 			sendRandomMemeRewardId = await settingsService.GetSendRandomMemeRewardIdAsync(cancellationToken).ConfigureAwait(false);
 			sendMemeWithTextId = await settingsService.GetSendMemeWithTextIdAsync(cancellationToken).ConfigureAwait(false);
+			tryRewardWithWrongNickname = await settingsService.GetTryRewardWithWrongNicknameOptionAsync(cancellationToken).ConfigureAwait(false);
+			rewards = await settingsService.GetRewardsAsync(cancellationToken).ConfigureAwait(false);
+
+			supporters = await memeAlertsService.GetSupportersAsync(cancellationToken).ConfigureAwait(false);
 
 			if (!string.IsNullOrWhiteSpace(sendRandomMemeRewardId))
 			{
@@ -76,6 +84,8 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			{
 				randomStrickers = Enumerable.Empty<Sticker>();
 			}
+
+			var channel = await settingsService.GetTwitchUsernameAsync(cancellationToken).ConfigureAwait(false);
 
 			using (var scope = serviceProvider.CreateAsyncScope())
 			{
@@ -153,7 +163,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 						await twitchAPI.Helix.EventSub.DeleteEventSubSubscriptionAsync(item.Id);
 					}
 
-					if (!string.IsNullOrWhiteSpace(showMemerRewardId) || !string.IsNullOrWhiteSpace(sendRandomMemeRewardId) || !string.IsNullOrWhiteSpace(sendMemeWithTextId))
+					if (!string.IsNullOrWhiteSpace(showMemerRewardId) || !string.IsNullOrWhiteSpace(sendRandomMemeRewardId) || !string.IsNullOrWhiteSpace(sendMemeWithTextId) || rewards.Count > 0)
 					{
 						var condition = new Dictionary<string, string> { { "broadcaster_user_id", userId } };
 						var response = await twitchAPI.Helix.EventSub.CreateEventSubSubscriptionAsync("channel.channel_points_custom_reward_redemption.add", "1", condition, EventSubTransportMethod.Websocket, eventSubWebsocketClient.SessionId);
@@ -209,10 +219,16 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		private async Task EventSubWebsocketClient_ChannelPointsCustomRewardRedemptionAdd(object sender, ChannelPointsCustomRewardRedemptionArgs e)
 		{
 			var rewardId = e?.Payload?.Event?.Reward?.Id;
+			var userName = e?.Payload?.Event?.UserName;
+
+			if (string.IsNullOrWhiteSpace(rewardId))
+			{
+				return;
+			}
 
 			if (rewardId == showMemerRewardId)
 			{
-				logger.LogInformation(EventIds.ShowMemer, "{userName} активировал награду \"{title}\"", e.Payload.Event.UserName, e.Payload.Event.Reward.Title);
+				logger.LogInformation(EventIds.ShowMemer, "{userName} активировал награду \"{title}\"", userName, e.Payload.Event.Reward.Title);
 
 				var events = await memeAlertsService.GetEventsAsync().ConfigureAwait(false);
 				var showMemeInfo = await settingsService.GetShowMemerWithMemeInfoAsync().ConfigureAwait(false);
@@ -225,7 +241,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 						Parameters = new List<string>
 						{
 							$"#{e.Payload.Event.BroadcasterUserLogin}",
-							string.Format(":@" + e.Payload.Event.UserName + " " + Properties.Resources.LastMemeSentBy, showMemeInfo ? $"\"{Censor(lastEvent.StickerName)}\"": string.Empty, lastEvent.UserName)
+							string.Format(":@" + userName + " " + Properties.Resources.LastMemeSentBy, showMemeInfo ? $"\"{Censor(lastEvent.StickerName)}\"": string.Empty, lastEvent.UserName)
 						},
 					});
 
@@ -236,7 +252,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			}
 			else if (rewardId == sendRandomMemeRewardId)
 			{
-				logger.LogInformation(EventIds.RandomMeme, "{userName} активировал награду \"{title}\"", e.Payload.Event.UserName, e.Payload.Event.Reward.Title);
+				logger.LogInformation(EventIds.RandomMeme, "{userName} активировал награду \"{title}\"", userName, e.Payload.Event.Reward.Title);
 
 				try
 				{
@@ -251,7 +267,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 							await memeAlertsService.GiveBonusAsync(supporter, 1).ConfigureAwait(false);
 						}
 
-						await memeAlertsService.SendMemeAsync(sticker, e.Payload.Event.UserName).ConfigureAwait(false);
+						await memeAlertsService.SendMemeAsync(sticker, userName).ConfigureAwait(false);
 					}
 					else
 					{
@@ -267,7 +283,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			}
 			else if (rewardId == sendMemeWithTextId)
 			{
-				logger.LogInformation(EventIds.MemeWithText, "{userName} активировал награду \"{title}\"", e.Payload.Event.UserName, e.Payload.Event.Reward.Title);
+				logger.LogInformation(EventIds.MemeWithText, "{userName} активировал награду \"{title}\"", userName, e.Payload.Event.Reward.Title);
 
 				try
 				{
@@ -275,7 +291,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 					if (stickers.Any())
 					{
-						await memeAlertsService.SendMemeAsync(stickers.FirstOrDefault(), e.Payload.Event.UserName).ConfigureAwait(false);
+						await memeAlertsService.SendMemeAsync(stickers.FirstOrDefault(), userName).ConfigureAwait(false);
 					}
 					else
 					{
@@ -285,6 +301,55 @@ namespace TwitchMemeAlertsAuto.Core.Services
 				catch (Exception ex)
 				{
 					logger.LogError(ex, "Error while handling SendMemeWithText reward redemption");
+				}
+
+				return;
+			}
+			else if (rewards.TryGetValue(rewardId, out var value))
+			{
+				logger.LogInformation(EventIds.MemeWithText, "{userName} активировал награду \"{title}\"", userName, e.Payload.Event.Reward.Title);
+
+				try
+				{
+					var usernameInMemeAlerts = e?.Payload?.Event?.UserInput;
+
+					await rewardProcessingSemaphore.WaitAsync(serviceCancellationToken).ConfigureAwait(false);
+					var dataItem = supporters.FirstOrDefault(d => string.Equals(d.SupporterName, usernameInMemeAlerts, StringComparison.OrdinalIgnoreCase));
+
+					if (dataItem == null)
+					{
+						supporters = await memeAlertsService.GetSupportersAsync(serviceCancellationToken).ConfigureAwait(false);
+						rewardProcessingSemaphore.Release();
+
+						dataItem = supporters.FirstOrDefault(d => string.Equals(d.SupporterName, usernameInMemeAlerts, StringComparison.OrdinalIgnoreCase));
+
+						if (dataItem == null && tryRewardWithWrongNickname && !string.IsNullOrWhiteSpace(userName))
+						{
+							logger.LogWarning(EventIds.NotFound, "Саппортёр {usernameInMemeAlerts} не найден, попытка наградить по нику с твича", usernameInMemeAlerts);
+							usernameInMemeAlerts = userName;
+							dataItem = supporters.FirstOrDefault(d => string.Equals(d.SupporterName, usernameInMemeAlerts, StringComparison.OrdinalIgnoreCase));
+						}
+					}
+
+					if (dataItem != null)
+					{
+						if (await memeAlertsService.GiveBonusAsync(dataItem, value, serviceCancellationToken).ConfigureAwait(false))
+						{
+							logger.LogInformation(EventIds.Rewarded, "Мемы для {usernameInMemeAlerts} успешно выданы в кол-ве {value} шт.", usernameInMemeAlerts, value);
+						}
+						else
+						{
+							logger.LogError(EventIds.NotRewarded, "Мемы для {usernameInMemeAlerts} не выданы", usernameInMemeAlerts);
+						}
+					}
+					else
+					{
+						logger.LogWarning(EventIds.NotFound, "Саппортёр {usernameInMemeAlerts} не найден", usernameInMemeAlerts);
+					}
+				}
+				catch (Exception ex)
+				{
+					logger.LogError(ex, "Error while handling GiveBonus reward redemption");
 				}
 
 				return;

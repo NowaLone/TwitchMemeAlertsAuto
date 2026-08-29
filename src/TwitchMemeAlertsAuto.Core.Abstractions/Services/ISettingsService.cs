@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -55,5 +56,6 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		Task SetSendRandomMemeRewardIdAsync(string rewardId, CancellationToken cancellationToken = default);
 		Task<string> GetSendMemeWithTextIdAsync(CancellationToken cancellationToken = default);
 		Task SetSendMemeWithTextIdAsync(string rewardId, CancellationToken cancellationToken = default);
+		Task<Dictionary<string, int>> GetRewardsAsync(CancellationToken cancellationToken = default);
 	}
 }

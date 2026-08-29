@@ -13,6 +13,7 @@ using MessageChannel = System.Threading.Channels.Channel;
 
 namespace TwitchMemeAlertsAuto.Core.Services
 {
+	[Obsolete]
 	public class RewardsService : IRewardsService
 	{
 		private readonly IMemeAlertsService twitchMemeAlertsAutoService;
@@ -122,7 +123,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 						data = await twitchMemeAlertsAutoService.GetSupportersAsync(cancellationToken).ConfigureAwait(false);
 						dataItem = data.FirstOrDefault(d => d.SupporterName.Equals(username, StringComparison.OrdinalIgnoreCase));
 
-						if(dataItem == default && tryRewardWithWrongNickname)
+						if (dataItem == default && tryRewardWithWrongNickname)
 						{
 							logger.LogWarning(EventIds.NotFound, "Саппортёр {username} не найден, попытка наградить по нику с твича", username);
 							username = ircV3Message.Prefix.Nick;

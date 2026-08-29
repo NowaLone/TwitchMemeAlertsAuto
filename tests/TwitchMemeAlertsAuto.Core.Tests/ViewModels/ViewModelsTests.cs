@@ -217,13 +217,11 @@ public class MainMenuViewModelTests
 		var twitchApiMock = new Mock<ITwitchAPI>();
 		var connectionViewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
-			Mock.Of<IRewardsService>(),
 			Mock.Of<IWebsocketHostedService>(),
 			Mock.Of<ITwitchOAuthService>(),
 			Mock.Of<IMemeAlertsService>(),
 			dispatcherServiceMock.Object,
 			Mock.Of<IServiceProvider>(),
-			Mock.Of<IDbContextFactory<TmaaDbContext>>(),
 			Mock.Of<ITwitchClient>(),
 			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			Mock.Of<ILogger<ConnectionViewModel>>());
@@ -257,13 +255,11 @@ public class MainMenuViewModelTests
 		var twitchApiMock = new Mock<ITwitchAPI>();
 		var connectionViewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
-			Mock.Of<IRewardsService>(),
 			Mock.Of<IWebsocketHostedService>(),
 			Mock.Of<ITwitchOAuthService>(),
 			Mock.Of<IMemeAlertsService>(),
 			dispatcherServiceMock.Object,
 			Mock.Of<IServiceProvider>(),
-			Mock.Of<IDbContextFactory<TmaaDbContext>>(),
 			Mock.Of<ITwitchClient>(),
 			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			Mock.Of<ILogger<ConnectionViewModel>>());
@@ -294,13 +290,11 @@ public class MainMenuViewModelTests
 		var twitchApiMock = new Mock<ITwitchAPI>();
 		var connectionViewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
-			Mock.Of<IRewardsService>(),
 			Mock.Of<IWebsocketHostedService>(),
 			Mock.Of<ITwitchOAuthService>(),
 			Mock.Of<IMemeAlertsService>(),
 			dispatcherServiceMock.Object,
 			Mock.Of<IServiceProvider>(),
-			Mock.Of<IDbContextFactory<TmaaDbContext>>(),
 			Mock.Of<ITwitchClient>(),
 			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			Mock.Of<ILogger<ConnectionViewModel>>());
@@ -331,13 +325,11 @@ public class MainMenuViewModelTests
 		var twitchApiMock = new Mock<ITwitchAPI>();
 		var connectionViewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
-			Mock.Of<IRewardsService>(),
 			Mock.Of<IWebsocketHostedService>(),
 			Mock.Of<ITwitchOAuthService>(),
 			Mock.Of<IMemeAlertsService>(),
 			dispatcherServiceMock.Object,
 			Mock.Of<IServiceProvider>(),
-			Mock.Of<IDbContextFactory<TmaaDbContext>>(),
 			Mock.Of<ITwitchClient>(),
 			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			Mock.Of<ILogger<ConnectionViewModel>>());
@@ -372,13 +364,11 @@ public class MainMenuViewModelTests
 		var twitchApiMock = new Mock<ITwitchAPI>();
 		var connectionViewModel = new ConnectionViewModel(
 			settingsServiceMock.Object,
-			Mock.Of<IRewardsService>(),
 			Mock.Of<IWebsocketHostedService>(),
 			Mock.Of<ITwitchOAuthService>(),
 			Mock.Of<IMemeAlertsService>(),
 			dispatcherServiceMock.Object,
 			Mock.Of<IServiceProvider>(),
-			Mock.Of<IDbContextFactory<TmaaDbContext>>(),
 			Mock.Of<ITwitchClient>(),
 			Mock.Of<IOptionsMonitor<TwitchClient.Options>>(),
 			Mock.Of<ILogger<ConnectionViewModel>>());

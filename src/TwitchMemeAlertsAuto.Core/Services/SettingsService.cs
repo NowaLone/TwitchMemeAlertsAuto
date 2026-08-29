@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -136,6 +138,19 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		public Task SetSendMemeWithTextIdAsync(string rewardId, CancellationToken cancellationToken = default)
 		{
 			return SetSettingAsync("Twitch:SendMemeWithTextId", rewardId, cancellationToken);
+		}
+
+		public async Task<Dictionary<string, int>> GetRewardsAsync(CancellationToken cancellationToken = default)
+		{
+			using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false))
+			{
+				var rewards = context.Settings
+						.Where(s => s.Key.StartsWith("Reward:"))
+						.ToList()
+						.ToDictionary(s => s.Key.Replace("Reward:", string.Empty), s => int.Parse(s.Value));
+
+				return rewards;
+			}
 		}
 
 		public async Task<T> GetSettingAsync<T>(string key, T defaultValue, CancellationToken cancellationToken = default)
