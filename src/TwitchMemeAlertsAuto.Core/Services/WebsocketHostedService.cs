@@ -291,7 +291,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 					if (stickers.Any())
 					{
-						await memeAlertsService.SendMemeAsync(stickers.FirstOrDefault(), userName).ConfigureAwait(false);
+						await memeAlertsService.SendMemeAsync(stickers.FindBest(e.Payload.Event.UserInput), userName).ConfigureAwait(false);
 					}
 					else
 					{
