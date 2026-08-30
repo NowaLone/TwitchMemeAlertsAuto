@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.6] - 2026-08-30
+
+### Fixed
+
+- 400 error when sending meme with text
+
+### Changed
+
+- Search logic for send meme with text
+
 ## [2.4.5] - 2026-08-29
 
 ### Added
@@ -172,6 +182,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - First public release.
 
+[2.4.6]: https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/tag/v2.4.6
 [2.4.5]: https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/tag/v2.4.5
 [2.4.4]: https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/tag/v2.4.4
 [2.4.3]: https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/tag/v2.4.3
