@@ -1,5 +1,6 @@
 ﻿using IrcNet;
 using IrcNet.Parser.V3;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ProfanityFilter.Interfaces;
@@ -11,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TwitchChat.Client;
 using TwitchLib.Api.Core.Enums;
+using TwitchLib.Api.Helix.Models.ChannelPoints;
 using TwitchLib.Api.Helix.Models.EventSub;
 using TwitchLib.Api.Interfaces;
 using TwitchLib.EventSub.Core.EventArgs.Channel;
@@ -28,6 +30,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		private readonly IMemeAlertsService memeAlertsService;
 		private readonly IProfanityFilter profanityFilter;
 		private readonly IServiceProvider serviceProvider;
+		private readonly IDbContextFactory<TmaaDbContext> dbContextFactory;
 		private readonly ILogger<WebsocketHostedService> logger;
 
 		private string showMemerRewardId;
@@ -43,7 +46,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		private IEnumerable<Sticker> randomStrickers;
 		private readonly SemaphoreSlim rewardProcessingSemaphore = new SemaphoreSlim(1, 1);
 
-		public WebsocketHostedService(EventSubWebsocketClient eventSubWebsocketClient, ITwitchClient twitchClient, IIrcParser<IrcV3Message> ircParser, ISettingsService settingsService, IMemeAlertsService memeAlertsService, IProfanityFilter profanityFilter, IServiceProvider serviceProvider, ILogger<WebsocketHostedService> logger)
+		public WebsocketHostedService(EventSubWebsocketClient eventSubWebsocketClient, ITwitchClient twitchClient, IIrcParser<IrcV3Message> ircParser, ISettingsService settingsService, IMemeAlertsService memeAlertsService, IProfanityFilter profanityFilter, IServiceProvider serviceProvider, IDbContextFactory<TmaaDbContext> dbContextFactory, ILogger<WebsocketHostedService> logger)
 		{
 			this.eventSubWebsocketClient = eventSubWebsocketClient;
 			this.twitchClient = twitchClient;
@@ -52,6 +55,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			this.memeAlertsService = memeAlertsService;
 			this.profanityFilter = profanityFilter;
 			this.serviceProvider = serviceProvider;
+			this.dbContextFactory = dbContextFactory;
 			this.logger = logger;
 		}
 
@@ -267,7 +271,30 @@ namespace TwitchMemeAlertsAuto.Core.Services
 							await memeAlertsService.GiveBonusAsync(supporter, 1).ConfigureAwait(false);
 						}
 
-						await memeAlertsService.SendMemeAsync(sticker, userName).ConfigureAwait(false);
+						if (await memeAlertsService.SendMemeAsync(sticker, userName).ConfigureAwait(false))
+						{
+							using (var ctx = await dbContextFactory.CreateDbContextAsync().ConfigureAwait(false))
+							{
+								await ctx.MemeHistories.AddAsync(new MemeHistory
+								{
+									Sticker = await ctx.Stickers.FirstOrDefaultAsync(s => s.StickerId == sticker.Id).ConfigureAwait(false) ?? new StickerInfo
+									{
+										StickerId = sticker.Id,
+										Name = sticker.Name,
+									},
+									Type = MemeHistoryType.Text,
+									BroadcasterUserId = e.Payload.Event.BroadcasterUserId,
+									UserName = e.Payload.Event.UserName,
+									UserId = e.Payload.Event.UserId,
+									UserInput = e.Payload.Event.UserInput,
+									Cost = e.Payload.Event.Reward.Cost,
+									RewardId = e.Payload.Event.Reward.Id,
+									Timestamp = DateTimeOffset.UtcNow,
+								}).ConfigureAwait(false);
+
+								await ctx.SaveChangesAsync().ConfigureAwait(false);
+							}
+						}
 					}
 					else
 					{
@@ -291,7 +318,32 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 					if (stickers.Any())
 					{
-						await memeAlertsService.SendMemeAsync(stickers.FindBest(e.Payload.Event.UserInput), userName).ConfigureAwait(false);
+						var sticker = stickers.FindBest(e.Payload.Event.UserInput);
+
+						if (await memeAlertsService.SendMemeAsync(sticker, userName).ConfigureAwait(false))
+						{
+							using (var ctx = await dbContextFactory.CreateDbContextAsync().ConfigureAwait(false))
+							{
+								await ctx.MemeHistories.AddAsync(new MemeHistory
+								{
+									Sticker = await ctx.Stickers.FirstOrDefaultAsync(s => s.StickerId == sticker.Id).ConfigureAwait(false) ?? new StickerInfo
+									{
+										StickerId = sticker.Id,
+										Name = sticker.Name,
+									},
+									Type = MemeHistoryType.Random,
+									BroadcasterUserId = e.Payload.Event.BroadcasterUserId,
+									UserName = e.Payload.Event.UserName,
+									UserId = e.Payload.Event.UserId,
+									UserInput = e.Payload.Event.UserInput,
+									Cost = e.Payload.Event.Reward.Cost,
+									RewardId = e.Payload.Event.Reward.Id,
+									Timestamp = DateTimeOffset.UtcNow,
+								}).ConfigureAwait(false);
+
+								await ctx.SaveChangesAsync().ConfigureAwait(false);
+							}
+						}
 					}
 					else
 					{

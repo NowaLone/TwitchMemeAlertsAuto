@@ -13,6 +13,8 @@ namespace TwitchMemeAlertsAuto.Core
 
 		public DbSet<Setting> Settings { get; set; }
 		public DbSet<History> Histories { get; set; }
+		public DbSet<MemeHistory> MemeHistories { get; set; }
+		public DbSet<StickerInfo> Stickers { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

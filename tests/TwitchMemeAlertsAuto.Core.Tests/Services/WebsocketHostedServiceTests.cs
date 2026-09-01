@@ -39,6 +39,7 @@ public class WebsocketHostedServiceTests
 			memeAlertsMock.Object,
 			Mock.Of<IProfanityFilter>(),
 			Mock.Of<IServiceProvider>(),
+			Mock.Of<IDbContextFactory<TmaaDbContext>>(),
 			Mock.Of<ILogger<WebsocketHostedService>>());
 	}
 
