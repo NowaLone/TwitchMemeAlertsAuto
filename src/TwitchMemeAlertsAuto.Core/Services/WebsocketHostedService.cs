@@ -359,7 +359,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			}
 			else if (rewards.TryGetValue(rewardId, out var value))
 			{
-				logger.LogInformation(EventIds.MemeWithText, "{userName} активировал награду \"{title}\"", userName, e.Payload.Event.Reward.Title);
+				logger.LogInformation(EventIds.Rewarded, "{userName} активировал награду \"{title}\"", userName, e.Payload.Event.Reward.Title);
 
 				try
 				{
