@@ -382,6 +382,10 @@ namespace TwitchMemeAlertsAuto.Core.Services
 							dataItem = supporters.FirstOrDefault(d => string.Equals(d.SupporterName, usernameInMemeAlerts, StringComparison.OrdinalIgnoreCase));
 						}
 					}
+					else
+					{
+						rewardProcessingSemaphore.Release();
+					}
 
 					if (dataItem != null)
 					{
