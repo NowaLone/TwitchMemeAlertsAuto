@@ -347,7 +347,13 @@ namespace TwitchMemeAlertsAuto.Core.Services
 					}
 					else
 					{
-						logger.LogWarning("No stickers available to send for SendMemeWithText reward");
+						using (var scope = serviceProvider.CreateAsyncScope())
+						{
+							var twitchAPI = scope.ServiceProvider.GetRequiredService<ITwitchAPI>();
+							await twitchAPI.Helix.ChannelPoints.UpdateRedemptionStatusAsync(e.Payload.Event.BroadcasterUserId, e.Payload.Event.Reward.Id, new List<string> { e.Payload.Event.Id }, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomRewardRedemptionStatus.UpdateCustomRewardRedemptionStatusRequest { Status = CustomRewardRedemptionStatus.CANCELED }).ConfigureAwait(false);
+						}
+
+						logger.LogWarning(EventIds.MemeWithText, "По запросу \"{request}\" стикеры не найдены, награда возвращена", e.Payload.Event.UserInput);
 					}
 				}
 				catch (Exception ex)
