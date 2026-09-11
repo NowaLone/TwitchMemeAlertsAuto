@@ -22,7 +22,7 @@ namespace TwitchMemeAlertsAuto.Core
 
 		private const double CoverageWeight = 300;
 
-		public static Sticker? FindBest(this
+		public static Sticker FindBest(this
 			IEnumerable<Sticker> stickers,
 			string query)
 		{
