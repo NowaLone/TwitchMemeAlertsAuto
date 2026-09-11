@@ -273,4 +273,37 @@
   <data name="SendMemeWithTextRewardSuccessfullyCreated" xml:space="preserve">
     <value>Награда "Отправить мем текстом" успешно создана. Вы можете настроить цену, иконку и тд. в своём Twitch дашборде</value>
   </data>
+  <data name="RewardRedeemed" xml:space="preserve">
+    <value>{0} активировал награду "{1}"</value>
+  </data>
+  <data name="ErrorWhileHandleRedeem" xml:space="preserve">
+    <value>Произошла ошибка при обработке награды "{0}"</value>
+  </data>
+  <data name="EventsNotFound" xml:space="preserve">
+    <value>События по отправке мемов не найдены</value>
+  </data>
+  <data name="PointsReturned" xml:space="preserve">
+    <value>баллы возвращены</value>
+  </data>
+  <data name="StickersNotFound" xml:space="preserve">
+    <value>Стикеры не найдены</value>
+  </data>
+  <data name="StickersNotFoundByRequest" xml:space="preserve">
+    <value>По запросу "{0}" стикеры не найдены</value>
+  </data>
+  <data name="RetryWithTwitchNickname" xml:space="preserve">
+    <value>попытка наградить по нику с твича</value>
+  </data>
+  <data name="SupporterSuccessfullyRewarded" xml:space="preserve">
+    <value>Мемы для {0} успешно выданы в кол-ве {1} шт.</value>
+  </data>
+  <data name="SupporterNotRewarded" xml:space="preserve">
+    <value>Мемы для {0} не выданы</value>
+  </data>
+  <data name="SupporterNotFound" xml:space="preserve">
+    <value>Саппортёр {0} не найден</value>
+  </data>
+  <data name="ErrorWhileGiveBonus" xml:space="preserve">
+    <value>Произошла ошибка при выдаче</value>
+  </data>
 </root>

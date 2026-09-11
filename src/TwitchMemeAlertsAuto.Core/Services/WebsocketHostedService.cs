@@ -12,7 +12,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using TwitchChat.Client;
 using TwitchLib.Api.Core.Enums;
-using TwitchLib.Api.Helix.Models.ChannelPoints;
+using TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward;
+using TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomRewardRedemptionStatus;
 using TwitchLib.Api.Helix.Models.EventSub;
 using TwitchLib.Api.Interfaces;
 using TwitchLib.EventSub.Core.EventArgs.Channel;
@@ -97,17 +98,17 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 				if (!string.IsNullOrWhiteSpace(showMemerRewardId))
 				{
-					await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, showMemerRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = false }).ConfigureAwait(false);
+					await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, showMemerRewardId, new UpdateCustomRewardRequest { IsPaused = false }).ConfigureAwait(false);
 				}
 
 				if (!string.IsNullOrWhiteSpace(sendRandomMemeRewardId))
 				{
-					await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, sendRandomMemeRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = false }).ConfigureAwait(false);
+					await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, sendRandomMemeRewardId, new UpdateCustomRewardRequest { IsPaused = false }).ConfigureAwait(false);
 				}
 
 				if (!string.IsNullOrWhiteSpace(sendMemeWithTextId))
 				{
-					await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, sendMemeWithTextId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = false }).ConfigureAwait(false);
+					await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, sendMemeWithTextId, new UpdateCustomRewardRequest { IsPaused = false }).ConfigureAwait(false);
 				}
 
 				await eventSubWebsocketClient.ConnectAsync();
@@ -137,17 +138,17 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 				if (!string.IsNullOrWhiteSpace(showMemerRewardId))
 				{
-					await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, showMemerRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = true }).ConfigureAwait(false);
+					await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, showMemerRewardId, new UpdateCustomRewardRequest { IsPaused = true }).ConfigureAwait(false);
 				}
 
 				if (!string.IsNullOrWhiteSpace(sendRandomMemeRewardId))
 				{
-					await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, sendRandomMemeRewardId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = true }).ConfigureAwait(false);
+					await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, sendRandomMemeRewardId, new UpdateCustomRewardRequest { IsPaused = true }).ConfigureAwait(false);
 				}
 
 				if (!string.IsNullOrWhiteSpace(sendMemeWithTextId))
 				{
-					await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, sendMemeWithTextId, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomReward.UpdateCustomRewardRequest { IsPaused = true }).ConfigureAwait(false);
+					await twitchAPI.Helix.ChannelPoints.UpdateCustomRewardAsync(userId, sendMemeWithTextId, new UpdateCustomRewardRequest { IsPaused = true }).ConfigureAwait(false);
 				}
 			}
 		}
@@ -224,197 +225,243 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		{
 			var rewardId = e?.Payload?.Event?.Reward?.Id;
 			var userName = e?.Payload?.Event?.UserName;
+			var broadcasterUserLogin = e.Payload.Event.BroadcasterUserLogin;
 
 			if (string.IsNullOrWhiteSpace(rewardId))
 			{
 				return;
 			}
 
-			if (rewardId == showMemerRewardId)
+			try
 			{
-				logger.LogInformation(EventIds.ShowMemer, "{userName} активировал награду \"{title}\"", userName, e.Payload.Event.Reward.Title);
-
-				var events = await memeAlertsService.GetEventsAsync().ConfigureAwait(false);
-				var showMemeInfo = await settingsService.GetShowMemerWithMemeInfoAsync().ConfigureAwait(false);
-				if (events.Count != 0)
+				if (rewardId == showMemerRewardId)
 				{
-					var lastEvent = events.OrderByDescending(e => e.Timestamp).FirstOrDefault();
-					var msg = ircParser.BuildMessage(new IrcV3Message
+					logger.LogInformation(EventIds.Info, Properties.Resources.RewardRedeemed, userName, e.Payload.Event.Reward.Title);
+					await ShowMemerWork(e, userName, serviceCancellationToken).ConfigureAwait(false);
+				}
+				else if (rewardId == sendRandomMemeRewardId)
+				{
+					logger.LogInformation(EventIds.Info, Properties.Resources.RewardRedeemed, userName, e.Payload.Event.Reward.Title);
+					await SendRandomMemeWork(e, userName, serviceCancellationToken).ConfigureAwait(false);
+				}
+				else if (rewardId == sendMemeWithTextId)
+				{
+					logger.LogInformation(EventIds.Info, Properties.Resources.RewardRedeemed, userName, e.Payload.Event.Reward.Title);
+					await SendMemeWithTextWork(e, userName, serviceCancellationToken).ConfigureAwait(false);
+				}
+				else if (rewards.TryGetValue(rewardId, out var value))
+				{
+					logger.LogInformation(EventIds.Info, Properties.Resources.RewardRedeemed, userName, e.Payload.Event.Reward.Title);
+					await RewardWork(e, userName, value, serviceCancellationToken).ConfigureAwait(false);
+				}
+			}
+			catch (OperationCanceledException ex)
+			{
+				logger.LogTrace(ex, default);
+			}
+			catch (Exception ex)
+			{
+				await CancelReward(e.Payload.Event.BroadcasterUserId, e.Payload.Event.Reward.Id, e.Payload.Event.Id).ConfigureAwait(false);
+
+				var logText = Properties.Resources.ErrorWhileHandleRedeem + ", " + Properties.Resources.PointsReturned;
+				logger.LogError(EventIds.Error, ex, logText, e.Payload.Event.Reward.Title);
+				await LogIntoChat(broadcasterUserLogin, $":@{userName} {logText}").ConfigureAwait(false);
+			}
+		}
+
+		private async Task ShowMemerWork(ChannelPointsCustomRewardRedemptionArgs e, string userName, CancellationToken cancellationToken = default)
+		{
+			var events = await memeAlertsService.GetEventsAsync(cancellationToken).ConfigureAwait(false);
+			var showMemeInfo = await settingsService.GetShowMemerWithMemeInfoAsync(cancellationToken).ConfigureAwait(false);
+			var broadcasterUserLogin = e.Payload.Event.BroadcasterUserLogin;
+
+			if (events.Count != 0)
+			{
+				var lastEvent = events.OrderByDescending(e => e.Timestamp).FirstOrDefault();
+				await LogIntoChat(broadcasterUserLogin, string.Format($":@{userName} {Properties.Resources.LastMemeSentBy}", showMemeInfo ? $"\"{Censor(lastEvent.StickerName)}\"" : string.Empty, lastEvent.UserName), cancellationToken).ConfigureAwait(false);
+			}
+			else
+			{
+				await CancelReward(e.Payload.Event.BroadcasterUserId, e.Payload.Event.Reward.Id, e.Payload.Event.Id).ConfigureAwait(false);
+
+				var logText = Properties.Resources.EventsNotFound + ", " + Properties.Resources.PointsReturned;
+				logger.LogWarning(EventIds.Warning, logText);
+				await LogIntoChat(broadcasterUserLogin, $":@{userName} {logText}", cancellationToken).ConfigureAwait(false);
+			}
+		}
+
+		private async Task SendRandomMemeWork(ChannelPointsCustomRewardRedemptionArgs e, string userName, CancellationToken cancellationToken = default)
+		{
+			var broadcasterUserLogin = e.Payload.Event.BroadcasterUserLogin;
+
+			if (randomStrickers.Any())
+			{
+				var sticker = randomStrickers.ElementAt(Random.Shared.Next(0, randomStrickers.Count()));
+				await GiveBounsYourself(cancellationToken).ConfigureAwait(false);
+
+				if (await memeAlertsService.SendMemeAsync(sticker, userName, cancellationToken).ConfigureAwait(false))
+				{
+					using (var ctx = await dbContextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false))
 					{
-						Command = IrcCommand.PRIVMSG,
-						Parameters = new List<string>
+						await ctx.MemeHistories.AddAsync(new MemeHistory
 						{
-							$"#{e.Payload.Event.BroadcasterUserLogin}",
-							string.Format(":@" + userName + " " + Properties.Resources.LastMemeSentBy, showMemeInfo ? $"\"{Censor(lastEvent.StickerName)}\"": string.Empty, lastEvent.UserName)
+							Sticker = await ctx.Stickers.FirstOrDefaultAsync(s => s.StickerId == sticker.Id, cancellationToken: cancellationToken).ConfigureAwait(false) ?? new StickerInfo
+							{
+								StickerId = sticker.Id,
+								Name = sticker.Name,
+							},
+							Type = MemeHistoryType.Random,
+							BroadcasterUserId = e.Payload.Event.BroadcasterUserId,
+							UserName = e.Payload.Event.UserName,
+							UserId = e.Payload.Event.UserId,
+							UserInput = e.Payload.Event.UserInput,
+							Cost = e.Payload.Event.Reward.Cost,
+							RewardId = e.Payload.Event.Reward.Id,
+							Timestamp = DateTimeOffset.UtcNow,
+						}, cancellationToken).ConfigureAwait(false);
+
+						await ctx.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+					}
+				}
+			}
+			else
+			{
+				await CancelReward(e.Payload.Event.BroadcasterUserId, e.Payload.Event.Reward.Id, e.Payload.Event.Id).ConfigureAwait(false);
+
+				var logText = Properties.Resources.StickersNotFound + ", " + Properties.Resources.PointsReturned;
+				logger.LogWarning(EventIds.Warning, logText);
+				await LogIntoChat(broadcasterUserLogin, $":@{userName} {logText}", cancellationToken).ConfigureAwait(false);
+			}
+		}
+
+		private async Task SendMemeWithTextWork(ChannelPointsCustomRewardRedemptionArgs e, string userName, CancellationToken cancellationToken = default)
+		{
+			var stickers = await memeAlertsService.GetPersonalAreaSearchAsync(e.Payload.Event.UserInput, cancellationToken).ConfigureAwait(false);
+			var broadcasterUserLogin = e.Payload.Event.BroadcasterUserLogin;
+
+			if (stickers.Any())
+			{
+				var sticker = stickers.FindBest(e.Payload.Event.UserInput);
+				await GiveBounsYourself(cancellationToken).ConfigureAwait(false);
+
+				if (await memeAlertsService.SendMemeAsync(sticker, userName, cancellationToken).ConfigureAwait(false))
+				{
+					using (var ctx = await dbContextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false))
+					{
+						await ctx.MemeHistories.AddAsync(new MemeHistory
+						{
+							Sticker = await ctx.Stickers.FirstOrDefaultAsync(s => s.StickerId == sticker.Id, cancellationToken: cancellationToken).ConfigureAwait(false) ?? new StickerInfo
+							{
+								StickerId = sticker.Id,
+								Name = sticker.Name,
+							},
+							Type = MemeHistoryType.Text,
+							BroadcasterUserId = e.Payload.Event.BroadcasterUserId,
+							UserName = e.Payload.Event.UserName,
+							UserId = e.Payload.Event.UserId,
+							UserInput = e.Payload.Event.UserInput,
+							Cost = e.Payload.Event.Reward.Cost,
+							RewardId = e.Payload.Event.Reward.Id,
+							Timestamp = DateTimeOffset.UtcNow,
+						}, cancellationToken).ConfigureAwait(false);
+
+						await ctx.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+					}
+				}
+			}
+			else
+			{
+				await CancelReward(e.Payload.Event.BroadcasterUserId, e.Payload.Event.Reward.Id, e.Payload.Event.Id).ConfigureAwait(false);
+
+				var logText = string.Format(Properties.Resources.StickersNotFoundByRequest, e.Payload.Event.UserInput) + ", " + Properties.Resources.PointsReturned;
+				logger.LogWarning(EventIds.Warning, logText);
+				await LogIntoChat(broadcasterUserLogin, $":@{userName} {logText}", cancellationToken).ConfigureAwait(false);
+			}
+		}
+
+		private async Task RewardWork(ChannelPointsCustomRewardRedemptionArgs e, string userName, int value, CancellationToken cancellationToken = default)
+		{
+			var broadcasterUserLogin = e.Payload.Event.BroadcasterUserLogin;
+			var usernameInMemeAlerts = e?.Payload?.Event?.UserInput;
+
+			await rewardProcessingSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
+			var supporter = supporters.FirstOrDefault(d => string.Equals(d.SupporterName, usernameInMemeAlerts, StringComparison.OrdinalIgnoreCase));
+
+			if (supporter == null)
+			{
+				supporters = await memeAlertsService.GetSupportersAsync(cancellationToken).ConfigureAwait(false);
+				rewardProcessingSemaphore.Release();
+
+				supporter = supporters.FirstOrDefault(d => string.Equals(d.SupporterName, usernameInMemeAlerts, StringComparison.OrdinalIgnoreCase));
+
+				if (supporter == null && tryRewardWithWrongNickname && !string.IsNullOrWhiteSpace(userName))
+				{
+					logger.LogWarning(EventIds.NotFound, Properties.Resources.SupporterNotFound + ", " + Properties.Resources.RetryWithTwitchNickname, usernameInMemeAlerts);
+					usernameInMemeAlerts = userName;
+					supporter = supporters.FirstOrDefault(d => string.Equals(d.SupporterName, usernameInMemeAlerts, StringComparison.OrdinalIgnoreCase));
+				}
+			}
+			else
+			{
+				rewardProcessingSemaphore.Release();
+			}
+
+			if (supporter != null)
+			{
+				if (await memeAlertsService.GiveBonusAsync(supporter, value, cancellationToken).ConfigureAwait(false))
+				{
+					logger.LogInformation(EventIds.Rewarded, Properties.Resources.SupporterSuccessfullyRewarded, usernameInMemeAlerts, value);
+				}
+				else
+				{
+					await CancelReward(e.Payload.Event.BroadcasterUserId, e.Payload.Event.Reward.Id, e.Payload.Event.Id).ConfigureAwait(false);
+
+					var logText = Properties.Resources.ErrorWhileGiveBonus + ", " + Properties.Resources.SupporterNotRewarded.ToLower() + ", " + Properties.Resources.PointsReturned;
+					logger.LogError(EventIds.NotRewarded, logText, usernameInMemeAlerts);
+					await LogIntoChat(broadcasterUserLogin, $":@{userName} {logText}", cancellationToken).ConfigureAwait(false);
+				}
+			}
+			else
+			{
+				await CancelReward(e.Payload.Event.BroadcasterUserId, e.Payload.Event.Reward.Id, e.Payload.Event.Id).ConfigureAwait(false);
+
+				var logText = Properties.Resources.SupporterNotFound + ", " + Properties.Resources.PointsReturned;
+				logger.LogWarning(EventIds.Warning, logText, usernameInMemeAlerts);
+				await LogIntoChat(broadcasterUserLogin, $":@{userName} {logText}", cancellationToken).ConfigureAwait(false);
+			}
+		}
+
+		private async Task LogIntoChat(string broadcasterUserLogin, string text, CancellationToken cancellationToken = default)
+		{
+			var msg = ircParser.BuildMessage(new IrcV3Message
+			{
+				Command = IrcCommand.PRIVMSG,
+				Parameters = new List<string>
+						{
+							$"#{broadcasterUserLogin}",
+							text
 						},
-					});
+			});
 
-					await twitchClient.SendMessageAsync(msg).ConfigureAwait(false);
-				}
+			await twitchClient.SendMessageAsync(msg, cancellationToken).ConfigureAwait(false);
+		}
 
-				return;
-			}
-			else if (rewardId == sendRandomMemeRewardId)
+		private async Task GiveBounsYourself(CancellationToken cancellationToken = default)
+		{
+			var supporter = await memeAlertsService.GetStreamerAsSupporterAsync(cancellationToken).ConfigureAwait(false);
+
+			if (supporter.Balance == 0)
 			{
-				logger.LogInformation(EventIds.RandomMeme, "{userName} активировал награду \"{title}\"", userName, e.Payload.Event.Reward.Title);
-
-				try
-				{
-					if (randomStrickers.Any())
-					{
-						var random = Random.Shared.Next(0, randomStrickers.Count());
-						var sticker = randomStrickers.ElementAt(random);
-						var supporter = await memeAlertsService.GetStreamerAsSupporterAsync().ConfigureAwait(false);
-
-						if (supporter.Balance == 0)
-						{
-							await memeAlertsService.GiveBonusAsync(supporter, 1).ConfigureAwait(false);
-						}
-
-						if (await memeAlertsService.SendMemeAsync(sticker, userName).ConfigureAwait(false))
-						{
-							using (var ctx = await dbContextFactory.CreateDbContextAsync().ConfigureAwait(false))
-							{
-								await ctx.MemeHistories.AddAsync(new MemeHistory
-								{
-									Sticker = await ctx.Stickers.FirstOrDefaultAsync(s => s.StickerId == sticker.Id).ConfigureAwait(false) ?? new StickerInfo
-									{
-										StickerId = sticker.Id,
-										Name = sticker.Name,
-									},
-									Type = MemeHistoryType.Text,
-									BroadcasterUserId = e.Payload.Event.BroadcasterUserId,
-									UserName = e.Payload.Event.UserName,
-									UserId = e.Payload.Event.UserId,
-									UserInput = e.Payload.Event.UserInput,
-									Cost = e.Payload.Event.Reward.Cost,
-									RewardId = e.Payload.Event.Reward.Id,
-									Timestamp = DateTimeOffset.UtcNow,
-								}).ConfigureAwait(false);
-
-								await ctx.SaveChangesAsync().ConfigureAwait(false);
-							}
-						}
-					}
-					else
-					{
-						logger.LogWarning("No stickers available to send for SendRandomMeme reward");
-					}
-				}
-				catch (Exception ex)
-				{
-					logger.LogError(ex, "Error while handling SendRandomMeme reward redemption");
-				}
-
-				return;
+				await memeAlertsService.GiveBonusAsync(supporter, 1, cancellationToken).ConfigureAwait(false);
 			}
-			else if (rewardId == sendMemeWithTextId)
+		}
+
+		private async Task CancelReward(string broadcasterId, string rewardId, string redemptionId)
+		{
+			using (var scope = serviceProvider.CreateAsyncScope())
 			{
-				logger.LogInformation(EventIds.MemeWithText, "{userName} активировал награду \"{title}\"", userName, e.Payload.Event.Reward.Title);
-
-				try
-				{
-					var stickers = await memeAlertsService.GetPersonalAreaSearchAsync(e.Payload.Event.UserInput).ConfigureAwait(false);
-
-					if (stickers.Any())
-					{
-						var sticker = stickers.FindBest(e.Payload.Event.UserInput);
-
-						if (await memeAlertsService.SendMemeAsync(sticker, userName).ConfigureAwait(false))
-						{
-							using (var ctx = await dbContextFactory.CreateDbContextAsync().ConfigureAwait(false))
-							{
-								await ctx.MemeHistories.AddAsync(new MemeHistory
-								{
-									Sticker = await ctx.Stickers.FirstOrDefaultAsync(s => s.StickerId == sticker.Id).ConfigureAwait(false) ?? new StickerInfo
-									{
-										StickerId = sticker.Id,
-										Name = sticker.Name,
-									},
-									Type = MemeHistoryType.Random,
-									BroadcasterUserId = e.Payload.Event.BroadcasterUserId,
-									UserName = e.Payload.Event.UserName,
-									UserId = e.Payload.Event.UserId,
-									UserInput = e.Payload.Event.UserInput,
-									Cost = e.Payload.Event.Reward.Cost,
-									RewardId = e.Payload.Event.Reward.Id,
-									Timestamp = DateTimeOffset.UtcNow,
-								}).ConfigureAwait(false);
-
-								await ctx.SaveChangesAsync().ConfigureAwait(false);
-							}
-						}
-					}
-					else
-					{
-						using (var scope = serviceProvider.CreateAsyncScope())
-						{
-							var twitchAPI = scope.ServiceProvider.GetRequiredService<ITwitchAPI>();
-							await twitchAPI.Helix.ChannelPoints.UpdateRedemptionStatusAsync(e.Payload.Event.BroadcasterUserId, e.Payload.Event.Reward.Id, new List<string> { e.Payload.Event.Id }, new TwitchLib.Api.Helix.Models.ChannelPoints.UpdateCustomRewardRedemptionStatus.UpdateCustomRewardRedemptionStatusRequest { Status = CustomRewardRedemptionStatus.CANCELED }).ConfigureAwait(false);
-						}
-
-						logger.LogWarning(EventIds.MemeWithText, "По запросу \"{request}\" стикеры не найдены, награда возвращена", e.Payload.Event.UserInput);
-					}
-				}
-				catch (Exception ex)
-				{
-					logger.LogError(ex, "Error while handling SendMemeWithText reward redemption");
-				}
-
-				return;
-			}
-			else if (rewards.TryGetValue(rewardId, out var value))
-			{
-				logger.LogInformation(EventIds.Rewarded, "{userName} активировал награду \"{title}\"", userName, e.Payload.Event.Reward.Title);
-
-				try
-				{
-					var usernameInMemeAlerts = e?.Payload?.Event?.UserInput;
-
-					await rewardProcessingSemaphore.WaitAsync(serviceCancellationToken).ConfigureAwait(false);
-					var dataItem = supporters.FirstOrDefault(d => string.Equals(d.SupporterName, usernameInMemeAlerts, StringComparison.OrdinalIgnoreCase));
-
-					if (dataItem == null)
-					{
-						supporters = await memeAlertsService.GetSupportersAsync(serviceCancellationToken).ConfigureAwait(false);
-						rewardProcessingSemaphore.Release();
-
-						dataItem = supporters.FirstOrDefault(d => string.Equals(d.SupporterName, usernameInMemeAlerts, StringComparison.OrdinalIgnoreCase));
-
-						if (dataItem == null && tryRewardWithWrongNickname && !string.IsNullOrWhiteSpace(userName))
-						{
-							logger.LogWarning(EventIds.NotFound, "Саппортёр {usernameInMemeAlerts} не найден, попытка наградить по нику с твича", usernameInMemeAlerts);
-							usernameInMemeAlerts = userName;
-							dataItem = supporters.FirstOrDefault(d => string.Equals(d.SupporterName, usernameInMemeAlerts, StringComparison.OrdinalIgnoreCase));
-						}
-					}
-					else
-					{
-						rewardProcessingSemaphore.Release();
-					}
-
-					if (dataItem != null)
-					{
-						if (await memeAlertsService.GiveBonusAsync(dataItem, value, serviceCancellationToken).ConfigureAwait(false))
-						{
-							logger.LogInformation(EventIds.Rewarded, "Мемы для {usernameInMemeAlerts} успешно выданы в кол-ве {value} шт.", usernameInMemeAlerts, value);
-						}
-						else
-						{
-							logger.LogError(EventIds.NotRewarded, "Мемы для {usernameInMemeAlerts} не выданы", usernameInMemeAlerts);
-						}
-					}
-					else
-					{
-						logger.LogWarning(EventIds.NotFound, "Саппортёр {usernameInMemeAlerts} не найден", usernameInMemeAlerts);
-					}
-				}
-				catch (Exception ex)
-				{
-					logger.LogError(ex, "Error while handling GiveBonus reward redemption");
-				}
-
-				return;
+				var twitchAPI = scope.ServiceProvider.GetRequiredService<ITwitchAPI>();
+				await twitchAPI.Helix.ChannelPoints.UpdateRedemptionStatusAsync(broadcasterId, rewardId, new List<string> { redemptionId }, new UpdateCustomRewardRedemptionStatusRequest { Status = CustomRewardRedemptionStatus.CANCELED }).ConfigureAwait(false);
 			}
 		}
 

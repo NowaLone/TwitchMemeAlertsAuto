@@ -169,6 +169,33 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while issuing.
+        /// </summary>
+        public static string ErrorWhileGiveBonus {
+            get {
+                return ResourceManager.GetString("ErrorWhileGiveBonus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was an error processing the reward &quot;{0}&quot;.
+        /// </summary>
+        public static string ErrorWhileHandleRedeem {
+            get {
+                return ResourceManager.GetString("ErrorWhileHandleRedeem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No meme sending events found.
+        /// </summary>
+        public static string EventsNotFound {
+            get {
+                return ResourceManager.GetString("EventsNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exit.
         /// </summary>
         public static string ExitMenu {
@@ -277,6 +304,15 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to points refunded.
+        /// </summary>
+        public static string PointsReturned {
+            get {
+                return ResourceManager.GetString("PointsReturned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ☢ ATTENTION ☢ MEME INFORMATION WILL BE SENT FROM YOUR ACCOUNT, BUT MEME TITLES MAY CONTAIN PROHIBITED WORDS. THE PROGRAM HAS A SIMPLE FILTER BUILT IN, WHICH DOES NOT GUARANTEE ANYTHING, AND IF ANY, THIS MAY LEAD TO YOUR ACCOUNT BEING BLOCKED. USE AT YOUR OWN RISK!.
         /// </summary>
         public static string ProfanityInfo {
@@ -313,6 +349,15 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to retrying with the Twitch nickname.
+        /// </summary>
+        public static string RetryWithTwitchNickname {
+            get {
+                return ResourceManager.GetString("RetryWithTwitchNickname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reward all.
         /// </summary>
         public static string RewardAll {
@@ -336,6 +381,15 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
         public static string RewardLast {
             get {
                 return ResourceManager.GetString("RewardLast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} activated the &quot;{1}&quot; reward.
+        /// </summary>
+        public static string RewardRedeemed {
+            get {
+                return ResourceManager.GetString("RewardRedeemed", resourceCulture);
             }
         }
         
@@ -466,11 +520,56 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No stickers found.
+        /// </summary>
+        public static string StickersNotFound {
+            get {
+                return ResourceManager.GetString("StickersNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No stickers found for &quot;{0}&quot;.
+        /// </summary>
+        public static string StickersNotFoundByRequest {
+            get {
+                return ResourceManager.GetString("StickersNotFoundByRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Support {0} not found.
+        /// </summary>
+        public static string SupporterNotFound {
+            get {
+                return ResourceManager.GetString("SupporterNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Memes for {0} not issued.
+        /// </summary>
+        public static string SupporterNotRewarded {
+            get {
+                return ResourceManager.GetString("SupporterNotRewarded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Supporters.
         /// </summary>
         public static string Supporters {
             get {
                 return ResourceManager.GetString("Supporters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Memes for {0} have been successfully issued in the amount of {1} pcs..
+        /// </summary>
+        public static string SupporterSuccessfullyRewarded {
+            get {
+                return ResourceManager.GetString("SupporterSuccessfullyRewarded", resourceCulture);
             }
         }
         

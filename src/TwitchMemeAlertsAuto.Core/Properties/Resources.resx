@@ -122,9 +122,11 @@
   </data>
   <data name="ConnectTwitchTooltip" xml:space="preserve">
     <value>Connect to Twitch</value>
+    <comment>Connect to Twitch</comment>
   </data>
   <data name="ConnectMemeAlertsTooltip" xml:space="preserve">
     <value>Connect to MemeAlerts</value>
+    <comment>Connect to MemeAlerts</comment>
   </data>
   <data name="RewardsHeader" xml:space="preserve">
     <value>Rewards</value>
@@ -140,6 +142,7 @@
   </data>
   <data name="DayBeforeYesterday" xml:space="preserve">
     <value>Day before yesterday</value>
+    <comment>Day before yesterday</comment>
   </data>
   <data name="Quantity" xml:space="preserve">
     <value>Qty:</value>
@@ -167,18 +170,22 @@
   </data>
   <data name="ConnectLabel" xml:space="preserve">
     <value>Connect</value>
+    <comment>Connect</comment>
   </data>
   <data name="Connected" xml:space="preserve">
     <value>Connected</value>
+    <comment>Connected</comment>
   </data>
   <data name="ConnectionsLabel" xml:space="preserve">
     <value>Connections</value>
+    <comment>Connections</comment>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
     <value>Check For Updates</value>
+    <comment>Check For Updates</comment>
   </data>
   <data name="LastSupport" xml:space="preserve">
     <value>Rewarded last time:</value>
@@ -272,5 +279,38 @@
   </data>
   <data name="SendMemeWithTextRewardSuccessfullyCreated" xml:space="preserve">
     <value>"Send meme with text" reward successfully created. You can set up reward cost, icon, etc in your twitch dashboard</value>
+  </data>
+  <data name="RewardRedeemed" xml:space="preserve">
+    <value>{0} activated the "{1}" reward</value>
+  </data>
+  <data name="ErrorWhileHandleRedeem" xml:space="preserve">
+    <value>There was an error processing the reward "{0}"</value>
+  </data>
+  <data name="EventsNotFound" xml:space="preserve">
+    <value>No meme sending events found</value>
+  </data>
+  <data name="PointsReturned" xml:space="preserve">
+    <value>points refunded</value>
+  </data>
+  <data name="StickersNotFound" xml:space="preserve">
+    <value>No stickers found</value>
+  </data>
+  <data name="StickersNotFoundByRequest" xml:space="preserve">
+    <value>No stickers found for "{0}"</value>
+  </data>
+  <data name="RetryWithTwitchNickname" xml:space="preserve">
+    <value>retrying with the Twitch nickname</value>
+  </data>
+  <data name="SupporterSuccessfullyRewarded" xml:space="preserve">
+    <value>Memes for {0} have been successfully issued in the amount of {1} pcs.</value>
+  </data>
+  <data name="SupporterNotRewarded" xml:space="preserve">
+    <value>Memes for {0} not issued</value>
+  </data>
+  <data name="SupporterNotFound" xml:space="preserve">
+    <value>Support {0} not found</value>
+  </data>
+  <data name="ErrorWhileGiveBonus" xml:space="preserve">
+    <value>An error occurred while issuing</value>
   </data>
 </root>
