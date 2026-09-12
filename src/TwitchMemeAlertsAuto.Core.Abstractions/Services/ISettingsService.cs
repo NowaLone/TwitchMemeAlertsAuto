@@ -57,5 +57,9 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		Task<string> GetSendMemeWithTextIdAsync(CancellationToken cancellationToken = default);
 		Task SetSendMemeWithTextIdAsync(string rewardId, CancellationToken cancellationToken = default);
 		Task<Dictionary<string, int>> GetRewardsAsync(CancellationToken cancellationToken = default);
+		Task<bool> GetSendMemeWithTextIdAllowSoundAsync(CancellationToken cancellationToken = default);
+		Task SetSendMemeWithTextIdAllowSoundAsync(bool option, CancellationToken cancellationToken = default);
+		Task<bool> GetSendMemeWithTextIdAllowFullscreenAsync(CancellationToken cancellationToken = default);
+		Task SetSendMemeWithTextIdAllowFullscreenAsync(bool option, CancellationToken cancellationToken = default);
 	}
 }

@@ -67,6 +67,30 @@
                         Command="{Binding RemoveSendMemeWithTextCommand}"
                         Header="{x:Static properties:Resources.Remove}"
                         Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <MenuItem
+                        Command="{Binding SetSendMemeWithTextIdAllowSoundCommand}"
+                        CommandParameter="{Binding SendMemeWithTextIdAllowSound}"
+                        IsCheckable="True"
+                        IsChecked="{Binding SendMemeWithTextIdAllowSound}">
+                        <MenuItem.Header>
+                            <TextBlock>
+                                <Run Text="{x:Static properties:Resources.AllowCommand}" />
+                                <Run Text="{x:Static properties:Resources.SoundOnlyCommand}" />
+                            </TextBlock>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem
+                        Command="{Binding SetSendMemeWithTextIdAllowFullscreenCommand}"
+                        CommandParameter="{Binding SendMemeWithTextIdAllowFullscreen}"
+                        IsCheckable="True"
+                        IsChecked="{Binding SendMemeWithTextIdAllowFullscreen}">
+                        <MenuItem.Header>
+                            <TextBlock>
+                                <Run Text="{x:Static properties:Resources.AllowCommand}" />
+                                <Run Text="{x:Static properties:Resources.FullscreenCommand}" />
+                            </TextBlock>
+                        </MenuItem.Header>
+                    </MenuItem>
                 </MenuItem>
             </MenuItem>
 

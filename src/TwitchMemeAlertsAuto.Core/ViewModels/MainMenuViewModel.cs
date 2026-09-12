@@ -32,6 +32,12 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		[ObservableProperty]
 		private bool tryRewardWithWrongNickname;
 
+		[ObservableProperty]
+		private bool sendMemeWithTextIdAllowSound;
+
+		[ObservableProperty]
+		private bool sendMemeWithTextIdAllowFullscreen;
+
 		[NotifyCanExecuteChangedFor(nameof(AddShowMemerCommand))]
 		[NotifyCanExecuteChangedFor(nameof(RemoveShowMemerCommand))]
 		[NotifyCanExecuteChangedFor(nameof(ShowMemerWithMemeInfoCommand))]
@@ -99,6 +105,8 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 
 			IsStartup = File.Exists(startupFullPath);
 			TryRewardWithWrongNickname = await settingsService.GetTryRewardWithWrongNicknameOptionAsync().ConfigureAwait(false);
+			SendMemeWithTextIdAllowSound = await settingsService.GetSendMemeWithTextIdAllowSoundAsync().ConfigureAwait(false);
+			SendMemeWithTextIdAllowFullscreen = await settingsService.GetSendMemeWithTextIdAllowFullscreenAsync().ConfigureAwait(false);
 			ShowMemer = !string.IsNullOrWhiteSpace(await settingsService.GetShowMemerRewardIdAsync().ConfigureAwait(false));
 			SendRandomMeme = !string.IsNullOrWhiteSpace(await settingsService.GetSendRandomMemeRewardIdAsync().ConfigureAwait(false));
 			ShowMemerWithMemeInfo = await settingsService.GetShowMemerWithMemeInfoAsync().ConfigureAwait(false);
@@ -368,5 +376,27 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 		}
 
 		#endregion SendMemeWithText
+
+		#region SendMemeWithTextIdAllowSound
+
+		[RelayCommand]
+		private async Task SetSendMemeWithTextIdAllowSoundAsync(CancellationToken cancellationToken = default)
+		{
+			await settingsService.SetSendMemeWithTextIdAllowSoundAsync(SendMemeWithTextIdAllowSound, cancellationToken).ConfigureAwait(false);
+			Messenger.Send(new SettingsChangedMessage(nameof(settingsService.GetSendMemeWithTextIdAllowSoundAsync)));
+		}
+
+		#endregion SendMemeWithTextIdAllowSound
+
+		#region SendMemeWithTextIdAllowFullscreen
+
+		[RelayCommand]
+		private async Task SetSendMemeWithTextIdAllowFullscreenAsync(CancellationToken cancellationToken = default)
+		{
+			await settingsService.SetSendMemeWithTextIdAllowFullscreenAsync(SendMemeWithTextIdAllowFullscreen, cancellationToken).ConfigureAwait(false);
+			Messenger.Send(new SettingsChangedMessage(nameof(settingsService.GetSendMemeWithTextIdAllowFullscreenAsync)));
+		}
+
+		#endregion SendMemeWithTextIdAllowFullscreen
 	}
 }

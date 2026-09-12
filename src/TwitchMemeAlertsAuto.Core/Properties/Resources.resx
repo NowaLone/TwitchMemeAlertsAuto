@@ -315,11 +315,18 @@
   </data>
   <data name="SendMemeWithTextPrompt" xml:space="preserve">
     <value>Enter a query to submit a meme. Use {0} to send audio only or {1} to send full screen</value>
+    <comment>Enter a query to submit a meme. Use {0} to send audio only or {1} to send full screen</comment>
   </data>
   <data name="SoundOnlyCommand" xml:space="preserve">
     <value>!sound</value>
+    <comment>!sound</comment>
   </data>
   <data name="FullscreenCommand" xml:space="preserve">
     <value>!screen</value>
+    <comment>!screen</comment>
+  </data>
+  <data name="AllowCommand" xml:space="preserve">
+    <value>Allow command</value>
+    <comment>Allow command</comment>
   </data>
 </root>

@@ -315,4 +315,7 @@
   <data name="FullscreenCommand" xml:space="preserve">
     <value>!экран</value>
   </data>
+  <data name="AllowCommand" xml:space="preserve">
+    <value>Разрешить команду</value>
+  </data>
 </root>

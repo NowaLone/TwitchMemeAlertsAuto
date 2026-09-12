@@ -97,6 +97,15 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Allow command.
+        /// </summary>
+        public static string AllowCommand {
+            get {
+                return ResourceManager.GetString("AllowCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Balance:.
         /// </summary>
         public static string Balance {

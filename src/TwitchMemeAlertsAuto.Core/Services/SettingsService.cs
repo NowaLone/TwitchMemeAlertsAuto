@@ -140,6 +140,26 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			return SetSettingAsync("Twitch:SendMemeWithTextId", rewardId, cancellationToken);
 		}
 
+		public Task<bool> GetSendMemeWithTextIdAllowSoundAsync(CancellationToken cancellationToken = default)
+		{
+			return GetSettingAsync("Twitch:SendMemeWithTextIdAllowSound", false, cancellationToken);
+		}
+
+		public Task SetSendMemeWithTextIdAllowSoundAsync(bool option, CancellationToken cancellationToken = default)
+		{
+			return SetSettingAsync("Twitch:SendMemeWithTextIdAllowSound", option, cancellationToken);
+		}
+
+		public Task<bool> GetSendMemeWithTextIdAllowFullscreenAsync(CancellationToken cancellationToken = default)
+		{
+			return GetSettingAsync("Twitch:SendMemeWithTextIdAllowFullscreen", false, cancellationToken);
+		}
+
+		public Task SetSendMemeWithTextIdAllowFullscreenAsync(bool option, CancellationToken cancellationToken = default)
+		{
+			return SetSettingAsync("Twitch:SendMemeWithTextIdAllowFullscreen", option, cancellationToken);
+		}
+
 		public async Task<Dictionary<string, int>> GetRewardsAsync(CancellationToken cancellationToken = default)
 		{
 			using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false))

@@ -345,8 +345,8 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 		private async Task SendMemeWithTextWork(ChannelPointsCustomRewardRedemptionArgs e, string userName, CancellationToken cancellationToken = default)
 		{
-			var isSoundOnly = soundOnlyCommands.Any(f => e.Payload.Event.UserInput.Contains(f.Value));
-			var fullscreen = fullscreenCommands.Any(f => e.Payload.Event.UserInput.Contains(f.Value));
+			var isSoundOnly = await settingsService.GetSendMemeWithTextIdAllowSoundAsync(cancellationToken).ConfigureAwait(false) && soundOnlyCommands.Any(f => e.Payload.Event.UserInput.Contains(f.Value));
+			var fullscreen = await settingsService.GetSendMemeWithTextIdAllowFullscreenAsync(cancellationToken).ConfigureAwait(false) && fullscreenCommands.Any(f => e.Payload.Event.UserInput.Contains(f.Value));
 			var searchQuery = e.Payload.Event.UserInput;
 			var broadcasterUserLogin = e.Payload.Event.BroadcasterUserLogin;
 			var stickers = await memeAlertsService.GetPersonalAreaSearchAsync(searchQuery, cancellationToken).ConfigureAwait(false);
