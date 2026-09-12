@@ -1,0 +1,1942 @@
+[
+    {
+        "id": "64074a9e5d075a1e13ad15ff",
+        "name": "Да ладно всем похуй",
+        "description": "",
+        "stickerUrl": "https://cdns.memealerts.com/p/633e0485678ff4dbe542f5ac/c72376bf-9878-42ff-9738-b789db88141b/alert_orig.webm",
+        "fallbackUrl": "https://cdns.memealerts.com/p/633e0485678ff4dbe542f5ac/c72376bf-9878-42ff-9738-b789db88141b/alert_orig.mp4",
+        "stickerPreview": "https://cdns.memealerts.com/p/633e0485678ff4dbe542f5ac/c72376bf-9878-42ff-9738-b789db88141b/alert_orig.png",
+        "stickerAnimatedPreview": "https://cdns.memealerts.com/p/633e0485678ff4dbe542f5ac/c72376bf-9878-42ff-9738-b789db88141b/alert_orig.webp",
+        "creatorId": "633e0485678ff4dbe542f5ac",
+        "usageCount": 5733,
+        "moderationState": "APPROVED",
+        "isNotTwitchSafe": false,
+        "hasCopyright": false,
+        "etmaRating": 2,
+        "categories": [
+            "646733f12010783f7a74a73a",
+            "646733cf2010783f7a74a739"
+        ],
+        "createdAt": 1678199454507,
+        "videoData": {
+            "width": 468,
+            "height": 604,
+            "aspectRatio": 0.7748344370860927
+        },
+        "baseUrl": "https://cdns.memealerts.com/",
+        "tags": [],
+        "contentMarks": [
+            "67260cd0509feb668440ee4d",
+            "67260cd0509feb668440ee4d"
+        ],
+        "isFavorite": false,
+        "likedCount": 1344,
+        "isAddedToChannel": false,
+        "creatorName": "Босс KFC",
+        "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/633e0485678ff4dbe542f5ac17704527405497378.svg",
+        "streamerLimitations": false
+    },
+    {
+        "id": "66a5c48be904cc23770cf916",
+        "name": "Всем похуй - нах иди",
+        "description": "",
+        "stickerUrl": "https://cdns.memealerts.com/p/666dddac034928ee46e8cee9/473a9380-d945-4713-862a-32f4bd838083/alert_orig.webm",
+        "fallbackUrl": "https://cdns.memealerts.com/p/666dddac034928ee46e8cee9/473a9380-d945-4713-862a-32f4bd838083/alert_orig.mp4",
+        "stickerPreview": "https://cdns.memealerts.com/p/666dddac034928ee46e8cee9/473a9380-d945-4713-862a-32f4bd838083/alert_orig.png",
+        "stickerAnimatedPreview": "https://cdns.memealerts.com/p/666dddac034928ee46e8cee9/473a9380-d945-4713-862a-32f4bd838083/alert_orig.webp",
+        "creatorId": "666dddac034928ee46e8cee9",
+        "usageCount": 503,
+        "moderationState": "APPROVED",
+        "isNotTwitchSafe": false,
+        "hasCopyright": false,
+        "etmaRating": 3,
+        "categories": [],
+        "createdAt": 1722139787940,
+        "moderatedAt": 1786475775460,
+        "videoData": {
+            "width": 512,
+            "height": 282,
+            "isTransparent": false,
+            "aspectRatio": 1.8156028368794326
+        },
+        "music": "",
+        "baseUrl": "https://cdns.memealerts.com/",
+        "tags": [
+            {
+                "_id": "650db24e616c7ba9b01f8829",
+                "name": "мат",
+                "usageCount": 3687
+            },
+            {
+                "_id": "6528ebec84df5d636ba927f5",
+                "name": "оскорбление",
+                "usageCount": 12440
+            }
+        ],
+        "contentMarks": [
+            "67260cfe509feb668440ee4e",
+            "67260d8d509feb668440ee51",
+            "67261197509feb668440ee65"
+        ],
+        "isFavorite": false,
+        "likedCount": 57,
+        "isAddedToChannel": false,
+        "creatorName": "S.J.Fox",
+        "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/666dddac034928ee46e8cee917447177831816142.svg",
+        "streamerLimitations": false
+    },
+    {
+        "id": "654c0ebd5ee664ab07b28fe6",
+        "name": "Блять да всем похуй",
+        "description": "влг похуй фаг подсос меда арчи ",
+        "stickerUrl": "https://cdns.memealerts.com/p/6452c9c67931e16289197ce6/448d2858-b312-4776-966c-5fdceb8f7a1a/alert_orig.webm",
+        "fallbackUrl": "https://cdns.memealerts.com/p/6452c9c67931e16289197ce6/448d2858-b312-4776-966c-5fdceb8f7a1a/alert_orig.mp4",
+        "stickerPreview": "https://cdns.memealerts.com/p/6452c9c67931e16289197ce6/448d2858-b312-4776-966c-5fdceb8f7a1a/alert_orig.png",
+        "stickerAnimatedPreview": "https://cdns.memealerts.com/p/6452c9c67931e16289197ce6/448d2858-b312-4776-966c-5fdceb8f7a1a/alert_orig.webp",
+        "creatorId": "6452c9c67931e16289197ce6",
+        "streamerId": "649acaf0a37bcae821b436be",
+        "usageCount": 254,
+        "moderationState": "APPROVED",
+        "isNotTwitchSafe": false,
+        "hasCopyright": false,
+        "etmaRating": 2,
+        "categories": [],
+        "createdAt": 1699483325775,
+        "videoData": {
+            "width": 472,
+            "height": 260,
+            "aspectRatio": 1.8153846153846154
+        },
+        "baseUrl": "https://cdns.memealerts.com/",
+        "tags": [
+            {
+                "_id": "654c0ebd5ee664ab07b28fdd",
+                "name": "всем",
+                "usageCount": 1
+            },
+            {
+                "_id": "651a771d22708f0430b78b8f",
+                "name": "пофиг",
+                "usageCount": 16
+            },
+            {
+                "_id": "652957d284df5d636bb4a64c",
+                "name": "wlg",
+                "usageCount": 14
+            },
+            {
+                "_id": "651c073f22708f0430df3010",
+                "name": "welovegames",
+                "usageCount": 19
+            }
+        ],
+        "contentMarks": [
+            "67260cd0509feb668440ee4d"
+        ],
+        "isFavorite": false,
+        "likedCount": 36,
+        "isAddedToChannel": false,
+        "creatorName": "Дедушка",
+        "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/6452c9c67931e16289197ce617296762042813020.svg",
+        "streamerName": "WELOVEGAMES",
+        "streamerAvatar": "https://static-cdn.jtvnw.net/jtv_user_pictures/welovegames-profile_image-15afef2e74a108da-300x300.png",
+        "streamerLimitations": false
+    },
+    {
+        "id": "64e3774f24f2c6c7b34540c1",
+        "name": "Всем плевать",
+        "description": "Папич всем похуй evil arthas папаня пох интересно интерес поебать",
+        "stickerUrl": "https://cdns.memealerts.com/p/64b955b005b8e6cffec661f2/98a14f0a-b8a7-41e2-8fae-6ada7c6f9ebe/alert_orig.webm",
+        "fallbackUrl": "https://cdns.memealerts.com/p/64b955b005b8e6cffec661f2/98a14f0a-b8a7-41e2-8fae-6ada7c6f9ebe/alert_orig.mp4",
+        "stickerPreview": "https://cdns.memealerts.com/p/64b955b005b8e6cffec661f2/98a14f0a-b8a7-41e2-8fae-6ada7c6f9ebe/alert_orig.png",
+        "stickerAnimatedPreview": "https://cdns.memealerts.com/p/64b955b005b8e6cffec661f2/98a14f0a-b8a7-41e2-8fae-6ada7c6f9ebe/alert_orig.webp",
+        "creatorId": "64b955b005b8e6cffec661f2",
+        "usageCount": 3940,
+        "moderationState": "APPROVED",
+        "isNotTwitchSafe": false,
+        "hasCopyright": false,
+        "etmaRating": 2,
+        "categories": [
+            "63ee17f2dfd634145dbae08f"
+        ],
+        "createdAt": 1692628815697,
+        "moderatedAt": 1692663137627,
+        "videoData": {
+            "width": 472,
+            "height": 262,
+            "aspectRatio": 1.8015267175572518
+        },
+        "baseUrl": "https://cdns.memealerts.com/",
+        "tags": [],
+        "contentMarks": [
+            "67260cd0509feb668440ee4d"
+        ],
+        "isFavorite": false,
+        "likedCount": 767,
+        "isAddedToChannel": false,
+        "creatorName": "CapitalRK",
+        "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/64b955b005b8e6cffec661f21762100393311435.svg",
+        "streamerLimitations": false
+    },
+    {
+        "id": "669d6f10e904cc237783bccd",
+        "name": "ВСЕМ ПОХУЙ",
+        "description": "",
+        "stickerUrl": "https://cdns.memealerts.com/p/669d6bfbe904cc2377817cc5/f0468f57-1001-4283-9c6d-4de7b6e68dfc/alert_orig.webm",
+        "fallbackUrl": "https://cdns.memealerts.com/p/669d6bfbe904cc2377817cc5/f0468f57-1001-4283-9c6d-4de7b6e68dfc/alert_orig.mp4",
+        "stickerPreview": "https://cdns.memealerts.com/p/669d6bfbe904cc2377817cc5/f0468f57-1001-4283-9c6d-4de7b6e68dfc/alert_orig.png",
+        "stickerAnimatedPreview": "https://cdns.memealerts.com/p/669d6bfbe904cc2377817cc5/f0468f57-1001-4283-9c6d-4de7b6e68dfc/alert_orig.webp",
+        "creatorId": "669d6bfbe904cc2377817cc5",
+        "usageCount": 111,
+        "moderationState": "APPROVED",
+        "isNotTwitchSafe": false,
+        "hasCopyright": false,
+        "etmaRating": 3,
+        "categories": [],
+        "createdAt": 1721593616181,
+        "moderatedAt": 1721638069961,
+        "videoData": {
+            "width": 512,
+            "height": 282,
+            "isTransparent": false,
+            "aspectRatio": 1.8156028368794326
+        },
+        "music": "",
+        "baseUrl": "https://cdns.memealerts.com/",
+        "tags": [
+            {
+                "_id": "6528ebec84df5d636ba927f5",
+                "name": "оскорбление",
+                "usageCount": 3574
+            },
+            {
+                "_id": "650db24e616c7ba9b01f8829",
+                "name": "мат",
+                "usageCount": 686
+            }
+        ],
+        "contentMarks": [],
+        "isFavorite": false,
+        "likedCount": 11,
+        "isAddedToChannel": false,
+        "creatorName": "Др. Роботник",
+        "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/669d6bfbe904cc2377817cc517448824304072571.svg",
+        "streamerLimitations": false
+    },
+    {
+        "id": "646d1c5f9d3410b4c80c9d60",
+        "name": "Всем пофиг",
+        "description": "Папич Dota Arthas EvilArthas Виталий Громяко орет дота papich ржет похуй пофиг всем",
+        "stickerUrl": "https://cdns.memealerts.com/p/633e0485678ff4dbe542f5ac/97831776-2893-4b31-829e-d8b43a821e78/alert_orig.webm",
+        "fallbackUrl": "https://cdns.memealerts.com/p/633e0485678ff4dbe542f5ac/97831776-2893-4b31-829e-d8b43a821e78/alert_orig.mp4",
+        "stickerPreview": "https://cdns.memealerts.com/p/633e0485678ff4dbe542f5ac/97831776-2893-4b31-829e-d8b43a821e78/alert_orig.png",
+        "stickerAnimatedPreview": "https://cdns.memealerts.com/p/633e0485678ff4dbe542f5ac/97831776-2893-4b31-829e-d8b43a821e78/alert_orig.webp",
+        "creatorId": "633e0485678ff4dbe542f5ac",
+        "usageCount": 1671,
+        "moderationState": "APPROVED",
+        "isNotTwitchSafe": false,
+        "hasCopyright": false,
+        "etmaRating": 2,
+        "categories": [
+            "646733f12010783f7a74a73a",
+            "63ee17f2dfd634145dbae08f"
+        ],
+        "createdAt": 1684872287484,
+        "moderatedAt": 1684873018614,
+        "videoData": {
+            "width": 472,
+            "height": 262,
+            "aspectRatio": 1.8015267175572518
+        },
+        "baseUrl": "https://cdns.memealerts.com/",
+        "tags": [],
+        "contentMarks": [
+            "67260cd0509feb668440ee4d",
+            "67260cd0509feb668440ee4d"
+        ],
+        "isFavorite": false,
+        "likedCount": 619,
+        "isAddedToChannel": false,
+        "creatorName": "Босс KFC",
+        "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/633e0485678ff4dbe542f5ac17704527405497378.svg",
+        "streamerLimitations": false
+    },
+    {
+        "id": "68b750d2377c95e39aaa4ca3",
+        "name": "всем абсолютно похуй",
+        "description": "",
+        "stickerUrl": "https://cdns.memealerts.com/p/66d0c9fa6926cab725686bf8/50728c64-f727-4458-bbcd-6f00f15a5590/alert_orig.webm",
+        "fallbackUrl": "https://cdns.memealerts.com/p/66d0c9fa6926cab725686bf8/50728c64-f727-4458-bbcd-6f00f15a5590/alert_orig.mp4",
+        "stickerPreview": "https://cdns.memealerts.com/p/66d0c9fa6926cab725686bf8/50728c64-f727-4458-bbcd-6f00f15a5590/alert_orig.png",
+        "stickerAnimatedPreview": "https://cdns.memealerts.com/p/66d0c9fa6926cab725686bf8/50728c64-f727-4458-bbcd-6f00f15a5590/alert_orig.webp",
+        "creatorId": "66d0c9fa6926cab725686bf8",
+        "usageCount": 283,
+        "moderationState": "APPROVED",
+        "isNotTwitchSafe": false,
+        "hasCopyright": true,
+        "etmaRating": 2,
+        "categories": [],
+        "createdAt": 1756844242498,
+        "moderatedAt": 1756877141431,
+        "videoData": {
+            "width": 512,
+            "height": 292,
+            "duration": 10,
+            "isTransparent": false,
+            "aspectRatio": 1.7534246575342465
+        },
+        "music": "Nino Da Boss The Intro",
+        "baseUrl": "https://cdns.memealerts.com/",
+        "tags": [],
+        "contentMarks": [
+            "67260cd0509feb668440ee4d"
+        ],
+        "isFavorite": false,
+        "likedCount": 76,
+        "isAddedToChannel": false,
+        "creatorName": "r0mka_eremka",
+        "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/66d0c9fa6926cab725686bf817484318153479328.svg",
+        "streamerLimitations": false
+    },
+    {
+        "id": "69670824ce77ced6d5da96de",
+        "name": "Всем похуй",
+        "description": "Похуй, Мэддисон, Меддисон, Maddyson, голосовое, телеграм, tg, telegram, joepeach, Жопич, Джопич,",
+        "stickerUrl": "https://cdns.memealerts.com/p/68d5a7b566dcabbe7c83dc32/aa31c4c0-23e3-4178-9492-48a4090a2060/alert_orig.webm",
+        "fallbackUrl": "https://cdns.memealerts.com/p/68d5a7b566dcabbe7c83dc32/aa31c4c0-23e3-4178-9492-48a4090a2060/alert_orig.mp4",
+        "stickerPreview": "https://cdns.memealerts.com/p/68d5a7b566dcabbe7c83dc32/aa31c4c0-23e3-4178-9492-48a4090a2060/alert_orig.png",
+        "stickerAnimatedPreview": "https://cdns.memealerts.com/p/68d5a7b566dcabbe7c83dc32/aa31c4c0-23e3-4178-9492-48a4090a2060/alert_orig.webp",
+        "creatorId": "68d5a7b566dcabbe7c83dc32",
+        "streamerId": "64e5a1e67788e9faa55e732e",
+        "usageCount": 46,
+        "moderationState": "APPROVED",
+        "isNotTwitchSafe": false,
+        "hasCopyright": false,
+        "etmaRating": 2,
+        "categories": [],
+        "createdAt": 1768359972892,
+        "moderatedAt": 1768378544883,
+        "videoData": {
+            "width": 512,
+            "height": 156,
+            "duration": 10,
+            "isTransparent": false,
+            "aspectRatio": 3.282051282051282
+        },
+        "music": "",
+        "baseUrl": "https://cdns.memealerts.com/",
+        "tags": [
+            {
+                "_id": "651a771d22708f0430b78b8c",
+                "name": "похуй",
+                "usageCount": 167
+            },
+            {
+                "_id": "650d6e53b1b8ca063caf3baa",
+                "name": "мэддисон",
+                "usageCount": 1379
+            }
+        ],
+        "contentMarks": [
+            "67260cd0509feb668440ee4d",
+            "672611d9509feb668440ee67",
+            "67260cad509feb668440ee4c",
+            "67260d61509feb668440ee50"
+        ],
+        "isFavorite": false,
+        "likedCount": 18,
+        "isAddedToChannel": false,
+        "creatorName": "undergoodvibes",
+        "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/68d5a7b566dcabbe7c83dc3217588325659726885.svg",
+        "streamerName": "Maddyson ",
+        "streamerAvatar": "https://cdns.memealerts.com/media/64e5a1e67788e9faa55e732e/6e2db61194e36afce66b8cf0c66dc2cc.png",
+        "streamerLimitations": false
+    },
+    {
+        "id": "6544b60f01f44c910b0ef329",
+        "name": "Похуй. Ваще похую!",
+        "description": "Вообще индифферентно ",
+        "stickerUrl": "https://cdns.memealerts.com/p/650318dce4e3bb6d458ec266/c14d92b5-ed00-44f5-94e6-cf9153d0be88/alert_orig.webm",
+        "fallbackUrl": "https://cdns.memealerts.com/p/650318dce4e3bb6d458ec266/c14d92b5-ed00-44f5-94e6-cf9153d0be88/alert_orig.mp4",
+        "stickerPreview": "https://cdns.memealerts.com/p/650318dce4e3bb6d458ec266/c14d92b5-ed00-44f5-94e6-cf9153d0be88/alert_orig.png",
+        "stickerAnimatedPreview": "https://cdns.memealerts.com/p/650318dce4e3bb6d458ec266/c14d92b5-ed00-44f5-94e6-cf9153d0be88/alert_orig.webp",
+        "creatorId": "650318dce4e3bb6d458ec266",
+        "usageCount": 5700,
+        "moderationState": "APPROVED",
+        "isNotTwitchSafe": false,
+        "hasCopyright": false,
+        "etmaRating": 2,
+        "categories": [],
+        "createdAt": 1699001871370,
+        "moderatedAt": 1744707206472,
+        "videoData": {
+            "width": 472,
+            "height": 262,
+            "aspectRatio": 1.8015267175572518
+        },
+        "music": "SCase Jester",
+        "baseUrl": "https://cdns.memealerts.com/",
+        "tags": [
+            {
+                "_id": "652529a6e282851f22d6c9c8",
+                "name": "популярныймем",
+                "usageCount": 292
+            },
+            {
+                "_id": "6540d915e051af2e0d081eef",
+                "name": "похую",
+                "usageCount": 12
+            }
+        ],
+        "contentMarks": [
+            "67260cd0509feb668440ee4d"
+        ],
+        "isFavorite": false,
+        "likedCount": 846,
+        "isAddedToChannel": false,
+        "creatorName": "IvanB_CHC",
+        "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/650318dce4e3bb6d458ec26617628833066763146.svg",
+        "streamerLimitations": false
+    },
+    {
+        "id": "65ef205cbe8bed46c7d0dfb2",
+        "name": "Всем абсолютно по**й",
+        "description": "Всем похуй, иди нахуй, ты долбаеб мем злость ",
+        "stickerUrl": "https://cdns.memealerts.com/p/65b8d7d0683071ce381ad789/66691f9a-1d3e-4212-baac-e7f888b8568e/alert_orig.webm",
+        "fallbackUrl": "https://cdns.memealerts.com/p/65b8d7d0683071ce381ad789/66691f9a-1d3e-4212-baac-e7f888b8568e/alert_orig.mp4",
+        "stickerPreview": "https://cdns.memealerts.com/p/65b8d7d0683071ce381ad789/66691f9a-1d3e-4212-baac-e7f888b8568e/alert_orig.png",
+        "stickerAnimatedPreview": "https://cdns.memealerts.com/p/65b8d7d0683071ce381ad789/66691f9a-1d3e-4212-baac-e7f888b8568e/alert_orig.webp",
+        "creatorId": "65b8d7d0683071ce381ad789",
+        "usageCount": 120,
+        "moderationState": "APPROVED",
+        "isNotTwitchSafe": false,
+        "hasCopyright": false,
+        "etmaRating": 3,
+        "categories": [],
+        "createdAt": 1710170204159,
+        "moderatedAt": 1710181209265,
+        "videoData": {
+            "width": 512,
+            "height": 512,
+            "isTransparent": false,
+            "aspectRatio": 1
+        },
+        "music": "",
+        "baseUrl": "https://cdns.memealerts.com/",
+        "tags": [
+            {
+                "_id": "652d76f0ea32032a775443e5",
+                "name": "буллинг",
+                "usageCount": 471
+            },
+            {
+                "_id": "650ee2e5616c7ba9b041e5ca",
+                "name": "злость",
+                "usageCount": 2127
+            },
+            {
+                "_id": "650de857616c7ba9b02e10c3",
+                "name": "мем",
+                "usageCount": 4882
+            }
+        ],
+        "contentMarks": [
+            "67260cd0509feb668440ee4d",
+            "672610c0509feb668440ee5f"
+        ],
+        "isFavorite": false,
+        "likedCount": 36,
+        "isAddedToChannel": false,
+        "creatorName": "DanevanEX",
+        "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/65b8d7d0683071ce381ad78917251185776119077.svg",
+        "streamerLimitations": false
+    },
+    {
+        "id": "678d6f716845072b50c6d291",
+        "name": "да ладно всем насрать ты че ",
+        "description": "Биг Рашн Босс",
+        "stickerUrl": "https://cdns.memealerts.com/p/64e4aa9dfadf112c9310cc76/fe727ff6-54b2-477f-a646-d00308f9a4d9/alert_orig.webm",
+        "fallbackUrl": "https://cdns.memealerts.com/p/64e4aa9dfadf112c9310cc76/fe727ff6-54b2-477f-a646-d00308f9a4d9/alert_orig.mp4",
+        "stickerPreview": "https://cdns.memealerts.com/p/64e4aa9dfadf112c9310cc76/fe727ff6-54b2-477f-a646-d00308f9a4d9/alert_orig.png",
+        "stickerAnimatedPreview": "https://cdns.memealerts.com/p/64e4aa9dfadf112c9310cc76/fe727ff6-54b2-477f-a646-d00308f9a4d9/alert_orig.webp",
+        "creatorId": "64e4aa9dfadf112c9310cc76",
+        "usageCount": 349,
+        "moderationState": "APPROVED",
+        "isNotTwitchSafe": false,
+        "hasCopyright": false,
+        "etmaRating": 2,
+        "categories": [],
+        "createdAt": 1737322353303,
+        "moderatedAt": 1737359844142,
+        "videoData": {
+            "width": 512,
+            "height": 288,
+            "duration": 7,
+            "isTransparent": false,
+            "aspectRatio": 1.7777777777777777
+        },
+        "music": "",
+        "baseUrl": "https://cdns.memealerts.com/",
+        "tags": [
+            {
+                "_id": "66c4b5afd4a2827257f36f5f",
+                "name": "биг",
+                "usageCount": 2
+            },
+            {
+                "_id": "677a7d50a2a1136c7a76eb1d",
+                "name": "рашн",
+                "usageCount": 4
+            },
+            {
+                "_id": "650dc05f616c7ba9b0223ced",
+                "name": "босс",
+                "usageCount": 100
+            },
+            {
+                "_id": "651047e1e1613bb6875f1438",
+                "name": "да",
+                "usageCount": 85
+            },
+            {
+                "_id": "65256ff4e282851f22e4527a",
+                "name": "ладно",
+                "usageCount": 27
+            },
+            {
+                "_id": "654c0ebd5ee664ab07b28fdd",
+                "name": "всем",
+                "usageCount": 14
+            },
+            {
+                "_id": "651a771d22708f0430b78b8c",
+                "name": "похуй",
+                "usageCount": 89
+            }
+        ],
+        "contentMarks": [
+            "67260cd0509feb668440ee4d"
+        ],
+        "isFavorite": false,
+        "likedCount": 67,
+        "isAddedToChannel": false,
+        "creatorName": "greatdawn0",
+        "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/64e4aa9dfadf112c9310cc7617373218644498686.svg",
+        "streamerLimitations": false
+    },
+    {
+        "id": "68958ddb9e8ac53f2d97dcac",
+        "name": "Вам что всем похуй?",
+        "description": "Snestaz похуй.",
+        "stickerUrl": "https://cdns.memealerts.com/p/666dccf1034928ee46e2db4d/68c09d47-3d7d-46cb-b1f5-9752574a2c6c/alert_orig.webm",
+        "fallbackUrl": "https://cdns.memealerts.com/p/666dccf1034928ee46e2db4d/68c09d47-3d7d-46cb-b1f5-9752574a2c6c/alert_orig.mp4",
+        "stickerPreview": "https://cdns.memealerts.com/p/666dccf1034928ee46e2db4d/68c09d47-3d7d-46cb-b1f5-9752574a2c6c/alert_orig.png",
+        "stickerAnimatedPreview": "https://cdns.memealerts.com/p/666dccf1034928ee46e2db4d/68c09d47-3d7d-46cb-b1f5-9752574a2c6c/alert_orig.webp",
+        "creatorId": "666dccf1034928ee46e2db4d",
+        "streamerId": "65399df008969ffc879b3c25",
+        "usageCount": 20,
+        "moderationState": "APPROVED",
+        "isNotTwitchSafe": false,
+        "hasCopyright": false,
+        "etmaRating": 2,
+        "categories": [],
+        "createdAt": 1754631643319,
+        "moderatedAt": 1754639692247,
+        "videoData": {
+            "width": 512,
+            "height": 332,
+            "duration": 7,
+            "isTransparent": false,
+            "aspectRatio": 1.5421686746987953
+        },
+        "music": "",
+        "baseUrl": "https://cdns.memealerts.com/",
+        "tags": [
+            {
+                "_id": "68958ddb9e8ac53f2d97dcaa",
+                "name": "snestaz",
+                "usageCount": 1
+            }
+        ],
+        "contentMarks": [
+            "67260cd0509feb668440ee4d",
+            "672611d9509feb668440ee67"
+        ],
+        "isFavorite": false,
+        "likedCount": 8,
+        "isAddedToChannel": false,
+        "creatorName": "Telman_4212",
+        "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/666dccf1034928ee46e2db4d17546306430909229.svg",
+        "streamerName": "snestaz",
+        "streamerAvatar": "https://static-cdn.jtvnw.net/jtv_user_pictures/5447f18d-de22-40b1-9638-b3ed390845bd-profile_image-300x300.png",
+        "streamerLimitations": false
+    },
+    {
+        "id": "64e20f17ebc50a3d30a90475",
+        "name": "Всем пока",
+        "description": "Парень прощается со всеми и говорит, что его увозят в дуркк",
+        "stickerUrl": "https://cdns.memealerts.com/p/64c773a8f39d5512817afcb7/4abbf09f-8175-481f-9a4e-67849c319140/alert_orig.webm",
+        "fallbackUrl": "https://cdns.memealerts.com/p/64c773a8f39d5512817afcb7/4abbf09f-8175-481f-9a4e-67849c319140/alert_orig.mp4",
+        "stickerPreview": "https://cdns.memealerts.com/p/64c773a8f39d5512817afcb7/4abbf09f-8175-481f-9a4e-67849c319140/alert_orig.png",
+        "stickerAnimatedPreview": "https://cdns.memealerts.com/p/64c773a8f39d5512817afcb7/4abbf09f-8175-481f-9a4e-67849c319140/alert_orig.webp",
+        "creatorId": "64c773a8f39d5512817afcb7",
+        "usageCount": 15972,
+        "moderationState": "APPROVED",
+        "isNotTwitchSafe": false,
+        "hasCopyright": false,
+        "etmaRating": 0,
+        "categories": [
+            "63ee68965b8df326287ae301"
+        ],
+        "createdAt": 1692536599595,
+        "moderatedAt": 1692541083097,
+        "videoData": {
+            "width": 470,
+            "height": 470,
+            "aspectRatio": 1
+        },
+        "music": "Dez4okfxgh/KILLINEFXGH Bloody Clown",
+        "baseUrl": "https://cdns.memealerts.com/",
+        "tags": [],
+        "contentMarks": [],
+        "isFavorite": false,
+        "likedCount": 2690,
+        "isAddedToChannel": false,
+        "creatorName": "iam_simpson",
+        "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/64c773a8f39d5512817afcb717250051628765303.svg",
+        "streamerLimitations": false
+    },
+    {
+        "id": "63d9230de3ccefe7b533ad3d",
+        "name": "Похуй",
+        "description": "димон похуй ",
+        "stickerUrl": "https://cdns.memealerts.com/p/633e0485678ff4dbe542f5ac/f3fff7b5-ea8c-4acf-b2f7-6713e7882772/alert_orig.webm",
+        "fallbackUrl": "https://cdns.memealerts.com/p/633e0485678ff4dbe542f5ac/f3fff7b5-ea8c-4acf-b2f7-6713e7882772/alert_orig.mp4",
+        "stickerPreview": "https://cdns.memealerts.com/p/633e0485678ff4dbe542f5ac/f3fff7b5-ea8c-4acf-b2f7-6713e7882772/alert_orig.png",
+        "stickerAnimatedPreview": "https://cdns.memealerts.com/p/633e0485678ff4dbe542f5ac/f3fff7b5-ea8c-4acf-b2f7-6713e7882772/alert_orig.webp",
+        "creatorId": "633e0485678ff4dbe542f5ac",
+        "usageCount": 8909,
+        "moderationState": "APPROVED",
+        "isNotTwitchSafe": false,
+        "hasCopyright": false,
+        "etmaRating": 2,
+        "categories": [
+            "63ee18c4dfd634145dbae09d",
+            "64672dec2010783f7a74a734",
+            "646733f12010783f7a74a73a"
+        ],
+        "createdAt": 1675174669026,
+        "videoData": {
+            "width": 470,
+            "height": 470,
+            "aspectRatio": 1
+        },
+        "baseUrl": "https://cdns.memealerts.com/",
+        "tags": [],
+        "contentMarks": [
+            "67260cd0509feb668440ee4d",
+            "67260cd0509feb668440ee4d"
+        ],
+        "isFavorite": false,
+        "likedCount": 1930,
+        "isAddedToChannel": false,
+        "creatorName": "Босс KFC",
+        "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/633e0485678ff4dbe542f5ac17704527405497378.svg",
+        "streamerLimitations": false
+    },
+    {
+        "id": "6862b96481639307e82a90ef",
+        "name": "Ладно похуй,нет не похуй но похуй",
+        "description": "",
+        "stickerUrl": "https://cdns.memealerts.com/p/6862aae8b3330ad1d97866f7/ef83c01d-f42a-4158-8f7a-5400eaa5ab19/alert_orig.webm",
+        "fallbackUrl": "https://cdns.memealerts.com/p/6862aae8b3330ad1d97866f7/ef83c01d-f42a-4158-8f7a-5400eaa5ab19/alert_orig.mp4",
+        "stickerPreview": "https://cdns.memealerts.com/p/6862aae8b3330ad1d97866f7/ef83c01d-f42a-4158-8f7a-5400eaa5ab19/alert_orig.png",
+        "stickerAnimatedPreview": "https://cdns.memealerts.com/p/6862aae8b3330ad1d97866f7/ef83c01d-f42a-4158-8f7a-5400eaa5ab19/alert_orig.webp",
+        "creatorId": "6862aae8b3330ad1d97866f7",
+        "usageCount": 292,
+        "moderationState": "APPROVED",
+        "isNotTwitchSafe": false,
+        "hasCopyright": false,
+        "etmaRating": 2,
+        "categories": [],
+        "createdAt": 1751300452771,
+        "moderatedAt": 1751302259360,
+        "videoData": {
+            "width": 512,
+            "height": 512,
+            "duration": 7,
+            "isTransparent": false,
+            "aspectRatio": 1
+        },
+        "music": "",
+        "baseUrl": "https://cdns.memealerts.com/",
+        "tags": [],
+        "contentMarks": [
+            "67260cd0509feb668440ee4d",
+            "67261197509feb668440ee65"
+        ],
+        "isFavorite": false,
+        "likedCount": 36,
+        "isAddedToChannel": false,
+        "creatorName": "ARSENA_1011",
+        "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/6862aae8b3330ad1d97866f717514413439688386.svg",
+        "streamerLimitations": false
+    },
+    {
+        "id": "668be03716a2955d0fa32875",
+        "name": "похуй",
+        "description": "",
+        "stickerUrl": "https://cdns.memealerts.com/p/64ecf78c0a0b3e4a7b2ee96f/88284edd-ebf1-422a-977d-6b8f246cf10a/alert_orig.webm",
+        "fallbackUrl": "https://cdns.memealerts.com/p/64ecf78c0a0b3e4a7b2ee96f/88284edd-ebf1-422a-977d-6b8f246cf10a/alert_orig.mp4",
+        "stickerPreview": "https://cdns.memealerts.com/p/64ecf78c0a0b3e4a7b2ee96f/88284edd-ebf1-422a-977d-6b8f246cf10a/alert_orig.png",
+        "stickerAnimatedPreview": "https://cdns.memealerts.com/p/64ecf78c0a0b3e4a7b2ee96f/88284edd-ebf1-422a-977d-6b8f246cf10a/alert_orig.webp",
+        "creatorId": "64ecf78c0a0b3e4a7b2ee96f",
+        "streamerId": "661145701062765df59c52ce",
+        "usageCount": 46,
+        "moderationState": "APPROVED",
+        "isNotTwitchSafe": false,
+        "hasCopyright": false,
+        "etmaRating": 3,
+        "categories": [],
+        "createdAt": 1720442935674,
+        "moderatedAt": 1720443681902,
+        "videoData": {
+            "width": 512,
+            "height": 489,
+            "aspectRatio": 1.047034764826176
+        },
+        "music": "",
+        "baseUrl": "https://cdns.memealerts.com/",
+        "tags": [
+            {
+                "_id": "65d0f4c6226358fc4f87d7be",
+                "name": "sharishaxd",
+                "usageCount": 24
+            },
+            {
+                "_id": "6528416b84df5d636b9d2405",
+                "name": "карина",
+                "usageCount": 29
+            },
+            {
+                "_id": "651021e7e1613bb68759f89b",
+                "name": "крик",
+                "usageCount": 1967
+            },
+            {
+                "_id": "650db24e616c7ba9b01f8829",
+                "name": "мат",
+                "usageCount": 584
+            },
+            {
+                "_id": "6528ebec84df5d636ba927f5",
+                "name": "оскорбление",
+                "usageCount": 3375
+            }
+        ],
+        "contentMarks": [],
+        "isFavorite": false,
+        "likedCount": 9,
+        "isAddedToChannel": false,
+        "creatorName": "sweet_bread_777",
+        "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/64ecf78c0a0b3e4a7b2ee96f17249329283121003.svg",
+        "streamerName": "661145701062765df59c52ce",
+        "streamerAvatar": "https://static-cdn.jtvnw.net/jtv_user_pictures/cec13e44cee25b0f-profile_image-300x300.jpeg",
+        "streamerLimitations": false
+    },
+    {
+        "id": "6467285cf8a4901573ce03cd",
+        "name": "Ваще пох#й",
+        "description": "димон заминированный тапок похуй",
+        "stickerUrl": "https://cdns.memealerts.com/p/646636ad3b58f57dd3f12c5e/7f473215-a5dd-4ed0-bf6c-7ae6a496b5b8/alert_orig.webm",
+        "fallbackUrl": "https://cdns.memealerts.com/p/646636ad3b58f57dd3f12c5e/7f473215-a5dd-4ed0-bf6c-7ae6a496b5b8/alert_orig.mp4",
+        "stickerPreview": "https://cdns.memealerts.com/p/646636ad3b58f57dd3f12c5e/7f473215-a5dd-4ed0-bf6c-7ae6a496b5b8/alert_orig.png",
+        "stickerAnimatedPreview": "https://cdns.memealerts.com/p/646636ad3b58f57dd3f12c5e/7f473215-a5dd-4ed0-bf6c-7ae6a496b5b8/alert_orig.webp",
+        "creatorId": "646636ad3b58f57dd3f12c5e",
+        "usageCount": 2329,
+        "moderationState": "APPROVED",
+        "isNotTwitchSafe": false,
+        "hasCopyright": false,
+        "etmaRating": 2,
+        "categories": [
+            "646733f12010783f7a74a73a"
+        ],
+        "createdAt": 1684482140958,
+        "moderatedAt": 1684524334216,
+        "videoData": {
+            "width": 472,
+            "height": 262,
+            "aspectRatio": 1.8015267175572518
+        },
+        "baseUrl": "https://cdns.memealerts.com/",
+        "tags": [],
+        "contentMarks": [
+            "67260cd0509feb668440ee4d",
+            "67260cd0509feb668440ee4d"
+        ],
+        "isFavorite": false,
+        "likedCount": 643,
+        "isAddedToChannel": false,
+        "creatorName": "Mr.EnotPlay",
+        "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/646636ad3b58f57dd3f12c5e17390405379619813.svg",
+        "streamerLimitations": false
+    },
+    {
+        "id": "649c305ff6d2077faa30dcdc",
+        "name": "всем п****",
+        "description": "всем похуй бравл старс кейс бабл квас бравл стас леон мортис",
+        "stickerUrl": "https://cdns.memealerts.com/p/647df59008bf8ea51907daed/ffa3f21d-5fc9-4db1-9f02-59488047b0b8/alert_orig.webm",
+        "fallbackUrl": "https://cdns.memealerts.com/p/647df59008bf8ea51907daed/ffa3f21d-5fc9-4db1-9f02-59488047b0b8/alert_orig.mp4",
+        "stickerPreview": "https://cdns.memealerts.com/p/647df59008bf8ea51907daed/ffa3f21d-5fc9-4db1-9f02-59488047b0b8/alert_orig.png",
+        "stickerAnimatedPreview": "https://cdns.memealerts.com/p/647df59008bf8ea51907daed/ffa3f21d-5fc9-4db1-9f02-59488047b0b8/alert_orig.webp",
+        "creatorId": "647df59008bf8ea51907daed",
+        "usageCount": 519,
+        "moderationState": "APPROVED",
+        "isNotTwitchSafe": false,
+        "hasCopyright": false,
+        "etmaRating": 2,
+        "categories": [
+            "63ee650c5b8df326287ae2f5"
+        ],
+        "createdAt": 1687957599396,
+        "moderatedAt": 1687957805367,
+        "videoData": {
+            "width": 472,
+            "height": 274,
+            "aspectRatio": 1.7226277372262773
+        },
+        "baseUrl": "https://cdns.memealerts.com/",
+        "tags": [],
+        "contentMarks": [
+            "67260cd0509feb668440ee4d",
+            "67260cd0509feb668440ee4d"
+        ],
+        "isFavorite": false,
+        "likedCount": 146,
+        "isAddedToChannel": false,
+        "creatorName": "AYT0_oN",
+        "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/647df59008bf8ea51907daed17770560397797029.svg",
+        "streamerLimitations": false
+    },
+    {
+        "id": "6523be60e282851f22a77a27",
+        "name": "последний донат пол часа назад",
+        "description": "тарков, дундук, всем, пофиг, на меня, похуй, последний донат, пол часа, назад",
+        "stickerUrl": "https://cdns.memealerts.com/p/64df49e923f9faaf3be41731/0caf74b6-15ce-49eb-8ef0-887e557ccc85/alert_orig.webm",
+        "fallbackUrl": "https://cdns.memealerts.com/p/64df49e923f9faaf3be41731/0caf74b6-15ce-49eb-8ef0-887e557ccc85/alert_orig.mp4",
+        "stickerPreview": "https://cdns.memealerts.com/p/64df49e923f9faaf3be41731/0caf74b6-15ce-49eb-8ef0-887e557ccc85/alert_orig.png",
+        "stickerAnimatedPreview": "https://cdns.memealerts.com/p/64df49e923f9faaf3be41731/0caf74b6-15ce-49eb-8ef0-887e557ccc85/alert_orig.webp",
+        "creatorId": "64df49e923f9faaf3be41731",
+        "streamerId": "648b3a392017f179de15047f",
+        "usageCount": 570,
+        "moderationState": "APPROVED",
+        "isNotTwitchSafe": false,
+        "hasCopyright": false,
+        "etmaRating": 3,
+        "categories": [
+            "63ee1824dfd634145dbae092"
+        ],
+        "createdAt": 1696841312011,
+        "moderatedAt": 1696841499370,
+        "videoData": {
+            "width": 420,
+            "height": 356,
+            "aspectRatio": 1.1797752808988764
+        },
+        "baseUrl": "https://cdns.memealerts.com/",
+        "tags": [],
+        "contentMarks": [
+            "67260cd0509feb668440ee4d"
+        ],
+        "isFavorite": false,
+        "likedCount": 162,
+        "isAddedToChannel": false,
+        "creatorName": "Alex Grigo",
+        "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/64df49e923f9faaf3be4173117250172635783274.svg",
+        "streamerName": "Dunduk",
+        "streamerAvatar": "https://static-cdn.jtvnw.net/jtv_user_pictures/34f3d4fd-4018-4f49-8558-8efbba90f199-profile_image-300x300.jpg",
+        "streamerLimitations": false
+    },
+    {
+        "id": "67e03b0ec8e92a9f745ee693",
+        "name": "Иди на*уй долбае* всем по*уй",
+        "description": "Фортнайт оскорбление",
+        "stickerUrl": "https://cdns.memealerts.com/p/668437d816a2955d0f61b7fb/64c48d7a-107d-453b-8a69-57835e17f4dd/alert_orig.webm",
+        "fallbackUrl": "https://cdns.memealerts.com/p/668437d816a2955d0f61b7fb/64c48d7a-107d-453b-8a69-57835e17f4dd/alert_orig.mp4",
+        "stickerPreview": "https://cdns.memealerts.com/p/668437d816a2955d0f61b7fb/64c48d7a-107d-453b-8a69-57835e17f4dd/alert_orig.png",
+        "stickerAnimatedPreview": "https://cdns.memealerts.com/p/668437d816a2955d0f61b7fb/64c48d7a-107d-453b-8a69-57835e17f4dd/alert_orig.webp",
+        "creatorId": "668437d816a2955d0f61b7fb",
+        "usageCount": 21,
+        "moderationState": "APPROVED",
+        "isNotTwitchSafe": false,
+        "hasCopyright": false,
+        "etmaRating": 3,
+        "categories": [],
+        "createdAt": 1742748430600,
+        "moderatedAt": 1750443203963,
+        "videoData": {
+            "width": 512,
+            "height": 280,
+            "duration": 10,
+            "isTransparent": false,
+            "aspectRatio": 1.8285714285714285
+        },
+        "music": "",
+        "baseUrl": "https://cdns.memealerts.com/",
+        "tags": [
+            {
+                "_id": "655df4c8a20bc3f31a62c018",
+                "name": "фортнайт",
+                "usageCount": 43
+            },
+            {
+                "_id": "65ef2056be8bed46c7d0ddca",
+                "name": "всемпохуй",
+                "usageCount": 1
+            },
+            {
+                "_id": "6513ff85e9e44ae5e2ee42c2",
+                "name": "идинахуй",
+                "usageCount": 187
+            },
+            {
+                "_id": "6528ebec84df5d636ba927f5",
+                "name": "оскорбление",
+                "usageCount": 9240
+            },
+            {
+                "_id": "650db24e616c7ba9b01f8829",
+                "name": "мат",
+                "usageCount": 2464
+            }
+        ],
+        "contentMarks": [
+            "67260cfe509feb668440ee4e",
+            "672610c0509feb668440ee5f",
+            "67260d8d509feb668440ee51",
+            "67261197509feb668440ee65"
+        ],
+        "isFavorite": false,
+        "likedCount": 11,
+        "isAddedToChannel": false,
+        "creatorName": "Rikimaru Talin",
+        "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/668437d816a2955d0f61b7fb17384888704456314.svg",
+        "streamerLimitations": false
+    },
+  {
+    "id": "68ef92095976369a35b60754",
+    "name": "Всем привет ^_^",
+    "description": "",
+    "stickerUrl": "https://cdns.memealerts.com/p/679e90b4642209cd5d31db1c/255bd4a2-f1ce-4ca4-8ca1-6edc4eb073e5/alert_orig.webm",
+    "fallbackUrl": "https://cdns.memealerts.com/p/679e90b4642209cd5d31db1c/255bd4a2-f1ce-4ca4-8ca1-6edc4eb073e5/alert_orig.mp4",
+    "stickerPreview": "https://cdns.memealerts.com/p/679e90b4642209cd5d31db1c/255bd4a2-f1ce-4ca4-8ca1-6edc4eb073e5/alert_orig.png",
+    "stickerAnimatedPreview": "https://cdns.memealerts.com/p/679e90b4642209cd5d31db1c/255bd4a2-f1ce-4ca4-8ca1-6edc4eb073e5/alert_orig.webp",
+    "creatorId": "679e90b4642209cd5d31db1c",
+    "usageCount": 1122,
+    "moderationState": "APPROVED",
+    "isNotTwitchSafe": false,
+    "hasCopyright": false,
+    "etmaRating": 1,
+    "categories": [],
+    "createdAt": 1760530953755,
+    "moderatedAt": 1760531065650,
+    "videoData": {
+      "width": 512,
+      "height": 545,
+      "duration": 10,
+      "isTransparent": false,
+      "aspectRatio": 0.93944954128440372
+    },
+    "baseUrl": "https://cdns.memealerts.com/",
+    "tags": [
+      {
+        "_id": "679cc550a6ea0bcb1924247c",
+        "name": "yui2d",
+        "usageCount": 117
+      },
+      {
+        "_id": "65367dd4199d1ad691c27092",
+        "name": "ruvtuber",
+        "usageCount": 2768
+      },
+      {
+        "_id": "650eb41c616c7ba9b03cf96e",
+        "name": "привет",
+        "usageCount": 2088
+      }
+    ],
+    "contentMarks": [
+      "672611d9509feb668440ee67",
+      "67260eaa509feb668440ee55"
+    ],
+    "isFavorite": false,
+    "likedCount": 125,
+    "isAddedToChannel": false,
+    "creatorName": "RastaTap0k",
+    "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/679e90b4642209cd5d31db1c17384449980908335.svg"
+  },
+  {
+    "id": "63753db1c93b72da33f6842d",
+    "name": "Да всем насрать",
+    "description": "гриффины грифины питер family guy",
+    "stickerUrl": "https://cdns.memealerts.com/p/633e0485678ff4dbe542f5ac/87e5f670-5d8f-4143-86a1-6f9fbe4ebe5f/alert_orig.webm",
+    "fallbackUrl": "https://cdns.memealerts.com/p/633e0485678ff4dbe542f5ac/87e5f670-5d8f-4143-86a1-6f9fbe4ebe5f/alert_orig.mp4",
+    "stickerPreview": "https://cdns.memealerts.com/p/633e0485678ff4dbe542f5ac/87e5f670-5d8f-4143-86a1-6f9fbe4ebe5f/alert_orig.png",
+    "stickerAnimatedPreview": "https://cdns.memealerts.com/p/633e0485678ff4dbe542f5ac/87e5f670-5d8f-4143-86a1-6f9fbe4ebe5f/alert_orig.webp",
+    "creatorId": "633e0485678ff4dbe542f5ac",
+    "usageCount": 2265,
+    "moderationState": "APPROVED",
+    "isNotTwitchSafe": false,
+    "hasCopyright": false,
+    "etmaRating": 1,
+    "categories": [
+      "63ee18dcdfd634145dbae09f",
+      "646733f12010783f7a74a73a",
+      "646733cf2010783f7a74a739"
+    ],
+    "createdAt": 1668627889510,
+    "videoData": {
+      "width": 472,
+      "height": 352,
+      "aspectRatio": 1.3409090909090908
+    },
+    "music": "K.a.d. Показуха",
+    "baseUrl": "https://cdns.memealerts.com/",
+    "tags": [],
+    "contentMarks": [],
+    "isFavorite": false,
+    "likedCount": 884,
+    "isAddedToChannel": false,
+    "creatorName": "Каркарыч",
+    "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/633e0485678ff4dbe542f5ac17704527405497378.svg"
+  },
+  {
+    "id": "6555d7195bf21328a6f9238b",
+    "name": "Всем привет опоздал немного",
+    "description": "Папич\nАртас\nВсем привет\nПривет\nСоболезную\nМем",
+    "stickerUrl": "https://cdns.memealerts.com/p/64f70225c986758d526bc744/4ee58e2e-5666-4faa-b854-4b0d7f1eb4e1/alert_orig.webm",
+    "fallbackUrl": "https://cdns.memealerts.com/p/64f70225c986758d526bc744/4ee58e2e-5666-4faa-b854-4b0d7f1eb4e1/alert_orig.mp4",
+    "stickerPreview": "https://cdns.memealerts.com/p/64f70225c986758d526bc744/4ee58e2e-5666-4faa-b854-4b0d7f1eb4e1/alert_orig.png",
+    "stickerAnimatedPreview": "https://cdns.memealerts.com/p/64f70225c986758d526bc744/4ee58e2e-5666-4faa-b854-4b0d7f1eb4e1/alert_orig.webp",
+    "creatorId": "64f70225c986758d526bc744",
+    "usageCount": 1471,
+    "moderationState": "APPROVED",
+    "isNotTwitchSafe": false,
+    "hasCopyright": false,
+    "etmaRating": 0,
+    "categories": [],
+    "createdAt": 1700124441542,
+    "videoData": {
+      "width": 472,
+      "height": 350,
+      "aspectRatio": 1.3485714285714285
+    },
+    "music": "killedshow Гримуар",
+    "baseUrl": "https://cdns.memealerts.com/",
+    "tags": [
+      {
+        "_id": "650feb4ae1613bb68754a116",
+        "name": "папич",
+        "usageCount": 61
+      },
+      {
+        "_id": "650d84d6b1b8ca063cb24884",
+        "name": "смех",
+        "usageCount": 461
+      }
+    ],
+    "contentMarks": [],
+    "isFavorite": false,
+    "likedCount": 323,
+    "isAddedToChannel": false,
+    "creatorName": "mark_neonow",
+    "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/64f70225c986758d526bc74417601152032351050.svg"
+  },
+  {
+    "id": "64e0ee8d0ea4a11127203ce7",
+    "name": "Всем п****!",
+    "description": "Всем пиздаа!",
+    "stickerUrl": "https://cdns.memealerts.com/p/64a723f38fcda1e79a4d1349/e1a943a3-8820-483f-8145-ef3e30de3259/alert_orig.webm",
+    "fallbackUrl": "https://cdns.memealerts.com/p/64a723f38fcda1e79a4d1349/e1a943a3-8820-483f-8145-ef3e30de3259/alert_orig.mp4",
+    "stickerPreview": "https://cdns.memealerts.com/p/64a723f38fcda1e79a4d1349/e1a943a3-8820-483f-8145-ef3e30de3259/alert_orig.png",
+    "stickerAnimatedPreview": "https://cdns.memealerts.com/p/64a723f38fcda1e79a4d1349/e1a943a3-8820-483f-8145-ef3e30de3259/alert_orig.webp",
+    "creatorId": "64a723f38fcda1e79a4d1349",
+    "usageCount": 1432,
+    "moderationState": "APPROVED",
+    "isNotTwitchSafe": false,
+    "hasCopyright": false,
+    "etmaRating": 3,
+    "categories": [
+      "64672e662010783f7a74a735"
+    ],
+    "createdAt": 1692462733325,
+    "moderatedAt": 1692471310485,
+    "videoData": {
+      "width": 470,
+      "height": 522,
+      "aspectRatio": 0.90038314176245215
+    },
+    "baseUrl": "https://cdns.memealerts.com/",
+    "tags": [],
+    "contentMarks": [
+      "67260cd0509feb668440ee4d",
+      "67260cfe509feb668440ee4e"
+    ],
+    "isFavorite": false,
+    "likedCount": 259,
+    "isAddedToChannel": false,
+    "creatorName": "BLACK",
+    "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/64a723f38fcda1e79a4d134917296762404745449.svg"
+  },
+  {
+    "id": "6852ba009246372d1081843e",
+    "name": "Всем привет",
+    "description": "Всем привет и тебе привет, и стримеру привет",
+    "stickerUrl": "https://cdns.memealerts.com/p/66059adf1062765df5a20323/8eb0c7b3-3b69-482a-9929-0117bec5d9f4/alert_orig.webm",
+    "fallbackUrl": "https://cdns.memealerts.com/p/66059adf1062765df5a20323/8eb0c7b3-3b69-482a-9929-0117bec5d9f4/alert_orig.mp4",
+    "stickerPreview": "https://cdns.memealerts.com/p/66059adf1062765df5a20323/8eb0c7b3-3b69-482a-9929-0117bec5d9f4/alert_orig.png",
+    "stickerAnimatedPreview": "https://cdns.memealerts.com/p/66059adf1062765df5a20323/8eb0c7b3-3b69-482a-9929-0117bec5d9f4/alert_orig.webp",
+    "creatorId": "66059adf1062765df5a20323",
+    "usageCount": 1058,
+    "moderationState": "APPROVED",
+    "isNotTwitchSafe": false,
+    "hasCopyright": false,
+    "etmaRating": 0,
+    "categories": [],
+    "createdAt": 1750252032136,
+    "moderatedAt": 1750253645055,
+    "videoData": {
+      "width": 352,
+      "height": 528,
+      "duration": 7,
+      "isTransparent": false,
+      "aspectRatio": 0.66666666666666663
+    },
+    "music": "",
+    "baseUrl": "https://cdns.memealerts.com/",
+    "tags": [
+      {
+        "_id": "6569c315e769db00da3d835e",
+        "name": "всемпривет",
+        "usageCount": 11
+      },
+      {
+        "_id": "650eb41c616c7ba9b03cf96e",
+        "name": "привет",
+        "usageCount": 1872
+      },
+      {
+        "_id": "6852ba009246372d10818436",
+        "name": "итебе",
+        "usageCount": 1
+      },
+      {
+        "_id": "6852ba009246372d10818439",
+        "name": "итебепривет",
+        "usageCount": 1
+      },
+      {
+        "_id": "6852ba009246372d1081843c",
+        "name": "стримерупривет",
+        "usageCount": 1
+      },
+      {
+        "_id": "650de55c616c7ba9b02d3404",
+        "name": "нейросеть",
+        "usageCount": 4602
+      },
+      {
+        "_id": "650dd806616c7ba9b029ca40",
+        "name": "кот",
+        "usageCount": 5130
+      }
+    ],
+    "contentMarks": [],
+    "isFavorite": false,
+    "likedCount": 138,
+    "isAddedToChannel": false,
+    "creatorName": "Дмитрий Маскеров",
+    "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/66059adf1062765df5a2032317427596597879213.svg"
+  },
+  {
+    "id": "668908e816a2955d0f2db2ff",
+    "name": "Всем пока, хорошего дня.",
+    "description": "всем пока\nхорошего дня\nудачного вечера\nбалдежного времени провождения\nвсем удачи, счастья, балдежа\nвсем пока\nвсего наилучшего \nспасибо за поддержку\nспасибо за понимание\nспасибо за хороший комментарий\nспасибо за плохие комментарии\nспасибо за лайки\nспасибо за диз-лайки\nя всем рад и всем доволен\n",
+    "stickerUrl": "https://cdns.memealerts.com/p/6687d3b316a2955d0ff82003/636d2b31-bbb8-4ff3-9156-91651a2f3d78/alert_orig.webm",
+    "fallbackUrl": "https://cdns.memealerts.com/p/6687d3b316a2955d0ff82003/636d2b31-bbb8-4ff3-9156-91651a2f3d78/alert_orig.mp4",
+    "stickerPreview": "https://cdns.memealerts.com/p/6687d3b316a2955d0ff82003/636d2b31-bbb8-4ff3-9156-91651a2f3d78/alert_orig.png",
+    "stickerAnimatedPreview": "https://cdns.memealerts.com/p/6687d3b316a2955d0ff82003/636d2b31-bbb8-4ff3-9156-91651a2f3d78/alert_orig.webp",
+    "creatorId": "6687d3b316a2955d0ff82003",
+    "usageCount": 1034,
+    "moderationState": "APPROVED",
+    "isNotTwitchSafe": false,
+    "hasCopyright": false,
+    "etmaRating": 0,
+    "categories": [],
+    "createdAt": 1720256744362,
+    "moderatedAt": 1720257231095,
+    "videoData": {
+      "width": 512,
+      "height": 282,
+      "aspectRatio": 1.8156028368794326
+    },
+    "music": "",
+    "baseUrl": "https://cdns.memealerts.com/",
+    "tags": [
+      {
+        "_id": "653a989b607e9ed866394d3a",
+        "name": "гительман",
+        "usageCount": 46
+      },
+      {
+        "_id": "668908e816a2955d0f2db2e9",
+        "name": "руслангительман",
+        "usageCount": 1
+      },
+      {
+        "_id": "651484e9e9e44ae5e208347f",
+        "name": "пока",
+        "usageCount": 203
+      },
+      {
+        "_id": "6553a9753e8dabcdc51e2bc7",
+        "name": "балдеж",
+        "usageCount": 4
+      },
+      {
+        "_id": "650ed02f616c7ba9b03fc3b3",
+        "name": "день",
+        "usageCount": 20
+      },
+      {
+        "_id": "6529155c84df5d636bac337d",
+        "name": "вечер",
+        "usageCount": 5
+      }
+    ],
+    "contentMarks": [],
+    "isFavorite": false,
+    "likedCount": 148,
+    "isAddedToChannel": false,
+    "creatorName": "Хомик",
+    "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/6687d3b316a2955d0ff820031729676198307197.svg"
+  },
+  {
+    "id": "68f13b565976369a3520628c",
+    "name": "Морж похуй",
+    "description": "Морж Дядя Миша ругается ",
+    "stickerUrl": "https://cdns.memealerts.com/p/65dce5c9421dd86ccfc474ea/2af112d9-0201-450b-8ad0-0c33758f3f82/alert_orig.webm",
+    "fallbackUrl": "https://cdns.memealerts.com/p/65dce5c9421dd86ccfc474ea/2af112d9-0201-450b-8ad0-0c33758f3f82/alert_orig.mp4",
+    "stickerPreview": "https://cdns.memealerts.com/p/65dce5c9421dd86ccfc474ea/2af112d9-0201-450b-8ad0-0c33758f3f82/alert_orig.png",
+    "stickerAnimatedPreview": "https://cdns.memealerts.com/p/65dce5c9421dd86ccfc474ea/2af112d9-0201-450b-8ad0-0c33758f3f82/alert_orig.webp",
+    "creatorId": "65dce5c9421dd86ccfc474ea",
+    "usageCount": 424,
+    "moderationState": "APPROVED",
+    "isNotTwitchSafe": false,
+    "hasCopyright": false,
+    "etmaRating": 2,
+    "categories": [],
+    "createdAt": 1760639830038,
+    "moderatedAt": 1760641562285,
+    "videoData": {
+      "width": 512,
+      "height": 512,
+      "duration": 9,
+      "isTransparent": false,
+      "aspectRatio": 1
+    },
+    "baseUrl": "https://cdns.memealerts.com/",
+    "tags": [
+      {
+        "_id": "6521d28e56f9ee0ee4637e18",
+        "name": "морж",
+        "usageCount": 57
+      },
+      {
+        "_id": "6511df4ae1613bb68792be54",
+        "name": "дядя",
+        "usageCount": 73
+      },
+      {
+        "_id": "65330845eedcf58a200881c7",
+        "name": "миша",
+        "usageCount": 105
+      },
+      {
+        "_id": "650db24e616c7ba9b01f8829",
+        "name": "мат",
+        "usageCount": 2937
+      },
+      {
+        "_id": "651a771d22708f0430b78b8c",
+        "name": "похуй",
+        "usageCount": 148
+      }
+    ],
+    "contentMarks": [
+      "67260cd0509feb668440ee4d",
+      "67261197509feb668440ee65"
+    ],
+    "isFavorite": false,
+    "likedCount": 29,
+    "isAddedToChannel": false,
+    "creatorName": "Alex S",
+    "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/65dce5c9421dd86ccfc474ea1766001015725680.svg"
+  },
+  {
+    "id": "664f7676dd121ba6fa7207b7",
+    "name": "Как бы тяжело тебе не было",
+    "description": "Что бы ни случилось, как бы тяжело тебе не было, всем похуй. пофиг ауф стетхем ",
+    "stickerUrl": "https://cdns.memealerts.com/p/63fa429cc507b45834683fe5/9e9284a1-fd20-4873-972b-6537359dd58a/alert_orig.webm",
+    "fallbackUrl": "https://cdns.memealerts.com/p/63fa429cc507b45834683fe5/9e9284a1-fd20-4873-972b-6537359dd58a/alert_orig.mp4",
+    "stickerPreview": "https://cdns.memealerts.com/p/63fa429cc507b45834683fe5/9e9284a1-fd20-4873-972b-6537359dd58a/alert_orig.png",
+    "stickerAnimatedPreview": "https://cdns.memealerts.com/p/63fa429cc507b45834683fe5/9e9284a1-fd20-4873-972b-6537359dd58a/alert_orig.webp",
+    "creatorId": "63fa429cc507b45834683fe5",
+    "usageCount": 474,
+    "moderationState": "APPROVED",
+    "isNotTwitchSafe": false,
+    "hasCopyright": true,
+    "etmaRating": 2,
+    "categories": [],
+    "createdAt": 1716483702629,
+    "moderatedAt": 1779629093961,
+    "videoData": {
+      "width": 512,
+      "height": 559,
+      "isTransparent": false,
+      "aspectRatio": 0.91592128801431127
+    },
+    "music": "",
+    "baseUrl": "https://cdns.memealerts.com/",
+    "tags": [
+      {
+        "_id": "6513009ee9e44ae5e2d33d9f",
+        "name": "джейсонстейтем",
+        "usageCount": 33
+      },
+      {
+        "_id": "65104031e1613bb6875de9ce",
+        "name": "стетхем",
+        "usageCount": 214
+      },
+      {
+        "_id": "655d3b7a8f22d4459c0e1bc3",
+        "name": "тяжело",
+        "usageCount": 109
+      },
+      {
+        "_id": "650f2e97616c7ba9b051e7fc",
+        "name": "ауф",
+        "usageCount": 427
+      },
+      {
+        "_id": "650de857616c7ba9b02e10c3",
+        "name": "мем",
+        "usageCount": 24855
+      },
+      {
+        "_id": "651a771d22708f0430b78b8f",
+        "name": "пофиг",
+        "usageCount": 249
+      }
+    ],
+    "contentMarks": [
+      "67260cd0509feb668440ee4d"
+    ],
+    "isFavorite": false,
+    "likedCount": 118,
+    "isAddedToChannel": false,
+    "creatorName": "RockAngel444",
+    "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/63fa429cc507b45834683fe51724945879433920.svg"
+  },
+  {
+    "id": "6a29973ffebcafe34fb3d3a9",
+    "name": "от чекушки станет всем теплей",
+    "description": "от чекушки станет всем теплей (веселая песня - кавер на улыбку)",
+    "stickerUrl": "https://cdns.memealerts.com/p/6772abe5a2a1136c7a838acc/935b8f3e-6d72-414d-842e-15207708c6dd/alert_orig.webm",
+    "fallbackUrl": "https://cdns.memealerts.com/p/6772abe5a2a1136c7a838acc/935b8f3e-6d72-414d-842e-15207708c6dd/alert_orig.mp4",
+    "stickerPreview": "https://cdns.memealerts.com/p/6772abe5a2a1136c7a838acc/935b8f3e-6d72-414d-842e-15207708c6dd/alert_orig.png",
+    "stickerAnimatedPreview": "https://cdns.memealerts.com/p/6772abe5a2a1136c7a838acc/935b8f3e-6d72-414d-842e-15207708c6dd/alert_orig.webp",
+    "creatorId": "6772abe5a2a1136c7a838acc",
+    "usageCount": 1193,
+    "moderationState": "APPROVED",
+    "isNotTwitchSafe": false,
+    "hasCopyright": false,
+    "etmaRating": 2,
+    "categories": [],
+    "createdAt": 1781110591321,
+    "moderatedAt": 1781117889771,
+    "videoData": {
+      "width": 500,
+      "height": 500,
+      "duration": 10,
+      "isTransparent": true,
+      "aspectRatio": 1
+    },
+    "music": "",
+    "baseUrl": "https://cdns.memealerts.com/",
+    "tags": [
+      {
+        "_id": "660ec6be1062765df52f5f72",
+        "name": "чекушка",
+        "usageCount": 4
+      },
+      {
+        "_id": "650d88f7b1b8ca063cb2de7a",
+        "name": "песня",
+        "usageCount": 8565
+      },
+      {
+        "_id": "650d826bb1b8ca063cb1f185",
+        "name": "музыка",
+        "usageCount": 45720
+      }
+    ],
+    "contentMarks": [
+      "672611f4509feb668440ee68"
+    ],
+    "isFavorite": false,
+    "likedCount": 113,
+    "isAddedToChannel": false,
+    "creatorName": "Beatch",
+    "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/6772abe5a2a1136c7a838acc17483704059196111.svg"
+  },
+  {
+    "id": "660e8f3a1062765df520c203",
+    "name": "Всем привет",
+    "description": "влг, вилавгеймс, wlg, twitch, твич, клим жуков, смута, нейросеть, гоблин, пучков",
+    "stickerUrl": "https://cdns.memealerts.com/p/6442eb3c28c2d78cbc901500/98f25917-8124-4179-9574-13ff08ff3ab2/alert_orig.webm",
+    "fallbackUrl": "https://cdns.memealerts.com/p/6442eb3c28c2d78cbc901500/98f25917-8124-4179-9574-13ff08ff3ab2/alert_orig.mp4",
+    "stickerPreview": "https://cdns.memealerts.com/p/6442eb3c28c2d78cbc901500/98f25917-8124-4179-9574-13ff08ff3ab2/alert_orig.png",
+    "stickerAnimatedPreview": "https://cdns.memealerts.com/p/6442eb3c28c2d78cbc901500/98f25917-8124-4179-9574-13ff08ff3ab2/alert_orig.webp",
+    "creatorId": "6442eb3c28c2d78cbc901500",
+    "usageCount": 201,
+    "moderationState": "APPROVED",
+    "isNotTwitchSafe": false,
+    "hasCopyright": false,
+    "etmaRating": 0,
+    "categories": [],
+    "createdAt": 1712230202204,
+    "moderatedAt": 1712231931380,
+    "videoData": {
+      "width": 506,
+      "height": 762,
+      "isTransparent": false,
+      "aspectRatio": 0.66404199475065617
+    },
+    "music": "",
+    "baseUrl": "https://cdns.memealerts.com/",
+    "tags": [
+      {
+        "_id": "652539b2e282851f22d89848",
+        "name": "дипфейк",
+        "usageCount": 397
+      },
+      {
+        "_id": "652957d284df5d636bb4a64c",
+        "name": "wlg",
+        "usageCount": 60
+      },
+      {
+        "_id": "650f8604e1613bb687524162",
+        "name": "гоблин",
+        "usageCount": 108
+      },
+      {
+        "_id": "65146b34e9e44ae5e20085aa",
+        "name": "жуков",
+        "usageCount": 14
+      },
+      {
+        "_id": "650eb41c616c7ba9b03cf96e",
+        "name": "привет",
+        "usageCount": 670
+      }
+    ],
+    "contentMarks": [
+      "67261081509feb668440ee5e"
+    ],
+    "isFavorite": false,
+    "likedCount": 20,
+    "isAddedToChannel": false,
+    "creatorName": "Foxlex",
+    "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/6442eb3c28c2d78cbc90150017722944944283916.svg"
+  },
+  {
+    "id": "65778b13422c4bf13b5dac9a",
+    "name": "Всем повелеваю подписаться",
+    "description": "Всем повелеваю подписаться и поставить богомерзкие лайки.",
+    "stickerUrl": "https://cdns.memealerts.com/p/651c2fbf22708f0430e5a6ab/a2354745-7600-4992-b595-c9248851e533/alert_orig.webm",
+    "fallbackUrl": "https://cdns.memealerts.com/p/651c2fbf22708f0430e5a6ab/a2354745-7600-4992-b595-c9248851e533/alert_orig.mp4",
+    "stickerPreview": "https://cdns.memealerts.com/p/651c2fbf22708f0430e5a6ab/a2354745-7600-4992-b595-c9248851e533/alert_orig.png",
+    "stickerAnimatedPreview": "https://cdns.memealerts.com/p/651c2fbf22708f0430e5a6ab/a2354745-7600-4992-b595-c9248851e533/alert_orig.webp",
+    "creatorId": "651c2fbf22708f0430e5a6ab",
+    "streamerId": "651c2a0922708f0430e48fcf",
+    "usageCount": 1047,
+    "moderationState": "APPROVED",
+    "isNotTwitchSafe": false,
+    "hasCopyright": false,
+    "etmaRating": 0,
+    "categories": [],
+    "createdAt": 1702333203258,
+    "moderatedAt": 1702369971601,
+    "videoData": {
+      "width": 470,
+      "height": 504,
+      "aspectRatio": 0.93253968253968256
+    },
+    "music": "",
+    "baseUrl": "https://cdns.memealerts.com/",
+    "tags": [
+      {
+        "_id": "651d9b31097fb9a162b9fa2f",
+        "name": "гарро",
+        "usageCount": 4
+      },
+      {
+        "_id": "651c395e22708f0430e7e317",
+        "name": "климсаныч",
+        "usageCount": 4
+      },
+      {
+        "_id": "65778b13422c4bf13b5dac8e",
+        "name": "повелеваю",
+        "usageCount": 1
+      },
+      {
+        "_id": "65778b13422c4bf13b5dac91",
+        "name": "подписаться",
+        "usageCount": 1
+      }
+    ],
+    "contentMarks": [],
+    "isFavorite": false,
+    "likedCount": 131,
+    "isAddedToChannel": false,
+    "creatorName": "batyko_",
+    "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/651c2fbf22708f0430e5a6ab17403767380339003.svg",
+    "streamerName": "Garro",
+    "streamerAvatar": "https://static-cdn.jtvnw.net/jtv_user_pictures/gohamedia-profile_image-e8d2a20bf1c4d187-300x300.jpeg"
+  },
+  {
+    "id": "6529307984df5d636baef308",
+    "name": "Асала малейкум всем",
+    "description": "Асала малейкум всем хасбик мем lol лол meme дляважныхпереговоров длявп хасбикмем хасбикэдит хасбикнаулице юмор веселье\n",
+    "stickerUrl": "https://cdns.memealerts.com/p/6516e2a622708f04305a0415/74c9be66-ffe5-4b47-aec7-039113df60e9/alert_orig.webm",
+    "fallbackUrl": "https://cdns.memealerts.com/p/6516e2a622708f04305a0415/74c9be66-ffe5-4b47-aec7-039113df60e9/alert_orig.mp4",
+    "stickerPreview": "https://cdns.memealerts.com/p/6516e2a622708f04305a0415/74c9be66-ffe5-4b47-aec7-039113df60e9/alert_orig.png",
+    "stickerAnimatedPreview": "https://cdns.memealerts.com/p/6516e2a622708f04305a0415/74c9be66-ffe5-4b47-aec7-039113df60e9/alert_orig.webp",
+    "creatorId": "6516e2a622708f04305a0415",
+    "usageCount": 1031,
+    "moderationState": "APPROVED",
+    "isNotTwitchSafe": false,
+    "hasCopyright": false,
+    "etmaRating": 0,
+    "categories": [],
+    "createdAt": 1697198201890,
+    "videoData": {
+      "width": 466,
+      "height": 842,
+      "aspectRatio": 0.55344418052256528
+    },
+    "baseUrl": "https://cdns.memealerts.com/",
+    "tags": [
+      {
+        "_id": "650ecc92616c7ba9b03f6272",
+        "name": "асаламалейкум",
+        "usageCount": 2
+      },
+      {
+        "_id": "6529307984df5d636baef2d8",
+        "name": "хасбик",
+        "usageCount": 1
+      },
+      {
+        "_id": "650de857616c7ba9b02e10c3",
+        "name": "мем",
+        "usageCount": 165
+      },
+      {
+        "_id": "650d95d6b1b8ca063cb5e58b",
+        "name": "lol",
+        "usageCount": 50
+      },
+      {
+        "_id": "650d7ec7b1b8ca063cb17272",
+        "name": "лол",
+        "usageCount": 100
+      },
+      {
+        "_id": "650d8da7b1b8ca063cb41a95",
+        "name": "meme",
+        "usageCount": 80
+      },
+      {
+        "_id": "651ab78c22708f0430bd9114",
+        "name": "дляважныхпереговоров",
+        "usageCount": 33
+      },
+      {
+        "_id": "651fbf6c097fb9a162ec3ebd",
+        "name": "длявп",
+        "usageCount": 13
+      },
+      {
+        "_id": "6529307984df5d636baef2e7",
+        "name": "хасбикмем",
+        "usageCount": 1
+      },
+      {
+        "_id": "6529307984df5d636baef2ea",
+        "name": "хасбикэдит",
+        "usageCount": 1
+      },
+      {
+        "_id": "6529307984df5d636baef2ed",
+        "name": "хасбикнаулице",
+        "usageCount": 1
+      },
+      {
+        "_id": "650eab43616c7ba9b03c7047",
+        "name": "юмор",
+        "usageCount": 78
+      },
+      {
+        "_id": "650d8b1db1b8ca063cb341df",
+        "name": "веселье",
+        "usageCount": 63
+      }
+    ],
+    "contentMarks": [],
+    "isFavorite": false,
+    "likedCount": 223,
+    "isAddedToChannel": false,
+    "creatorName": "Одноразовый смех",
+    "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/6516e2a622708f04305a041517259006372548112.svg"
+  },
+  {
+    "id": "646d17a79d3410b4c80c9a87",
+    "name": "Всем привет",
+    "description": "Папич Dota Arthas EvilArthas Виталий Громяко орет дота papich",
+    "stickerUrl": "https://cdns.memealerts.com/p/633e0485678ff4dbe542f5ac/5b5f4524-a22c-4c19-8586-8d59436e6233/alert_orig.webm",
+    "fallbackUrl": "https://cdns.memealerts.com/p/633e0485678ff4dbe542f5ac/5b5f4524-a22c-4c19-8586-8d59436e6233/alert_orig.mp4",
+    "stickerPreview": "https://cdns.memealerts.com/p/633e0485678ff4dbe542f5ac/5b5f4524-a22c-4c19-8586-8d59436e6233/alert_orig.png",
+    "stickerAnimatedPreview": "https://cdns.memealerts.com/p/633e0485678ff4dbe542f5ac/5b5f4524-a22c-4c19-8586-8d59436e6233/alert_orig.webp",
+    "creatorId": "633e0485678ff4dbe542f5ac",
+    "usageCount": 965,
+    "moderationState": "APPROVED",
+    "isNotTwitchSafe": false,
+    "hasCopyright": false,
+    "etmaRating": 1,
+    "categories": [
+      "63ee68505b8df326287ae2fd"
+    ],
+    "createdAt": 1684871079245,
+    "moderatedAt": 1684872936437,
+    "videoData": {
+      "width": 472,
+      "height": 252,
+      "aspectRatio": 1.873015873015873
+    },
+    "baseUrl": "https://cdns.memealerts.com/",
+    "tags": [],
+    "contentMarks": [],
+    "isFavorite": false,
+    "likedCount": 355,
+    "isAddedToChannel": false,
+    "creatorName": "Каркарыч",
+    "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/633e0485678ff4dbe542f5ac17704527405497378.svg"
+  },
+  {
+    "id": "650159692bf82c6d13478dc6",
+    "name": "Всем пока, гудбай",
+    "description": "Горин",
+    "stickerUrl": "https://cdns.memealerts.com/p/647d81f708bf8ea51904de4e/f0f36853-e398-4e0a-9e38-53dbc267dc8f/alert_orig.webm",
+    "fallbackUrl": "https://cdns.memealerts.com/p/647d81f708bf8ea51904de4e/f0f36853-e398-4e0a-9e38-53dbc267dc8f/alert_orig.mp4",
+    "stickerPreview": "https://cdns.memealerts.com/p/647d81f708bf8ea51904de4e/f0f36853-e398-4e0a-9e38-53dbc267dc8f/alert_orig.png",
+    "stickerAnimatedPreview": "https://cdns.memealerts.com/p/647d81f708bf8ea51904de4e/f0f36853-e398-4e0a-9e38-53dbc267dc8f/alert_orig.webp",
+    "creatorId": "647d81f708bf8ea51904de4e",
+    "usageCount": 929,
+    "moderationState": "APPROVED",
+    "isNotTwitchSafe": false,
+    "hasCopyright": false,
+    "etmaRating": 1,
+    "categories": [
+      "63ee68965b8df326287ae301"
+    ],
+    "createdAt": 1694587241736,
+    "moderatedAt": 1694588444533,
+    "videoData": {
+      "width": 320,
+      "height": 230,
+      "aspectRatio": 1.3913043478260869
+    },
+    "baseUrl": "https://cdns.memealerts.com/",
+    "tags": [],
+    "contentMarks": [
+      "672610c0509feb668440ee5f"
+    ],
+    "isFavorite": false,
+    "likedCount": 162,
+    "isAddedToChannel": false,
+    "creatorName": "KPA_CUBO",
+    "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/647d81f708bf8ea51904de4e17296762444247442.svg"
+  },
+  {
+    "id": "65a50a41594a592299241134",
+    "name": "Всем пока всем спасибо",
+    "description": "",
+    "stickerUrl": "https://cdns.memealerts.com/p/65353bfceedcf58a20427be2/31c8c3b5-3b85-4f49-8358-f4d7ac6da1c7/alert_orig.webm",
+    "fallbackUrl": "https://cdns.memealerts.com/p/65353bfceedcf58a20427be2/31c8c3b5-3b85-4f49-8358-f4d7ac6da1c7/alert_orig.mp4",
+    "stickerPreview": "https://cdns.memealerts.com/p/65353bfceedcf58a20427be2/31c8c3b5-3b85-4f49-8358-f4d7ac6da1c7/alert_orig.png",
+    "stickerAnimatedPreview": "https://cdns.memealerts.com/p/65353bfceedcf58a20427be2/31c8c3b5-3b85-4f49-8358-f4d7ac6da1c7/alert_orig.webp",
+    "creatorId": "65353bfceedcf58a20427be2",
+    "usageCount": 135,
+    "moderationState": "APPROVED",
+    "isNotTwitchSafe": false,
+    "hasCopyright": false,
+    "etmaRating": 2,
+    "categories": [],
+    "createdAt": 1705314881234,
+    "moderatedAt": 1705315107769,
+    "videoData": {
+      "width": 470,
+      "height": 470,
+      "aspectRatio": 1
+    },
+    "music": "",
+    "baseUrl": "https://cdns.memealerts.com/",
+    "tags": [
+      {
+        "_id": "651484e9e9e44ae5e208347f",
+        "name": "пока",
+        "usageCount": 103
+      },
+      {
+        "_id": "65120143e1613bb68798b897",
+        "name": "прощание",
+        "usageCount": 34
+      },
+      {
+        "_id": "650dfd32616c7ba9b032a009",
+        "name": "спасибо",
+        "usageCount": 109
+      }
+    ],
+    "contentMarks": [
+      "67260cd0509feb668440ee4d"
+    ],
+    "isFavorite": false,
+    "likedCount": 12,
+    "isAddedToChannel": false,
+    "creatorName": "Muлость",
+    "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/65353bfceedcf58a20427be217296762370516322.svg"
+  },
+  {
+    "id": "67b9d4c0fba5cda81bf1a9e8",
+    "name": "Куплинов - всем пока, до встречи",
+    "description": "всем пока до встречи увидимся до свидания куплинов",
+    "stickerUrl": "https://cdns.memealerts.com/p/675f202034d926b1a1491239/7892bf92-c0bb-431d-ad19-a2c020ffc270/alert_orig.webm",
+    "fallbackUrl": "https://cdns.memealerts.com/p/675f202034d926b1a1491239/7892bf92-c0bb-431d-ad19-a2c020ffc270/alert_orig.mp4",
+    "stickerPreview": "https://cdns.memealerts.com/p/675f202034d926b1a1491239/7892bf92-c0bb-431d-ad19-a2c020ffc270/alert_orig.png",
+    "stickerAnimatedPreview": "https://cdns.memealerts.com/p/675f202034d926b1a1491239/7892bf92-c0bb-431d-ad19-a2c020ffc270/alert_orig.webp",
+    "creatorId": "675f202034d926b1a1491239",
+    "gameId": "657020c3a5ef10210c6fdbc9",
+    "usageCount": 689,
+    "moderationState": "APPROVED",
+    "isNotTwitchSafe": false,
+    "hasCopyright": false,
+    "etmaRating": 0,
+    "categories": [],
+    "createdAt": 1740231872091,
+    "moderatedAt": 1740233226641,
+    "videoData": {
+      "width": 512,
+      "height": 310,
+      "duration": 7,
+      "isTransparent": false,
+      "aspectRatio": 1.6516129032258065
+    },
+    "music": "",
+    "baseUrl": "https://cdns.memealerts.com/",
+    "tags": [],
+    "contentMarks": [
+      "672611d9509feb668440ee67"
+    ],
+    "isFavorite": false,
+    "likedCount": 100,
+    "isAddedToChannel": false,
+    "creatorName": "Кайди",
+    "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/675f202034d926b1a149123917729719575182467.svg"
+  },
+  {
+    "id": "67e04a03852f92f7c5673604",
+    "name": "ГГ Всем привет!",
+    "description": "",
+    "stickerUrl": "https://cdns.memealerts.com/p/650173f52bf82c6d1348fcf1/b73a152d-4f77-43d0-be3c-e083eda6dc19/alert_orig.webm",
+    "fallbackUrl": "https://cdns.memealerts.com/p/650173f52bf82c6d1348fcf1/b73a152d-4f77-43d0-be3c-e083eda6dc19/alert_orig.mp4",
+    "stickerPreview": "https://cdns.memealerts.com/p/650173f52bf82c6d1348fcf1/b73a152d-4f77-43d0-be3c-e083eda6dc19/alert_orig.png",
+    "stickerAnimatedPreview": "https://cdns.memealerts.com/p/650173f52bf82c6d1348fcf1/b73a152d-4f77-43d0-be3c-e083eda6dc19/alert_orig.webp",
+    "creatorId": "650173f52bf82c6d1348fcf1",
+    "usageCount": 535,
+    "moderationState": "APPROVED",
+    "isNotTwitchSafe": false,
+    "hasCopyright": false,
+    "etmaRating": 0,
+    "categories": [],
+    "createdAt": 1742752259489,
+    "moderatedAt": 1742752541707,
+    "videoData": {
+      "width": 512,
+      "height": 286,
+      "duration": 7,
+      "isTransparent": false,
+      "aspectRatio": 1.7902097902097902
+    },
+    "music": "",
+    "baseUrl": "https://cdns.memealerts.com/",
+    "tags": [
+      {
+        "_id": "651021e7e1613bb68759f898",
+        "name": "геннадийгорин",
+        "usageCount": 49
+      },
+      {
+        "_id": "650eb41c616c7ba9b03cf96e",
+        "name": "привет",
+        "usageCount": 1707
+      }
+    ],
+    "contentMarks": [],
+    "isFavorite": false,
+    "likedCount": 61,
+    "isAddedToChannel": false,
+    "creatorName": "sacgreed",
+    "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/650173f52bf82c6d1348fcf117445387411719921.svg"
+  },
+  {
+    "id": "64ef944ec986758d527cd814",
+    "name": "Всем бобра!",
+    "description": "Всем бобра!",
+    "stickerUrl": "https://cdns.memealerts.com/p/648dffc92017f179de23b8ac/5338dc9b-6a0e-4c98-b171-ec3f5f96ffa0/alert_orig.webm",
+    "fallbackUrl": "https://cdns.memealerts.com/p/648dffc92017f179de23b8ac/5338dc9b-6a0e-4c98-b171-ec3f5f96ffa0/alert_orig.mp4",
+    "stickerPreview": "https://cdns.memealerts.com/p/648dffc92017f179de23b8ac/5338dc9b-6a0e-4c98-b171-ec3f5f96ffa0/alert_orig.png",
+    "stickerAnimatedPreview": "https://cdns.memealerts.com/p/648dffc92017f179de23b8ac/5338dc9b-6a0e-4c98-b171-ec3f5f96ffa0/alert_orig.webp",
+    "creatorId": "648dffc92017f179de23b8ac",
+    "usageCount": 662,
+    "moderationState": "APPROVED",
+    "isNotTwitchSafe": false,
+    "hasCopyright": false,
+    "etmaRating": 1,
+    "categories": [
+      "64672e662010783f7a74a735"
+    ],
+    "createdAt": 1693422670515,
+    "moderatedAt": 1693425679600,
+    "videoData": {
+      "width": 386,
+      "height": 566,
+      "aspectRatio": 0.6819787985865724
+    },
+    "baseUrl": "https://cdns.memealerts.com/",
+    "tags": [],
+    "contentMarks": [
+      "67260cad509feb668440ee4c"
+    ],
+    "isFavorite": false,
+    "likedCount": 172,
+    "isAddedToChannel": false,
+    "creatorName": "ВашеИмя",
+    "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/648dffc92017f179de23b8ac17245127397463115.svg"
+  },
+  {
+    "id": "675f2d8a11660464ea4979af",
+    "name": "Лису похуй",
+    "description": "Лис, которому на все похуй",
+    "stickerUrl": "https://cdns.memealerts.com/p/64b41a7d05b8e6cffea47776/95ed3f08-4059-4b39-94ed-426ef2fc1fe1/alert_orig.webm",
+    "fallbackUrl": "https://cdns.memealerts.com/p/64b41a7d05b8e6cffea47776/95ed3f08-4059-4b39-94ed-426ef2fc1fe1/alert_orig.mp4",
+    "stickerPreview": "https://cdns.memealerts.com/p/64b41a7d05b8e6cffea47776/95ed3f08-4059-4b39-94ed-426ef2fc1fe1/alert_orig.png",
+    "stickerAnimatedPreview": "https://cdns.memealerts.com/p/64b41a7d05b8e6cffea47776/95ed3f08-4059-4b39-94ed-426ef2fc1fe1/alert_orig.webp",
+    "creatorId": "64b41a7d05b8e6cffea47776",
+    "usageCount": 1272,
+    "moderationState": "APPROVED",
+    "isNotTwitchSafe": false,
+    "hasCopyright": false,
+    "etmaRating": 0,
+    "categories": [],
+    "createdAt": 1734290826586,
+    "moderatedAt": 1734291503044,
+    "videoData": {
+      "width": 512,
+      "height": 288,
+      "duration": 10,
+      "isTransparent": false,
+      "aspectRatio": 1.7777777777777777
+    },
+    "music": "",
+    "baseUrl": "https://cdns.memealerts.com/",
+    "tags": [
+      {
+        "_id": "65416232e051af2e0d2c3ac7",
+        "name": "лис",
+        "usageCount": 8
+      },
+      {
+        "_id": "675f2d8a11660464ea4979ad",
+        "name": "недовольныйлис",
+        "usageCount": 1
+      }
+    ],
+    "contentMarks": [],
+    "isFavorite": false,
+    "likedCount": 217,
+    "isAddedToChannel": false,
+    "creatorName": "imternovaya",
+    "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/64b41a7d05b8e6cffea4777617337685108782165.svg"
+  },
+  {
+    "id": "6833c5e96959e64273704068",
+    "name": "Братишки всем привет привет привет привет братишки",
+    "description": "",
+    "stickerUrl": "https://cdns.memealerts.com/p/64db7d47aec47226ee1c63a6/a45be31d-4886-44a7-87e8-31fc08c56ca4/alert_orig.webm",
+    "fallbackUrl": "https://cdns.memealerts.com/p/64db7d47aec47226ee1c63a6/a45be31d-4886-44a7-87e8-31fc08c56ca4/alert_orig.mp4",
+    "stickerPreview": "https://cdns.memealerts.com/p/64db7d47aec47226ee1c63a6/a45be31d-4886-44a7-87e8-31fc08c56ca4/alert_orig.png",
+    "stickerAnimatedPreview": "https://cdns.memealerts.com/p/64db7d47aec47226ee1c63a6/a45be31d-4886-44a7-87e8-31fc08c56ca4/alert_orig.webp",
+    "creatorId": "64db7d47aec47226ee1c63a6",
+    "streamerId": "64c0e652faf9829ca1977651",
+    "usageCount": 764,
+    "moderationState": "APPROVED",
+    "isNotTwitchSafe": false,
+    "hasCopyright": false,
+    "etmaRating": 0,
+    "categories": [],
+    "createdAt": 1748223465587,
+    "moderatedAt": 1751549910611,
+    "videoData": {
+      "width": 304,
+      "height": 208,
+      "duration": 10,
+      "isTransparent": false,
+      "aspectRatio": 1.4615384615384615
+    },
+    "music": "",
+    "baseUrl": "https://cdns.memealerts.com/",
+    "tags": [
+      {
+        "_id": "650eb41c616c7ba9b03cf96e",
+        "name": "привет",
+        "usageCount": 1900
+      }
+    ],
+    "contentMarks": [
+      "672611d9509feb668440ee67"
+    ],
+    "isFavorite": false,
+    "likedCount": 35,
+    "isAddedToChannel": false,
+    "creatorName": "КАБЛУБЛЗ",
+    "creatorAvatar": "https://81112b1e-1e0f-4f5c-8681-4045e0ee4e4a.selstorage.ru/streamoji/avatars/64db7d47aec47226ee1c63a617628294737696187.svg",
+    "streamerName": "sheriff_journal",
+    "streamerAvatar": "https://lh3.googleusercontent.com/a/AAcHTtdAEa3Jcm1rb8tME23N0UiL0kflZCcYt7Kae8_LHlpOvrE=s96-c"
+  }
+]
