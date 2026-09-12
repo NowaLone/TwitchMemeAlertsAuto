@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.9] - 2026-09-12
+
+### Added
+
+- !sound and !screen commands
+- Tests for sticker search algorithm
+
+### Changed
+
+- Sticker search algorithm weights
+- Logs now localized and duplicate into chat
+- Reward cancelled on errors
+
 ## [2.4.8] - 2026-09-03
 
 ### Added
@@ -198,6 +211,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - First public release.
 
+[2.4.9]: https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/tag/v2.4.9
 [2.4.8]: https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/tag/v2.4.8
 [2.4.7]: https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/tag/v2.4.7
 [2.4.6]: https://github.com/NowaLone/TwitchMemeAlertsAuto/releases/tag/v2.4.6
