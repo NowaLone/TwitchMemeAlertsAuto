@@ -20,7 +20,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 		Task<List<Sticker>> GetStreamerAreaCatalogueAsync(CancellationToken cancellationToken = default);
 
-		Task<bool> SendMemeAsync(Sticker sticker, string senderName, CancellationToken cancellationToken = default);
+		Task<bool> SendMemeAsync(Sticker sticker, string senderName, bool isSoundOnly = false, bool fullscreen = false, CancellationToken cancellationToken = default);
 		Task<Supporter> GetStreamerAsSupporterAsync(CancellationToken cancellationToken = default);
 		Task<Current> SwitchSilentModeAsync(bool value, CancellationToken cancellationToken = default);
 
