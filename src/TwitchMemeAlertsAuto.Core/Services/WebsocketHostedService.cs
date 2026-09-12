@@ -19,6 +19,7 @@ using TwitchLib.Api.Interfaces;
 using TwitchLib.EventSub.Core.EventArgs.Channel;
 using TwitchLib.EventSub.Websockets;
 using TwitchLib.EventSub.Websockets.Core.EventArgs;
+using TwitchMemeAlertsAuto.Core.Properties;
 
 namespace TwitchMemeAlertsAuto.Core.Services
 {
@@ -33,6 +34,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		private readonly IServiceProvider serviceProvider;
 		private readonly IDbContextFactory<TmaaDbContext> dbContextFactory;
 		private readonly ILogger<WebsocketHostedService> logger;
+		private readonly SemaphoreSlim rewardProcessingSemaphore;
 
 		private string showMemerRewardId;
 		private string sendRandomMemeRewardId;
@@ -45,7 +47,9 @@ namespace TwitchMemeAlertsAuto.Core.Services
 		private CancellationToken serviceCancellationToken;
 
 		private IEnumerable<Sticker> randomStrickers;
-		private readonly SemaphoreSlim rewardProcessingSemaphore = new SemaphoreSlim(1, 1);
+
+		private Dictionary<string, string> soundOnlyCommands;
+		private Dictionary<string, string> fullscreenCommands;
 
 		public WebsocketHostedService(EventSubWebsocketClient eventSubWebsocketClient, ITwitchClient twitchClient, IIrcParser<IrcV3Message> ircParser, ISettingsService settingsService, IMemeAlertsService memeAlertsService, IProfanityFilter profanityFilter, IServiceProvider serviceProvider, IDbContextFactory<TmaaDbContext> dbContextFactory, ILogger<WebsocketHostedService> logger)
 		{
@@ -58,6 +62,8 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			this.serviceProvider = serviceProvider;
 			this.dbContextFactory = dbContextFactory;
 			this.logger = logger;
+
+			this.rewardProcessingSemaphore = new SemaphoreSlim(1, 1);
 		}
 
 		public async Task StartAsync(CancellationToken cancellationToken = default)
@@ -78,6 +84,9 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			rewards = await settingsService.GetRewardsAsync(cancellationToken).ConfigureAwait(false);
 
 			supporters = await memeAlertsService.GetSupportersAsync(cancellationToken).ConfigureAwait(false);
+
+			soundOnlyCommands = Resources.ResourceManager.GetAllLocalizedStrings(nameof(Resources.SoundOnlyCommand));
+			fullscreenCommands = Resources.ResourceManager.GetAllLocalizedStrings(nameof(Resources.FullscreenCommand));
 
 			if (!string.IsNullOrWhiteSpace(sendRandomMemeRewardId))
 			{
@@ -299,7 +308,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 				var sticker = randomStrickers.ElementAt(Random.Shared.Next(0, randomStrickers.Count()));
 				await GiveBounsYourself(cancellationToken).ConfigureAwait(false);
 
-				if (await memeAlertsService.SendMemeAsync(sticker, userName, cancellationToken).ConfigureAwait(false))
+				if (await memeAlertsService.SendMemeAsync(sticker, userName, cancellationToken: cancellationToken).ConfigureAwait(false))
 				{
 					using (var ctx = await dbContextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false))
 					{
@@ -336,15 +345,24 @@ namespace TwitchMemeAlertsAuto.Core.Services
 
 		private async Task SendMemeWithTextWork(ChannelPointsCustomRewardRedemptionArgs e, string userName, CancellationToken cancellationToken = default)
 		{
-			var stickers = await memeAlertsService.GetPersonalAreaSearchAsync(e.Payload.Event.UserInput, cancellationToken).ConfigureAwait(false);
+			var isSoundOnly = soundOnlyCommands.Any(f => e.Payload.Event.UserInput.Contains(f.Value));
+			var fullscreen = fullscreenCommands.Any(f => e.Payload.Event.UserInput.Contains(f.Value));
+			var searchQuery = e.Payload.Event.UserInput;
 			var broadcasterUserLogin = e.Payload.Event.BroadcasterUserLogin;
+			var stickers = await memeAlertsService.GetPersonalAreaSearchAsync(searchQuery, cancellationToken).ConfigureAwait(false);
+
+			// Remove all commands from query
+			foreach (var item in soundOnlyCommands.Values.Concat(fullscreenCommands.Values))
+			{
+				searchQuery = searchQuery.Replace(item, string.Empty, StringComparison.OrdinalIgnoreCase);
+			}
 
 			if (stickers.Any())
 			{
-				var sticker = stickers.FindBest(e.Payload.Event.UserInput);
+				var sticker = stickers.FindBest(searchQuery);
 				await GiveBounsYourself(cancellationToken).ConfigureAwait(false);
 
-				if (await memeAlertsService.SendMemeAsync(sticker, userName, cancellationToken).ConfigureAwait(false))
+				if (await memeAlertsService.SendMemeAsync(sticker, userName, isSoundOnly, fullscreen, cancellationToken: cancellationToken).ConfigureAwait(false))
 				{
 					using (var ctx = await dbContextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false))
 					{

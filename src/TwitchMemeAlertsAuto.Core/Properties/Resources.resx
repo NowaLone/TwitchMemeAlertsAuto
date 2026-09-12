@@ -313,4 +313,13 @@
   <data name="ErrorWhileGiveBonus" xml:space="preserve">
     <value>An error occurred while issuing</value>
   </data>
+  <data name="SendMemeWithTextPrompt" xml:space="preserve">
+    <value>Enter a query to submit a meme. Use {0} to send audio only or {1} to send full screen</value>
+  </data>
+  <data name="SoundOnlyCommand" xml:space="preserve">
+    <value>!sound</value>
+  </data>
+  <data name="FullscreenCommand" xml:space="preserve">
+    <value>!screen</value>
+  </data>
 </root>

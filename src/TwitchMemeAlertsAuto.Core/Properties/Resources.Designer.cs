@@ -214,6 +214,15 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to !screen.
+        /// </summary>
+        public static string FullscreenCommand {
+            get {
+                return ResourceManager.GetString("FullscreenCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Help.
         /// </summary>
         public static string HelpMenu {
@@ -457,6 +466,15 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter a query to submit a meme. Use {0} to send audio only or {1} to send full screen.
+        /// </summary>
+        public static string SendMemeWithTextPrompt {
+            get {
+                return ResourceManager.GetString("SendMemeWithTextPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &quot;Send meme with text&quot; reward successfully created. You can set up reward cost, icon, etc in your twitch dashboard.
         /// </summary>
         public static string SendMemeWithTextRewardSuccessfullyCreated {
@@ -516,6 +534,15 @@ namespace TwitchMemeAlertsAuto.Core.Properties {
         public static string SilentMode {
             get {
                 return ResourceManager.GetString("SilentMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to !sound.
+        /// </summary>
+        public static string SoundOnlyCommand {
+            get {
+                return ResourceManager.GetString("SoundOnlyCommand", resourceCulture);
             }
         }
         

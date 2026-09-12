@@ -306,4 +306,13 @@
   <data name="ErrorWhileGiveBonus" xml:space="preserve">
     <value>Произошла ошибка при выдаче</value>
   </data>
+  <data name="SendMemeWithTextPrompt" xml:space="preserve">
+    <value>Введите запрос для отправки мема. Используйте {0} для отправки только звука или {1} на весь экран</value>
+  </data>
+  <data name="SoundOnlyCommand" xml:space="preserve">
+    <value>!звук</value>
+  </data>
+  <data name="FullscreenCommand" xml:space="preserve">
+    <value>!экран</value>
+  </data>
 </root>

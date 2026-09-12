@@ -316,6 +316,7 @@ namespace TwitchMemeAlertsAuto.Core.ViewModels
 				{
 					Cost = 200,
 					Title = Properties.Resources.SendMemeWithText,
+					Prompt = string.Format(Properties.Resources.SendMemeWithTextPrompt, Properties.Resources.SoundOnlyCommand, Properties.Resources.FullscreenCommand),
 					IsEnabled = true,
 					IsUserInputRequired = true,
 				}).ConfigureAwait(false);
