@@ -131,7 +131,7 @@ namespace TwitchMemeAlertsAuto.Core.Services
 				var twitchAPI = scope.ServiceProvider.GetRequiredService<ITwitchAPI>();
 				var response = await twitchAPI.Helix.EventSub.DeleteEventSubSubscriptionAsync(eventSubId);
 
-				if (response)
+				if (!response)
 				{
 					logger.LogWarning("Unable to delete event subscription {eventSubId}", eventSubId);
 				}
