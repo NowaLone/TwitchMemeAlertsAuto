@@ -349,13 +349,14 @@ namespace TwitchMemeAlertsAuto.Core.Services
 			var fullscreen = await settingsService.GetSendMemeWithTextIdAllowFullscreenAsync(cancellationToken).ConfigureAwait(false) && fullscreenCommands.Any(f => e.Payload.Event.UserInput.Contains(f.Value));
 			var searchQuery = e.Payload.Event.UserInput;
 			var broadcasterUserLogin = e.Payload.Event.BroadcasterUserLogin;
-			var stickers = await memeAlertsService.GetPersonalAreaSearchAsync(searchQuery, cancellationToken).ConfigureAwait(false);
 
 			// Remove all commands from query
 			foreach (var item in soundOnlyCommands.Values.Concat(fullscreenCommands.Values))
 			{
 				searchQuery = searchQuery.Replace(item, string.Empty, StringComparison.OrdinalIgnoreCase);
 			}
+
+			var stickers = await memeAlertsService.GetPersonalAreaSearchAsync(searchQuery, cancellationToken).ConfigureAwait(false);
 
 			if (stickers.Any())
 			{
