@@ -17,9 +17,9 @@ namespace TwitchMemeAlertsAuto.Core
 
 		private const double ExactNamePhraseWeight = 5000;
 		private const double ExactDescriptionPhraseWeight = 2500;
-		private const double NameSequenceWeight = 1500;
+		private const double NameSequenceWeight = 500;
 		private const double DescriptionSequenceWeight = 100;
-		private const double CoverageWeight = 300;
+		private const double CoverageWeight = 1000;
 
 		public static Sticker FindBest(this IEnumerable<Sticker> stickers, string query)
 		{
@@ -79,22 +79,24 @@ namespace TwitchMemeAlertsAuto.Core
 				score += ExactDescriptionPhraseWeight;
 			}
 
-			foreach (var token in queryTokens)
+			foreach (var token in queryTokens.Distinct(StringComparer.Ordinal))
 			{
-				score += ScoreField(token, name, NameWeight);
-				score += ScoreField(token, description, DescriptionWeight);
-				score += ScoreField(token, streamer, StreamerWeight);
+				var bestScore = ScoreField(token, name, NameWeight);
+
+				bestScore = Math.Max(bestScore, ScoreField(token, description, DescriptionWeight));
+				bestScore = Math.Max(bestScore, ScoreField(token, streamer, StreamerWeight));
 
 				foreach (var tag in tags)
-					score += ScoreField(token, tag, TagWeight);
+					bestScore = Math.Max(bestScore, ScoreField(token, tag, TagWeight));
+
+				score += bestScore;
 			}
 
-			var matchedTokens = queryTokens
-				.Distinct(StringComparer.Ordinal)
-				.Count(token => MatchesAnywhere(token, name, description, streamer, tags));
+			var distinctTokens = queryTokens.Distinct(StringComparer.Ordinal).ToList();
+			var matchedTokens = distinctTokens.Count(token => MatchesAnywhere(token, name, description, streamer, tags));
 
-			if (queryTokens.Count > 0)
-				score += (double)matchedTokens / queryTokens.Count * CoverageWeight;
+			if (distinctTokens.Count > 0)
+				score += (double)matchedTokens / distinctTokens.Count * CoverageWeight;
 
 			score += CalculateSequenceScore(
 				GetLongestSequenceLength(name, queryTokens),
@@ -122,10 +124,7 @@ namespace TwitchMemeAlertsAuto.Core
 			if (words.Any(word => word == queryToken))
 				return ExactMatchWeight * fieldWeight;
 
-			var bestSimilarity = words
-				.Select(word => Similarity(queryToken, word))
-				.DefaultIfEmpty(0)
-				.Max();
+			var bestSimilarity = words.Select(word => Similarity(queryToken, word)).DefaultIfEmpty(0).Max();
 
 			if (bestSimilarity < 0.8)
 				return 0;
@@ -148,6 +147,10 @@ namespace TwitchMemeAlertsAuto.Core
 				return 0;
 
 			var words = Tokenize(text);
+
+			if (words.Count < 2)
+				return 0;
+
 			var longest = 0;
 
 			for (var queryStart = 0; queryStart < queryTokens.Count - 1; queryStart++)
@@ -219,7 +222,6 @@ namespace TwitchMemeAlertsAuto.Core
 				return 0;
 
 			var distance = LevenshteinDistance(a, b);
-
 			return 1d - (double)distance / Math.Max(a.Length, b.Length);
 		}
 
@@ -255,8 +257,7 @@ namespace TwitchMemeAlertsAuto.Core
 			if (string.IsNullOrWhiteSpace(text))
 				return new List<string>();
 
-			return Regex
-				.Matches(text, @"[\p{L}]+|[\p{N}]+")
+			return Regex.Matches(text, @"[\p{L}]+|[\p{N}]+")
 				.Select(x => x.Value)
 				.ToList();
 		}
