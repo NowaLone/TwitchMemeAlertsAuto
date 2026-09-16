@@ -40,5 +40,7 @@ public class StickerSearchUtilityTests
 		yield return new object[] { "6.json", "bukabyak такую только", "69765f14b16b1c4d7316c7ea" };
 		yield return new object[] { "7.json", "Blxcknoise ня", "6a761ee5012c369ead541990" };
 		yield return new object[] { "7.json", "ня Blxcknoise", "6a761ee5012c369ead541990" };
+		yield return new object[] { "8.json", "Shallbee рэп не будь", "673656a55f3439ccb5db7f54" };
+		yield return new object[] { "8.json", "Shallbee рэп", "673656a55f3439ccb5db7f54" };
 	}
 }
